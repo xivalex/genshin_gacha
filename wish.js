@@ -31,25 +31,260 @@ const videoPath = "./videos"
 SRPool.push(
   {
     path: `${videoPath}/5star_albedo.mp4`,
-    value: 500,
+    value: five_star_prize,
     name: "★★★★★ Albedo"
-  }
+  },
+  {
+    path: `${videoPath}/5star_ayato.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Ayato"
+  },
+  {
+    path: `${videoPath}/5star_eula.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Eula"
+  },
+  {
+    path: `${videoPath}/5star_ganyu.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Ganyu"
+  },
+  {
+    path: `${videoPath}/5star_itto.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Itto"
+  },
+  {
+    path: `${videoPath}/5star_keqing.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Keqing"
+  },
+  {
+    path: `${videoPath}/5star_kokomi.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Kokomi"
+  },
+  {
+    path: `${videoPath}/5star_raiden.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Raiden"
+  },
+  {
+    path: `${videoPath}/5star_shenhe.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Shenhe"
+  },
+  {
+    path: `${videoPath}/5star_venti.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Venti"
+  },
+  {
+    path: `${videoPath}/5star_xiao.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Xiao"
+  },
+  {
+    path: `${videoPath}/5star_yae.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Yae"
+  },
+  {
+    path: `${videoPath}/5star_zhongli.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Zhongli"
+  },
+  {
+    path: `${videoPath}/5star_diluc.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Diluc"
+  },
+  {
+    path: `${videoPath}/5star_Jean.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Jean"
+  },
+  {
+    path: `${videoPath}/5star_Mona.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Mona"
+  },
+  {
+    path: `${videoPath}/5star_Qiqi.mp4`,
+    value: five_star_prize,
+    name: "★★★★★ Qiqi"
+  },
 )
 
 RPool.push(
   {
     path: `${videoPath}/4star_bennett.mp4`,
-    value: 200,
+    value: four_star_prize,
     name: "★★★★ Bennett"
-  }
+  },
+  {
+    path: `${videoPath}/4star_dbane.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Dragon's Bane"
+  },
+  {
+    path: `${videoPath}/4star_diona.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Diona"
+  },
+  {
+    path: `${videoPath}/4star_fav_warbow.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Favonius Warbow"
+  },
+  {
+    path: `${videoPath}/4star_flute.mp4`,
+    value: four_star_prize,
+    name: "★★★★ The Flute"
+  },
+  {
+    path: `${videoPath}/4star_lions_roar.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Lion's Roar"
+  },
+  {
+    path: `${videoPath}/4star_ning.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Ningguang"
+  },
+  {
+    path: `${videoPath}/4star_noelle.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Noelle"
+  },
+  {
+    path: `${videoPath}/4star_rainslasher.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Rainslasher"
+  },
+  {
+    path: `${videoPath}/4star_rosaria.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Rosaria"
+  },
+  {
+    path: `${videoPath}/4star_yunjin.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Yunjin"
+  },
+  {
+    path: `${videoPath}/4star_rust.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Rust"
+  },
+  {
+    path: `${videoPath}/4star_sac_greatsword.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Sacrificial Greatsword"
+  },
+  {
+    path: `${videoPath}/4star_sacrificial_sword.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Sacrificial Sword"
+  },
+  {
+    path: `${videoPath}/4star_stringless.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Stringless"
+  },
+  {
+    path: `${videoPath}/4star_the_bell.mp4`,
+    value: four_star_prize,
+    name: "★★★★ The Bell"
+  },
+  {
+    path: `${videoPath}/4star_thoma.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Thoma"
+  },
+  {
+    path: `${videoPath}/4star_xingqiu.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Xingqiu"
+  },
+  {
+    path: `${videoPath}/4star_xinyan.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Xinyan"
+  },
+  {
+    path: `${videoPath}/4star_yanfei.mp4`,
+    value: four_star_prize,
+    name: "★★★★ Yanfei"
+  },
 )
 
 CPool.push(
   {
     path: `${videoPath}/3star_black_tassel.mp4`,
-    value: 0,
+    value: three_star_prize,
     name: "★★★ Black Tassel"
-  }
+  },
+  {
+    path: `${videoPath}/3star_bloodstained.mp4`,
+    value: three_star_prize,
+    name: "★★★ Bloodtainted Greatsword"
+  },
+  {
+    path: `${videoPath}/3star_cool_steel.mp4`,
+    value: three_star_prize,
+    name: "★★★ Cool Steel"
+  },
+  {
+    path: `${videoPath}/3star_debate_club.mp4`,
+    value: three_star_prize,
+    name: "★★★ Debate Club"
+  },
+  {
+    path: `${videoPath}/3star_emerald_orb.mp4`,
+    value: three_star_prize,
+    name: "★★★ Emerald Orb"
+  },
+  {
+    path: `${videoPath}/3star_ferrous_shadow.mp4`,
+    value: three_star_prize,
+    name: "★★★ Ferrous Shadow"
+  },
+  {
+    path: `${videoPath}/3star_hod.mp4`,
+    value: three_star_prize,
+    name: "★★★ Harbinger of Dawn"
+  },
+  {
+    path: `${videoPath}/3star_magic_guide.mp4`,
+    value: three_star_prize,
+    name: "★★★ Magic Guide"
+  },
+  {
+    path: `${videoPath}/3star_raven_bow.mp4`,
+    value: three_star_prize,
+    name: "★★★ Raven Bow"
+  },
+  {
+    path: `${videoPath}/3star_sharpshooter.mp4`,
+    value: three_star_prize,
+    name: "★★★ Sharpshooter's Oath"
+  },
+  {
+    path: `${videoPath}/3star_skyrider.mp4`,
+    value: three_star_prize,
+    name: "★★★ Skyrider Sword"
+  },
+  {
+    path: `${videoPath}/3star_slingshot_temp.mp4`,
+    value: three_star_prize,
+    name: "★★★ Slingshot"
+  },
+  {
+    path: `${videoPath}/3star_ttds.mp4`,
+    value: three_star_prize,
+    name: "★★★ Thrilling Tales of Dragon Slayers"
+  },
 )
 
 function initializeVideoElement() {
