@@ -24,6 +24,7 @@ let allowed = true;
 let displayName;
 let userInfo = {};
 let randomVid = {};
+let queue = [];
 
 // TBD: Automate retrieve file name/path/value
 
@@ -357,36 +358,52 @@ function addPoints(user, amount) {
   });
 }
 
-async function showVideo() {
+var intervalId = setInterval(async function() {
 
-  await getUser(displayName)
-    .then(response => response.json())
-    .then(_data => { userInfo = _data; });
+  // Check if there is no ongoing video
+  if (allowed) {
 
-  if (userInfo.points < cost) {
-    sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points}`);
-    allowed = true;
-    return;
+    // Retrieves a name from the list
+    displayName = queue.shift();
+
+    // If a name was retrieved, show gacha video
+    if (displayName) {
+      // console.log(`Wishing for ${displayName}...`);
+
+      // Prevent any video from playing
+      allowed = false;
+      await getUser(displayName)
+      .then(response => response.json())
+      .then(_data => { userInfo = _data; });
+
+      if (userInfo.points < cost) {
+        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points}`);
+        allowed = true;
+        return;
+      }
+
+      await addPoints(displayName, -cost);
+
+      // Show the element
+      video.removeAttribute("hidden");
+
+      // Retrieve the source element
+      let source = document.getElementById("source");
+
+      // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+      chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
+                  ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+      randomVid = randomItemFromArray(chosenPool);
+
+      // Set the video as the source of the element and play it
+      source.setAttribute("src", randomVid.path);
+      video.load();
+      video.volume = volume / 100;
+    }
+
   }
 
-  await addPoints(displayName, -cost);
-
-  // Show the element
-  video.removeAttribute("hidden");
-
-  // Retrieve the source element
-  let source = document.getElementById("source");
-
-  // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
-  chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
-               ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
-  randomVid = randomItemFromArray(chosenPool);
-
-  // Set the video as the source of the element and play it
-  source.setAttribute("src", randomVid.path);
-  video.load();
-  video.volume = volume / 100;
-}
+}, 5000);
 
 function checkQueryParameters() {
 
@@ -508,16 +525,15 @@ initializeVideoElement();
 // Receives text from !
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
 
-  if (command !== "wish" || !allowed) {return};
+  // Check if the command is !wish
+  if (command !== "wish") {return};
 
-  // Set flag to false to not allow the program to receive more commands
-  allowed = false;
-
-  // Retrieve the name of the user who executed the command
-  displayName = user;
-
-  // Play the video
-  showVideo();
+  // Add the user in the queue if not yet included
+  if (queue.includes(user)) {return}
+  else {
+    queue.push(user)
+    sendChatMessage(`${user} is now added to the wish queue!`);
+  };
 }
 
 checkQueryParameters();
