@@ -1,3 +1,35 @@
+// ********************************************************************************
+// MIT License
+
+// Copyright (c) 2022 xivalex
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// ********************************************************************************
+
+// ********************************************************************************
+// Special Thanks to the following:
+//    - [instafluff] for providing the ComfyJS package
+// ********************************************************************************
+
+// ***************
+// DEFAULT VALUES
+// ***************
 let __JWT_TOKEN__ = "";
 let __CHANNEL_ID__ = ""
 let __CHANNEL_NAME__ = ""
@@ -11,10 +43,6 @@ let five_star_prize = 2000;
 let four_star_prize = 300;
 let three_star_prize = 0;
 
-// ********************************************************************************
-// ******************* DO NOT MODIFY ANYTHING BEYOND THIS POINT *******************
-// ********************************************************************************
-
 let video;
 let videoPools = [];
 let SRPool = [];  // 5★
@@ -26,92 +54,92 @@ let userInfo = {};
 let randomVid = {};
 let queue = [];
 
-// TBD: Automate retrieve file name/path/value
+// TBD: Automate retrieve file name/path/value (maybe..)
 
 const videoPath = "./videos"
 SRPool.push(
   {
-    path: `${videoPath}/5star_albedo.mp4`,
+    path: `${videoPath}/5star_albedo_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Albedo"
   },
   {
-    path: `${videoPath}/5star_ayato.mp4`,
+    path: `${videoPath}/5star_ayato_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Ayato"
   },
   {
-    path: `${videoPath}/5star_eula.mp4`,
+    path: `${videoPath}/5star_eula_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Eula"
   },
   {
-    path: `${videoPath}/5star_ganyu.mp4`,
+    path: `${videoPath}/5star_ganyu_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Ganyu"
   },
   {
-    path: `${videoPath}/5star_itto.mp4`,
+    path: `${videoPath}/5star_itto_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Itto"
   },
   {
-    path: `${videoPath}/5star_keqing.mp4`,
+    path: `${videoPath}/5star_keqing_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Keqing"
   },
   {
-    path: `${videoPath}/5star_kokomi.mp4`,
+    path: `${videoPath}/5star_kokomi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Kokomi"
   },
   {
-    path: `${videoPath}/5star_raiden.mp4`,
+    path: `${videoPath}/5star_raiden_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Raiden"
   },
   {
-    path: `${videoPath}/5star_shenhe.mp4`,
+    path: `${videoPath}/5star_shenhe_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Shenhe"
   },
   {
-    path: `${videoPath}/5star_venti.mp4`,
+    path: `${videoPath}/5star_venti_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Venti"
   },
   {
-    path: `${videoPath}/5star_xiao.mp4`,
+    path: `${videoPath}/5star_xiao_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Xiao"
   },
   {
-    path: `${videoPath}/5star_yae.mp4`,
+    path: `${videoPath}/5star_yae_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Yae"
   },
   {
-    path: `${videoPath}/5star_zhongli.mp4`,
+    path: `${videoPath}/5star_zhongli_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Zhongli"
   },
   {
-    path: `${videoPath}/5star_diluc.mp4`,
+    path: `${videoPath}/5star_diluc_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Diluc"
   },
   {
-    path: `${videoPath}/5star_Jean.mp4`,
+    path: `${videoPath}/5star_Jean_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Jean"
   },
   {
-    path: `${videoPath}/5star_Mona.mp4`,
+    path: `${videoPath}/5star_Mona_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Mona"
   },
   {
-    path: `${videoPath}/5star_Qiqi.mp4`,
+    path: `${videoPath}/5star_Qiqi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Qiqi"
   },
@@ -119,102 +147,102 @@ SRPool.push(
 
 RPool.push(
   {
-    path: `${videoPath}/4star_bennett.mp4`,
+    path: `${videoPath}/4star_bennett_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Bennett"
   },
   {
-    path: `${videoPath}/4star_dbane.mp4`,
+    path: `${videoPath}/4star_dbane_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Dragon's Bane"
   },
   {
-    path: `${videoPath}/4star_diona.mp4`,
+    path: `${videoPath}/4star_diona_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Diona"
   },
   {
-    path: `${videoPath}/4star_fav_warbow.mp4`,
+    path: `${videoPath}/4star_fav_warbow_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Favonius Warbow"
   },
   {
-    path: `${videoPath}/4star_flute.mp4`,
+    path: `${videoPath}/4star_flute_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ The Flute"
   },
   {
-    path: `${videoPath}/4star_lions_roar.mp4`,
+    path: `${videoPath}/4star_lions_roar_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Lion's Roar"
   },
   {
-    path: `${videoPath}/4star_ning.mp4`,
+    path: `${videoPath}/4star_ning_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Ningguang"
   },
   {
-    path: `${videoPath}/4star_noelle.mp4`,
+    path: `${videoPath}/4star_noelle_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Noelle"
   },
   {
-    path: `${videoPath}/4star_rainslasher.mp4`,
+    path: `${videoPath}/4star_rainslasher_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rainslasher"
   },
   {
-    path: `${videoPath}/4star_rosaria.mp4`,
+    path: `${videoPath}/4star_rosaria_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rosaria"
   },
   {
-    path: `${videoPath}/4star_yunjin.mp4`,
+    path: `${videoPath}/4star_yunjin_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yunjin"
   },
   {
-    path: `${videoPath}/4star_rust.mp4`,
+    path: `${videoPath}/4star_rust_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rust"
   },
   {
-    path: `${videoPath}/4star_sac_greatsword.mp4`,
+    path: `${videoPath}/4star_sac_greatsword_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sacrificial Greatsword"
   },
   {
-    path: `${videoPath}/4star_sacrificial_sword.mp4`,
+    path: `${videoPath}/4star_sacrificial_sword_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sacrificial Sword"
   },
   {
-    path: `${videoPath}/4star_stringless.mp4`,
+    path: `${videoPath}/4star_stringless_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Stringless"
   },
   {
-    path: `${videoPath}/4star_the_bell.mp4`,
+    path: `${videoPath}/4star_the_bell_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ The Bell"
   },
   {
-    path: `${videoPath}/4star_thoma.mp4`,
+    path: `${videoPath}/4star_thoma_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Thoma"
   },
   {
-    path: `${videoPath}/4star_xingqiu.mp4`,
+    path: `${videoPath}/4star_xingqiu_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xingqiu"
   },
   {
-    path: `${videoPath}/4star_xinyan.mp4`,
+    path: `${videoPath}/4star_xinyan_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xinyan"
   },
   {
-    path: `${videoPath}/4star_yanfei.mp4`,
+    path: `${videoPath}/4star_yanfei_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yanfei"
   },
@@ -222,67 +250,67 @@ RPool.push(
 
 CPool.push(
   {
-    path: `${videoPath}/3star_black_tassel.mp4`,
+    path: `${videoPath}/3star_black_tassel_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Black Tassel"
   },
   {
-    path: `${videoPath}/3star_bloodstained.mp4`,
+    path: `${videoPath}/3star_bloodstained_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Bloodtainted Greatsword"
   },
   {
-    path: `${videoPath}/3star_cool_steel.mp4`,
+    path: `${videoPath}/3star_cool_steel_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Cool Steel"
   },
   {
-    path: `${videoPath}/3star_debate_club.mp4`,
+    path: `${videoPath}/3star_debate_club_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Debate Club"
   },
   {
-    path: `${videoPath}/3star_emerald_orb.mp4`,
+    path: `${videoPath}/3star_emerald_orb_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Emerald Orb"
   },
   {
-    path: `${videoPath}/3star_ferrous_shadow.mp4`,
+    path: `${videoPath}/3star_ferrous_shadow_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Ferrous Shadow"
   },
   {
-    path: `${videoPath}/3star_hod.mp4`,
+    path: `${videoPath}/3star_hod_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Harbinger of Dawn"
   },
   {
-    path: `${videoPath}/3star_magic_guide.mp4`,
+    path: `${videoPath}/3star_magic_guide_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Magic Guide"
   },
   {
-    path: `${videoPath}/3star_raven_bow.mp4`,
+    path: `${videoPath}/3star_raven_bow_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Raven Bow"
   },
   {
-    path: `${videoPath}/3star_sharpshooter.mp4`,
+    path: `${videoPath}/3star_sharpshooter_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Sharpshooter's Oath"
   },
   {
-    path: `${videoPath}/3star_skyrider.mp4`,
+    path: `${videoPath}/3star_skyrider_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Skyrider Sword"
   },
   {
-    path: `${videoPath}/3star_slingshot_temp.mp4`,
+    path: `${videoPath}/3star_slingshot_temp_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Slingshot"
   },
   {
-    path: `${videoPath}/3star_ttds.mp4`,
+    path: `${videoPath}/3star_ttds_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Thrilling Tales of Dragon Slayers"
   },
@@ -403,7 +431,7 @@ var intervalId = setInterval(async function() {
 
   }
 
-}, 5000);
+}, 3000);
 
 function checkQueryParameters() {
 
@@ -525,15 +553,21 @@ initializeVideoElement();
 // Receives text from !
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
 
-  // Check if the command is !wish
-  if (command !== "wish") {return};
+  if (command === 'wishqueue' && (flags.broadcaster || flags.mod)) {
+    // Checks the current queue for the wish command (available for streamer and mods only)
+    sendChatMessage(`Current wish queue is: ${queue}`);
+  } else {
+    // Check if the command is !wish
+    if (command !== "wish") {return};
 
-  // Add the user in the queue if not yet included
-  if (queue.includes(user)) {return}
-  else {
-    queue.push(user)
-    sendChatMessage(`${user} is now added to the wish queue!`);
-  };
+    // Add the user in the queue if not yet included
+    if (queue.includes(user)) {return}
+    else {
+      queue.push(user)
+      sendChatMessage(`${user} is now added to the wish queue!`);
+    };
+  }
+
 }
 
 checkQueryParameters();
