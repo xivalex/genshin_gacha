@@ -66,7 +66,7 @@ SRPool.push(
   {
     path: `${videoPath}/5star_ayato_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Ayato"
+    name: "★★★★★ Kamisato Ayato"
   },
   {
     path: `${videoPath}/5star_eula_VP8.webm`,
@@ -81,7 +81,7 @@ SRPool.push(
   {
     path: `${videoPath}/5star_itto_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Itto"
+    name: "★★★★★ Arataki Itto"
   },
   {
     path: `${videoPath}/5star_keqing_VP8.webm`,
@@ -91,12 +91,12 @@ SRPool.push(
   {
     path: `${videoPath}/5star_kokomi_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Kokomi"
+    name: "★★★★★ Sangonomiya Kokomi"
   },
   {
     path: `${videoPath}/5star_raiden_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Raiden"
+    name: "★★★★★ Raiden Shogun"
   },
   {
     path: `${videoPath}/5star_shenhe_VP8.webm`,
@@ -116,7 +116,7 @@ SRPool.push(
   {
     path: `${videoPath}/5star_yae_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Yae"
+    name: "★★★★★ Yae Miko"
   },
   {
     path: `${videoPath}/5star_zhongli_VP8.webm`,
@@ -199,7 +199,7 @@ RPool.push(
   {
     path: `${videoPath}/4star_yunjin_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Yunjin"
+    name: "★★★★ Yun Jin"
   },
   {
     path: `${videoPath}/4star_rust_VP8.webm`,
@@ -219,7 +219,7 @@ RPool.push(
   {
     path: `${videoPath}/4star_stringless_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Stringless"
+    name: "★★★★ The Stringless"
   },
   {
     path: `${videoPath}/4star_the_bell_VP8.webm`,

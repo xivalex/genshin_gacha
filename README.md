@@ -12,7 +12,7 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 
 [![Sample Wish](https://img.youtube.com/vi/yIYZ12OUEwk/hqdefault.jpg)](https://youtu.be/yIYZ12OUEwk)
 
-### xivalex ###
+### [xivalex](https://www.twitch.tv/xivalex) ###
 > *This is my first-ever project which I have done outside of work and it is bound to have some issues.
 > If you do happen to encounter an issue, you can contact me by visiting me on my twitch channel at https://twitch.tv/xivalex.* (For reference, I speak both English and (mostly) Tagalog on-stream)
 
@@ -86,7 +86,7 @@ By using the sample URL, it sets the program to have:
 ## Other commands ##
 
 ### !wishqueue ###
-- Displays the current queue of users who typed `!wish`. Usable only by **Streamer** and **Moderators**
+- Displays the current queue of users who typed `!wish`. Usable only by `Streamer` and `Moderators`
 
 ### !wishconfig `(TBD)` ###
 - Lets the `Streamer` or `Moderators` to modify the settings on-stream without the need to modify the URL parameters
@@ -96,6 +96,129 @@ By using the sample URL, it sets the program to have:
 
 [@Instafluff](https://twitch.tv/instafluff) for providing and maintaining the `ComfyJS` package
 
-Thank you to all the contributors for the videos displayed
+---
 
-`<TBD>` (*No contributors yet*)
+The following are the list Genshin `Weapons` and `Characters` and its availability in the simulator
+> If you want to contribute, please do inform me through my  [@Twitch](https://twitch.tv/[xivalex](https://www.twitch.tv/xivalex)) (*sorry I do not have other socials. . .*)
+
+> For items with ***to be updated*** contibutor, you may still contribute a video for it
+
+Name | Rarity/Availability | Contributor
+--- | --- | ---
+ Cool Steel | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [shawners21](https://www.twitch.tv/shawners21)
+ Harbinger of Dawn | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Skyrider Sword | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [shawners21](https://www.twitch.tv/shawners21)
+ Ferrous Shadow | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Bloodtainted Greatsword | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Debate Club | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Black Tassel | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [shawners21](https://www.twitch.tv/shawners21)
+ Raven Bow | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Sharpshooter's Oath | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Slingshot | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [shawners21](https://www.twitch.tv/shawners21)
+ Magic Guide | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Thrilling Tales of Dragon Slayers | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Emerald Orb | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [xivalex](https://www.twitch.tv/xivalex)
+ Favonius Sword | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ The Flute | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Sacrificial Sword | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [shawners21](https://www.twitch.tv/shawners21)
+ Lion's Roar | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ The Alley Flash | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Favonius Greatsword | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ The Bell | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Sacrificial Greatsword | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Rainslasher | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Lithic Blade | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Dragon's Bane | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Lithic Spear | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Favonius Lance | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Wavebreaker's Fin | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Favonius Warbow | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ The Stringless | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Sacrificial Bow | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Rust | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Alley Hunter | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Mitternachtz Waltz | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Mouun's Moon | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Favonius Codex | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ The Widsith | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Sacrificial Fragments | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Eye of Perception | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Wine and Song | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Lisa | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Barbara | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Kaeya | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Razor | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Amber | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Xiangling | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Beidou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Xingqiu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Ningguang | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Fischl | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Bennett | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Noelle | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Chongyun | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Diona | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [shawners21](https://www.twitch.tv/shawners21)
+ Sucrose | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Xinyan | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Rosaria | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Yanfei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Thoma | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Sayu | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Gorou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Kujou Sara | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Shikonoin Heizou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Yun jin | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
+ Kuki Shinobu | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Summit Shaper | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Primordial Jade Cutter | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Mistsplitter Reforged | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Haran Geppaku Futsu | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Pride | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Wolf's Gravestone | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Song of Broken Pines | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ The Unforged | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Redhorn Stonethresher | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Staff of Homa | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Spine | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Vortex Vanquisher | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Primordial Jade-winged Spear | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Calamity Queller | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Engulfing Lightning | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Harp | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Amos' Bow | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Elegy for the End | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Polar Star | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Aqua Simulacra | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Thundering Pulse | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Atlas | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Lost Prayer to the Sacred Winds | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Memory of Dust | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Everlasting Moonglow | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Kagura's Verity | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Kamisato Ayaka | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Jean | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Diluc | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Venti | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Xiao | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
+ Klee | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Zhongli | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
+ Tartaglia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Qiqi | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Ganyu | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
+ Albedo | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
+ Mona | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Keqing | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [shawners21](https://www.twitch.tv/shawners21)
+ Hu Tao | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Kaedehara Kazuha | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Yoimiya | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Eula | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
+ Raiden Shogun | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | AzureMaxYT (*to be updated*)
+ Sangonomiya Kokomi | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
+ Arataki Itto | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Yae Miko | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
+ Yelan | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Shenhe | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
+ Kamisato Ayato | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | Chronosphere (*to be updated*)
