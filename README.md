@@ -103,6 +103,13 @@ The following are the list Genshin `Weapons` and `Characters` and its availabili
 
 > For items with ***to be updated*** contibutor, you may still contribute a video for it
 
+> If you found your video in below and you do not want it to be used, please do inform me and I will remove it immediately. Sorry for any inconvenience.
+
+ For video contributions, some guidelines for it:
+ * You can send a the whole/full wish session, but please provide timestamps so I can easily find the part I need to edit-out
+ * Please do avoid having stuffs which blocks the video (e.g. chat and/or notification overlays)
+ * Video should be full-screen (maybe no need for a specific resolution since I convert it anyway)
+
 Name | Rarity/Availability | Contributor
 --- | --- | ---
  Cool Steel | ![3★](https://img.shields.io/badge/3%E2%98%85-YES-blue) | [shawners21](https://www.twitch.tv/shawners21)
@@ -144,39 +151,45 @@ Name | Rarity/Availability | Contributor
  Sacrificial Fragments | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Eye of Perception | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Wine and Song | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Xiphos' Moonlight | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Makhaira Aquamarine | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Wandering Evenstar | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Lisa | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Barbara | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Kaeya | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Razor | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Amber | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Xiangling | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Beidou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Barbara | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=aJiqaAsvRk8)
+ Kaeya | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=pRC4XW1UsOI)
+ Razor | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=Ll_Y0hB4xHc)
+ Amber | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=TvPp2maPb20)
+ Xiangling | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=KC6tqdTYNhI)
+ Beidou | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=_EVI-G14fzk)
  Xingqiu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
  Ningguang | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
- Fischl | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Bennett | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Fischl | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=7EK3V_Hyk4Q)
+ Bennett | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Noelle | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
- Chongyun | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Chongyun | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=Af6omSnlFvs)
  Diona | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [shawners21](https://www.twitch.tv/shawners21)
- Sucrose | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Sucrose | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=nxsEwo45wPc)
  Xinyan | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Rosaria | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
  Yanfei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
  Thoma | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
- Sayu | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Gorou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Kujou Sara | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Sayu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=KNqI-GOuEIc)
+ Gorou | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=yuOUjd6P8fw)
+ Kujou Sara | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=JHMs-32U29M)
  Shikonoin Heizou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Yun jin | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
- Kuki Shinobu | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Kuki Shinobu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BFuZWFPN_fQ)
+ Collei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=rSLkzV7hbMI)
+ Dori | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=e37Acs9rq44)
+ Candace | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Summit Shaper | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Primordial Jade Cutter | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Primordial Jade Cutter | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Xeno Archive](https://www.youtube.com/watch?v=-wK-y6RC1SQ)
  Mistsplitter Reforged | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Haran Geppaku Futsu | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Skyward Pride | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Pride | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Xeno Archive](https://www.youtube.com/watch?v=-wK-y6RC1SQ)
  Wolf's Gravestone | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Song of Broken Pines | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  The Unforged | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
@@ -198,27 +211,33 @@ Name | Rarity/Availability | Contributor
  Memory of Dust | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Everlasting Moonglow | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Kagura's Verity | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Kamisato Ayaka | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Jean | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
- Diluc | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
- Venti | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
- Xiao | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
- Klee | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Zhongli | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
- Tartaglia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Qiqi | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
- Ganyu | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
+ Hunter's Path | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Key of Khaj-Nisut | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Staff of the Scarlet Sands | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Kamisato Ayaka | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=xs5GqPZjieU)
+ Jean | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BAnbfpGsJyQ)
+ Diluc | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=cRnrz3DQHDQ)
+ Venti | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [FriedRiceGod](https://www.youtube.com/watch?v=zS6IKVkIjeg)
+ Xiao | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Xeno Archive](https://www.youtube.com/watch?v=-wK-y6RC1SQ)
+ Klee | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Yuan Chu](https://www.youtube.com/watch?v=6KxFoWtuSP0)
+ Zhongli | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Green](https://www.youtube.com/watch?v=nnsx080PIoY)
+ Tartaglia | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=3V29ro8HgOk)
+ Qiqi | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Xeno Archive](https://www.youtube.com/watch?v=-wK-y6RC1SQ)
+ Ganyu | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=EdbGHfK9hrk)
  Albedo | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [st_krusconnected](https://www.twitch.tv/st_krusconnected)
- Mona | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Mona | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=7F0lXP6Nt9o)
  Keqing | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [shawners21](https://www.twitch.tv/shawners21)
- Hu Tao | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Kaedehara Kazuha | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Yoimiya | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Hu Tao | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Yuan Chu](https://www.youtube.com/watch?v=WmxEMEi1zb4)
+ Kaedehara Kazuha | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow)| [Mashumaro](https://www.youtube.com/watch?v=GvLuuHp1pII)
+ Yoimiya | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Yuan Chu](https://www.youtube.com/watch?v=janOkk4RMrE)
  Eula | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
- Raiden Shogun | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | AzureMaxYT (*to be updated*)
+ Raiden Shogun | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=dyGjrF-6pyM)
  Sangonomiya Kokomi | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
- Arataki Itto | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | *no reference, to be updated*
+ Arataki Itto | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=VahZlR2voXI)
  Yae Miko | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
- Yelan | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Shenhe | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | El (*to be updated*)
- Kamisato Ayato | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | Chronosphere (*to be updated*)
+ Yelan | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Yuan Chu](https://www.youtube.com/watch?v=hX2aNzEN04o)
+ Shenhe | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [TheGamicissist](https://www.youtube.com/watch?v=4SbsZ7Qu1sg)
+ Kamisato Ayato | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=Xl3LD2pJusA)
+ Tighnari | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Syan](https://www.youtube.com/watch?v=kyUptk875eA)
+ Nilou | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Cyno | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |

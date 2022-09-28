@@ -64,24 +64,9 @@ SRPool.push(
     name: "★★★★★ Albedo"
   },
   {
-    path: `${videoPath}/5star_ayato_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Kamisato Ayato"
-  },
-  {
     path: `${videoPath}/5star_eula_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Eula"
-  },
-  {
-    path: `${videoPath}/5star_ganyu_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Ganyu"
-  },
-  {
-    path: `${videoPath}/5star_itto_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Arataki Itto"
   },
   {
     path: `${videoPath}/5star_keqing_VP8.webm`,
@@ -94,6 +79,71 @@ SRPool.push(
     name: "★★★★★ Sangonomiya Kokomi"
   },
   {
+    path: `${videoPath}/5star_yae_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Yae Miko"
+  },
+  {
+    path: `${videoPath}/5star_ayato_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kamisato Ayato"
+  },
+  {
+    path: `${videoPath}/5star_ayaka_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kamisato Ayaka"
+  },
+  {
+    path: `${videoPath}/5star_diluc_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Diluc"
+  },
+  {
+    path: `${videoPath}/5star_ganyu_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Ganyu"
+  },
+  {
+    path: `${videoPath}/5star_hutao_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Hu Tao"
+  },
+  {
+    path: `${videoPath}/5star_itto_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Arataki Itto"
+  },
+  {
+    path: `${videoPath}/5star_jade_cutter_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Primordial Jade Cutter"
+  },
+  {
+    path: `${videoPath}/5star_Jean_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Jean"
+  },
+  {
+    path: `${videoPath}/5star_kazuha_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kaedehara Kazuha"
+  },
+  {
+    path: `${videoPath}/5star_klee_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Klee"
+  },
+  {
+    path: `${videoPath}/5star_Mona_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Mona"
+  },
+  {
+    path: `${videoPath}/5star_Qiqi_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Qiqi"
+  },
+  {
     path: `${videoPath}/5star_raiden_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Raiden Shogun"
@@ -102,6 +152,21 @@ SRPool.push(
     path: `${videoPath}/5star_shenhe_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Shenhe"
+  },
+  {
+    path: `${videoPath}/5star_skyward_pride_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Skyward Pride"
+  },
+  {
+    path: `${videoPath}/5star_tartaglia_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Tartaglia"
+  },
+  {
+    path: `${videoPath}/5star_Tighnari_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Tighnari"
   },
   {
     path: `${videoPath}/5star_venti_VP8.webm`,
@@ -114,34 +179,19 @@ SRPool.push(
     name: "★★★★★ Xiao"
   },
   {
-    path: `${videoPath}/5star_yae_VP8.webm`,
+    path: `${videoPath}/5star_yelan_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Yae Miko"
+    name: "★★★★★ Yelan"
+  },
+  {
+    path: `${videoPath}/5star_yoimiya_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Yoimiya"
   },
   {
     path: `${videoPath}/5star_zhongli_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Zhongli"
-  },
-  {
-    path: `${videoPath}/5star_diluc_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Diluc"
-  },
-  {
-    path: `${videoPath}/5star_Jean_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Jean"
-  },
-  {
-    path: `${videoPath}/5star_Mona_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Mona"
-  },
-  {
-    path: `${videoPath}/5star_Qiqi_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Qiqi"
   },
 )
 
@@ -245,6 +295,86 @@ RPool.push(
     path: `${videoPath}/4star_yanfei_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yanfei"
+  },
+  {
+    path: `${videoPath}/4star_amber_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Amber"
+  },
+  {
+    path: `${videoPath}/4star_barbara_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Barbara"
+  },
+  {
+    path: `${videoPath}/4star_beidou_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Beidou"
+  },
+  {
+    path: `${videoPath}/4star_chongyun_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Chongyun"
+  },
+  {
+    path: `${videoPath}/4star_collei_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Collei"
+  },
+  {
+    path: `${videoPath}/4star_dori_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Dori"
+  },
+  {
+    path: `${videoPath}/4star_fischl_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Fischl"
+  },
+  {
+    path: `${videoPath}/4star_gorou_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Gorou"
+  },
+  {
+    path: `${videoPath}/4star_kaeya_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kaeya"
+  },
+  {
+    path: `${videoPath}/4star_Kuki_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kuki Shinobu"
+  },
+  {
+    path: `${videoPath}/4star_yanfei_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Yanfei"
+  },
+  {
+    path: `${videoPath}/4star_razor_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Razor"
+  },
+  {
+    path: `${videoPath}/4star_sara_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kujou Sara"
+  },
+  {
+    path: `${videoPath}/4star_sayu_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sayu"
+  },
+  {
+    path: `${videoPath}/4star_sucrose_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sucrose"
+  },
+  {
+    path: `${videoPath}/4star_xiangling_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xiangling"
   },
 )
 
