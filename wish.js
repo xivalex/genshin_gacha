@@ -27,16 +27,20 @@
 //    - [instafluff] for providing the ComfyJS package
 // ********************************************************************************
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+import { getDatabase, ref, child, get, set, update } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+
 // ***************
 // DEFAULT VALUES
 // ***************
 let __JWT_TOKEN__ = "";
-let __CHANNEL_ID__ = ""
-let __CHANNEL_NAME__ = ""
+let __CHANNEL_ID__ = "";
+let __CHANNEL_NAME__ = "";
 
 let volume = 100 // 0 ~ 100 value only
-let sr_percentage = 5 // % on winning a 5★
-let c_percentage = 60 // % on winning a 3★
+let sr_percentage = 1 // % on winning a 5★
+let c_percentage = 70 // % on winning a 3★
 let points_name = "Primogems";
 let cost = 160
 let five_star_prize = 2000;
@@ -44,7 +48,6 @@ let four_star_prize = 300;
 let three_star_prize = 0;
 
 let video;
-let videoPools = [];
 let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
@@ -53,150 +56,192 @@ let displayName;
 let userInfo = {};
 let randomVid = {};
 let queue = [];
+let dbRef = {};
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDm8SiQi5dROrkw32MZnHwY68X1kEVo-H4",
+  authDomain: "genshin-gacha.firebaseapp.com",
+  databaseURL: "https://genshin-gacha-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "genshin-gacha",
+  storageBucket: "genshin-gacha.appspot.com",
+  messagingSenderId: "39520428909",
+  appId: "1:39520428909:web:88fcf4648df172d2e67064",
+  measurementId: "G-1C8F27P35C"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // TBD: Automate retrieve file name/path/value (maybe..)
-
 const videoPath = "./videos"
 SRPool.push(
   {
     path: `${videoPath}/5star_albedo_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Albedo"
+    name: "★★★★★ Albedo",
+    dbname: 'Albedo'
   },
   {
     path: `${videoPath}/5star_eula_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Eula"
+    name: "★★★★★ Eula",
+    dbname: 'Eula'
   },
   {
     path: `${videoPath}/5star_keqing_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Keqing"
+    name: "★★★★★ Keqing",
+    dbname: 'Keqing'
   },
   {
     path: `${videoPath}/5star_kokomi_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Sangonomiya Kokomi"
+    name: "★★★★★ Sangonomiya Kokomi",
+    dbname: 'Sangonomiya Kokomi'
   },
   {
     path: `${videoPath}/5star_yae_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Yae Miko"
+    name: "★★★★★ Yae Miko",
+    dbname: 'Yae Miko'
   },
   {
     path: `${videoPath}/5star_ayato_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Kamisato Ayato"
+    name: "★★★★★ Kamisato Ayato",
+    dbname: 'Kamisato Ayato'
   },
   {
     path: `${videoPath}/5star_ayaka_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Kamisato Ayaka"
+    name: "★★★★★ Kamisato Ayaka",
+    dbname: 'Kamisato Ayaka'
   },
   {
     path: `${videoPath}/5star_diluc_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Diluc"
+    name: "★★★★★ Diluc",
+    dbname: 'Diluc'
   },
   {
     path: `${videoPath}/5star_ganyu_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Ganyu"
+    name: "★★★★★ Ganyu",
+    dbname: 'Ganyu'
   },
   {
     path: `${videoPath}/5star_hutao_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Hu Tao"
+    name: "★★★★★ Hu Tao",
+    dbname: 'Hu Tao'
   },
   {
     path: `${videoPath}/5star_itto_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Arataki Itto"
+    name: "★★★★★ Arataki Itto",
+    dbname: 'Arataki Itto'
   },
   {
     path: `${videoPath}/5star_jade_cutter_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Primordial Jade Cutter"
+    name: "★★★★★ Primordial Jade Cutter",
+    dbname: 'Primordial Jade Cutter'
   },
   {
     path: `${videoPath}/5star_Jean_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Jean"
+    name: "★★★★★ Jean",
+    dbname: 'Jean'
   },
   {
     path: `${videoPath}/5star_kazuha_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Kaedehara Kazuha"
+    name: "★★★★★ Kaedehara Kazuha",
+    dbname: 'Kaedehara Kazuha'
   },
   {
     path: `${videoPath}/5star_klee_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Klee"
+    name: "★★★★★ Klee",
+    dbname: 'Klee'
   },
   {
     path: `${videoPath}/5star_Mona_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Mona"
+    name: "★★★★★ Mona",
+    dbname: 'Mona'
   },
   {
     path: `${videoPath}/5star_Qiqi_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Qiqi"
+    name: "★★★★★ Qiqi",
+    dbname: 'Qiqi'
   },
   {
     path: `${videoPath}/5star_raiden_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Raiden Shogun"
+    name: "★★★★★ Raiden Shogun",
+    dbname: 'Raiden Shogun'
   },
   {
     path: `${videoPath}/5star_shenhe_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Shenhe"
+    name: "★★★★★ Shenhe",
+    dbname: 'Shenhe'
   },
   {
     path: `${videoPath}/5star_skyward_pride_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Skyward Pride"
+    name: "★★★★★ Skyward Pride",
+    dbname: 'Skyward Pride'
   },
   {
     path: `${videoPath}/5star_tartaglia_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Tartaglia"
+    name: "★★★★★ Tartaglia",
+    dbname: 'Tartaglia'
   },
   {
     path: `${videoPath}/5star_Tighnari_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Tighnari"
+    name: "★★★★★ Tighnari",
+    dbname: 'Tighnari'
   },
   {
     path: `${videoPath}/5star_venti_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Venti"
+    name: "★★★★★ Venti",
+    dbname: 'Venti'
   },
   {
     path: `${videoPath}/5star_xiao_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Xiao"
+    name: "★★★★★ Xiao",
+    dbname: 'Xiao'
   },
   {
     path: `${videoPath}/5star_yelan_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Yelan"
+    name: "★★★★★ Yelan",
+    dbname: 'Yelan'
   },
   {
     path: `${videoPath}/5star_yoimiya_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Yoimiya"
+    name: "★★★★★ Yoimiya",
+    dbname: 'Yoimiya'
   },
   {
     path: `${videoPath}/5star_zhongli_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Zhongli"
+    name: "★★★★★ Zhongli",
+    dbname: 'Zhongli'
   },
   {
     path: `${videoPath}/5star_cyno_VP8.webm`,
     value: five_star_prize,
-    name: "★★★★★ Cyno"
+    name: "★★★★★ Cyno",
+    dbname: 'Cyno'
   },
 )
 
@@ -204,187 +249,224 @@ RPool.push(
   {
     path: `${videoPath}/4star_bennett_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Bennett"
+    name: "★★★★ Bennett",
+    dbname: 'Bennett'
   },
   {
     path: `${videoPath}/4star_dbane_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Dragon's Bane"
+    name: "★★★★ Dragon's Bane",
+    dbname: "Dragon's Bane"
   },
   {
     path: `${videoPath}/4star_diona_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Diona"
+    name: "★★★★ Diona",
+    dbname: 'Diona'
   },
   {
     path: `${videoPath}/4star_fav_warbow_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Favonius Warbow"
+    name: "★★★★ Favonius Warbow",
+    dbname: 'Favonius Warbow'
   },
   {
     path: `${videoPath}/4star_flute_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ The Flute"
+    name: "★★★★ The Flute",
+    dbname: 'The Flute'
   },
   {
     path: `${videoPath}/4star_lions_roar_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Lion's Roar"
+    name: "★★★★ Lion's Roar",
+    dbname: "Lion's Roar"
   },
   {
     path: `${videoPath}/4star_ning_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Ningguang"
+    name: "★★★★ Ningguang",
+    dbname: 'Ningguang'
   },
   {
     path: `${videoPath}/4star_noelle_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Noelle"
+    name: "★★★★ Noelle",
+    dbname: 'Noelle'
   },
   {
     path: `${videoPath}/4star_rainslasher_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Rainslasher"
+    name: "★★★★ Rainslasher",
+    dbname: 'Rainslasher'
   },
   {
     path: `${videoPath}/4star_rosaria_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Rosaria"
+    name: "★★★★ Rosaria",
+    dbname: 'Rosaria'
   },
   {
     path: `${videoPath}/4star_yunjin_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Yun Jin"
+    name: "★★★★ Yun Jin",
+    dbname: 'Yun Jin'
   },
   {
     path: `${videoPath}/4star_rust_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Rust"
+    name: "★★★★ Rust",
+    dbname: 'Rust'
   },
   {
     path: `${videoPath}/4star_sac_greatsword_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Sacrificial Greatsword"
+    name: "★★★★ Sacrificial Greatsword",
+    dbname: 'Sacrificial Greatsword'
   },
   {
     path: `${videoPath}/4star_sacrificial_sword_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Sacrificial Sword"
+    name: "★★★★ Sacrificial Sword",
+    dbname: 'Sacrificial Sword'
   },
   {
     path: `${videoPath}/4star_stringless_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ The Stringless"
+    name: "★★★★ The Stringless",
+    dbname: 'The Stringless'
   },
   {
     path: `${videoPath}/4star_the_bell_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ The Bell"
+    name: "★★★★ The Bell",
+    dbname: 'The Bell'
   },
   {
     path: `${videoPath}/4star_thoma_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Thoma"
+    name: "★★★★ Thoma",
+    dbname: 'Thoma'
   },
   {
     path: `${videoPath}/4star_xingqiu_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Xingqiu"
+    name: "★★★★ Xingqiu",
+    dbname: 'Xingqiu'
   },
   {
     path: `${videoPath}/4star_xinyan_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Xinyan"
+    name: "★★★★ Xinyan",
+    dbname: 'Xinyan'
   },
   {
     path: `${videoPath}/4star_yanfei_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Yanfei"
+    name: "★★★★ Yanfei",
+    dbname: 'Yanfei'
   },
   {
     path: `${videoPath}/4star_amber_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Amber"
+    name: "★★★★ Amber",
+    dbname: 'Amber'
   },
   {
     path: `${videoPath}/4star_barbara_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Barbara"
+    name: "★★★★ Barbara",
+    dbname: 'Barbara'
   },
   {
     path: `${videoPath}/4star_beidou_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Beidou"
+    name: "★★★★ Beidou",
+    dbname: 'Beidou'
   },
   {
     path: `${videoPath}/4star_chongyun_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Chongyun"
+    name: "★★★★ Chongyun",
+    dbname: 'Chongyun'
   },
   {
     path: `${videoPath}/4star_collei_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Collei"
+    name: "★★★★ Collei",
+    dbname: 'Collei'
   },
   {
     path: `${videoPath}/4star_dori_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Dori"
+    name: "★★★★ Dori",
+    dbname: 'Dori'
   },
   {
     path: `${videoPath}/4star_fischl_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Fischl"
+    name: "★★★★ Fischl",
+    dbname: 'Fischl'
   },
   {
     path: `${videoPath}/4star_gorou_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Gorou"
+    name: "★★★★ Gorou",
+    dbname: 'Gorou'
   },
   {
     path: `${videoPath}/4star_kaeya_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Kaeya"
+    name: "★★★★ Kaeya",
+    dbname: 'Kaeya'
   },
   {
     path: `${videoPath}/4star_Kuki_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Kuki Shinobu"
+    name: "★★★★ Kuki Shinobu",
+    dbname: 'Kuki Shinobu'
   },
   {
     path: `${videoPath}/4star_yanfei_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Yanfei"
+    name: "★★★★ Yanfei",
+    dbname: 'Yanfei'
   },
   {
     path: `${videoPath}/4star_razor_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Razor"
+    name: "★★★★ Razor",
+    dbname: 'Razor'
   },
   {
     path: `${videoPath}/4star_sara_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Kujou Sara"
+    name: "★★★★ Kujou Sara",
+    dbname: 'Kujou Sara'
   },
   {
     path: `${videoPath}/4star_sayu_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Sayu"
+    name: "★★★★ Sayu",
+    dbname: 'Sayu'
   },
   {
     path: `${videoPath}/4star_sucrose_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Sucrose"
+    name: "★★★★ Sucrose",
+    dbname: 'Sucrose'
   },
   {
     path: `${videoPath}/4star_xiangling_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Xiangling"
+    name: "★★★★ Xiangling",
+    dbname: 'Xiangling'
   },
   {
     path: `${videoPath}/4star_candace_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Candace"
+    name: "★★★★ Candace",
+    dbname: 'Candace'
   },
 )
 
@@ -392,69 +474,104 @@ CPool.push(
   {
     path: `${videoPath}/3star_black_tassel_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Black Tassel"
+    name: "★★★ Black Tassel",
+    dbname: 'Black Tassel'
   },
   {
     path: `${videoPath}/3star_bloodstained_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Bloodtainted Greatsword"
+    name: "★★★ Bloodtainted Greatsword",
+    dbname: 'Bloodtainted Greatsword'
   },
   {
     path: `${videoPath}/3star_cool_steel_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Cool Steel"
+    name: "★★★ Cool Steel",
+    dbname: 'Cool Steel'
   },
   {
     path: `${videoPath}/3star_debate_club_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Debate Club"
+    name: "★★★ Debate Club",
+    dbname: 'Debate Club'
   },
   {
     path: `${videoPath}/3star_emerald_orb_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Emerald Orb"
+    name: "★★★ Emerald Orb",
+    dbname: 'Emerald Orb'
   },
   {
     path: `${videoPath}/3star_ferrous_shadow_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Ferrous Shadow"
+    name: "★★★ Ferrous Shadow",
+    dbname: 'Ferrous Shadow'
   },
   {
     path: `${videoPath}/3star_hod_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Harbinger of Dawn"
+    name: "★★★ Harbinger of Dawn",
+    dbname: 'Harbinger of Dawn'
   },
   {
     path: `${videoPath}/3star_magic_guide_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Magic Guide"
+    name: "★★★ Magic Guide",
+    dbname: 'Magic Guide'
   },
   {
     path: `${videoPath}/3star_raven_bow_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Raven Bow"
+    name: "★★★ Raven Bow",
+    dbname: 'Raven Bow'
   },
   {
     path: `${videoPath}/3star_sharpshooter_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Sharpshooter's Oath"
+    name: "★★★ Sharpshooter's Oath",
+    dbname: "Sharpshooter's Oath"
   },
   {
     path: `${videoPath}/3star_skyrider_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Skyrider Sword"
+    name: "★★★ Skyrider Sword",
+    dbname: 'Skyrider Sword'
   },
   {
     path: `${videoPath}/3star_slingshot_temp_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Slingshot"
+    name: "★★★ Slingshot",
+    dbname: 'Slingshot'
   },
   {
     path: `${videoPath}/3star_ttds_VP8.webm`,
     value: three_star_prize,
-    name: "★★★ Thrilling Tales of Dragon Slayers"
+    name: "★★★ Thrilling Tales of Dragon Slayers",
+    dbname: 'Thrilling Tales of Dragon Slayers'
   },
 )
+
+function getDb() {
+  const reference = ref(getDatabase());
+  get(child(reference, __CHANNEL_NAME__ )).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+      dbRef = snapshot.val();
+    } else {
+      // If this is the first time the streamer uses the simulator
+      console.log("No data available");
+      const db = getDatabase();
+      set(ref(db, __CHANNEL_NAME__ + '/' + __CHANNEL_NAME__), {
+        pity: 0
+      });
+      get(child(reference, __CHANNEL_NAME__ )).then((snapshot) => {
+        dbRef = snapshot.val();
+      });
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+}
 
 function initializeVideoElement() {
   video = document.getElementById("video");
@@ -476,14 +593,14 @@ function initializeVideoElement() {
       addPoints(displayName, randomVid.value)
       .then(response => response.json())
       .then(_data => {
-          sendChatMessage(`Congratulations! ${displayName} just wished for [${randomVid.name}] and ${randomVid.value} ${points_name} has been added | ${points_name}: ${_data.newAmount}`);
+          sendChatMessage(`Congratulations! ${displayName} just wished for [${randomVid.name}] and ${randomVid.value} ${points_name} has been added | ${points_name}: ${_data.newAmount} | pity: ${dbRef[displayName].pity}`);
           allowed = true;
       });
     } else {
         getUser(displayName)
         .then(response => response.json())
         .then(_data => {
-            sendChatMessage(`${displayName} just wished for [${randomVid.name}] | ${points_name}: ${_data.points}`);
+            sendChatMessage(`${displayName} just wished for [${randomVid.name}] | ${points_name}: ${_data.points} | pity: ${dbRef[displayName].pity}`);
             allowed = true;
         });
     }
@@ -526,7 +643,19 @@ function addPoints(user, amount) {
   });
 }
 
-var intervalId = setInterval(async function() {
+var intervalIdDb = setInterval(async function() {
+  // Saves current with info every 1 minute
+  const db = getDatabase();
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+  updates[__CHANNEL_NAME__] = dbRef;
+
+  return update(ref(db), updates);
+
+}, 60000);
+
+var intervalIdWish = setInterval(async function() {
 
   // Check if there is no ongoing video
   if (allowed) {
@@ -558,15 +687,45 @@ var intervalId = setInterval(async function() {
       // Retrieve the source element
       let source = document.getElementById("source");
 
-      // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
-      chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
-                  ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+      let chosenPool;
+
+      // If user has no record in DB yet, create a new record
+      if (undefined === dbRef[displayName]) {
+        dbRef[displayName] = {
+          pity: 0
+        };
+      }
+
+      if (dbRef[displayName].pity === 30) {
+        // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+        chosenPool = SRPool;
+      } else {
+        // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+        chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
+                    ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+      }
       randomVid = randomItemFromArray(chosenPool);
 
       // Set the video as the source of the element and play it
       source.setAttribute("src", randomVid.path);
       video.load();
       video.volume = volume / 100;
+
+      // Update the pity of the user based on the result
+      switch (randomVid.value) {
+        case five_star_prize: dbRef[displayName].pity = 0; break;
+        default: dbRef[displayName].pity += 1;
+      }
+
+      // If user has no record of the char/weap yet, create a new record
+      if (undefined == dbRef[displayName][randomVid.dbname]) {
+        dbRef[displayName][randomVid.dbname] = {
+          constellation: 0
+        }
+      } else {
+        // Increase constellation of the char/weap if it is existing
+        dbRef[displayName][randomVid.dbname].constellation += 1;
+      }
     }
 
   }
@@ -583,6 +742,8 @@ function checkQueryParameters() {
   __JWT_TOKEN__ = params.jwt;
   __CHANNEL_ID__ = params.id;
   __CHANNEL_NAME__ = params.channel;
+
+  getDb();
 
   // Set the volume of the video
   if (params.volume) {
@@ -693,9 +854,27 @@ initializeVideoElement();
 // Receives text from !
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
 
+  // console.log(user);
+  // console.log(command);
+  // console.log(message);
+  // console.log(flags);
+  // console.log(extra);
+
   if (command === 'wishqueue' && (flags.broadcaster || flags.mod)) {
     // Checks the current queue for the wish command (available for streamer and mods only)
     sendChatMessage(`Current wish queue is: ${queue}`);
+  } else if (command === 'wishinfo' && (flags.broadcaster || flags.mod)) {
+    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name})`)
+  } else if (command === 'wishcheck') {
+    if (undefined === dbRef[user][message]) {
+      sendChatMessage(`${user} does not have that character yet`);
+    } else {
+      sendChatMessage(`${user}'s ${message} constellation is ${dbRef[user][message].constellation}`);
+    }
+  } else if (command === 'wishpity') {
+      sendChatMessage(`${user}'s current pity count is ${dbRef[user].pity}`);
+  } else if (command === 'wishcommand') {
+      sendChatMessage(`List of commands are: !wishqueue(mods), !wishinfo(mods), !wishcheck <char/weap>, !wishpity, !wish`)
   } else {
     // Check if the command is !wish
     if (command !== "wish") {return};
