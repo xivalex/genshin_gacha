@@ -713,7 +713,7 @@ var intervalIdWish = setInterval(async function() {
 
       // Update the pity of the user based on the result
       switch (randomVid.value) {
-        case five_star_prize: dbRef[displayName].pity = 0; break;
+        case SRPool[0].value: dbRef[displayName].pity = 0; break;
         default: dbRef[displayName].pity += 1;
       }
 
