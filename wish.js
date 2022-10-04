@@ -46,6 +46,7 @@ let cost = 160
 let five_star_prize = 2000;
 let four_star_prize = 300;
 let three_star_prize = 0;
+let pity = 30;
 
 let video;
 let SRPool = [];  // 5★
@@ -696,7 +697,7 @@ var intervalIdWish = setInterval(async function() {
         };
       }
 
-      if (dbRef[displayName].pity === 30) {
+      if (dbRef[displayName].pity === pity) {
         // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
         chosenPool = SRPool;
       } else {
@@ -824,6 +825,16 @@ function checkQueryParameters() {
     }
   }
 
+  // Set the pity
+  if (params.pity) {
+    let pt = Number(params.pity);
+    if (isNaN(pt)){
+      console.log("value for params.pity is invalid");
+    } else {
+      pity = pt;
+    }
+  }
+
   // Set the pointsname used in the channel
   if (params.points) {
     points_name = params.points;
@@ -841,7 +852,7 @@ function checkQueryParameters() {
 
   // Send a message in chat to verify the settings of the browser
   if (params.check) {
-    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name})`)
+    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
   }
 }
 
@@ -864,7 +875,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     // Checks the current queue for the wish command (available for streamer and mods only)
     sendChatMessage(`Current wish queue is: ${queue}`);
   } else if (command === 'wishinfo' && (flags.broadcaster || flags.mod)) {
-    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name})`)
+    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
   } else if (command === 'wishcheck') {
     if (undefined === dbRef[user][message]) {
       sendChatMessage(`${user} does not have that character yet`);

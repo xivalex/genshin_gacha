@@ -40,20 +40,21 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 - [**Required**] `id` : Your Account ID
 - [**Required**] `channel` : Your Twitch channel name
 - `volume` : Adjust the volume of the video (*Default: 100*)
-- `sr` : Adjust the percentage on winning a 5★ against a 4★ (*Default: 5% to get a 5★*)
-- `c` : Adjust the percentage on winning a 3★ against a 4★ (*Default: 60% to get a 3★*)
+- `sr` : Adjust the percentage on winning a 5★ against a 4★ (*Default: 1% to get a 5★*)
+- `c` : Adjust the percentage on winning a 3★ against a 4★ (*Default: 70% to get a 3★*)
 - `three` : Adjust the prize when user wins a 3★ (*Default: 0*)
 - `four` : Adjust the prize when user wins a 4★ (*Default: 300*)
 - `five` : Adjust the prize when user wins a 5★ (*Default: 2000*)
 - `cost` : Adjust the cost to use the command (*Default: 160*)
 - `points` : Adjust the points name used in your channel (*Default: Primogems*)
 - `check` : Output the current setting of the program in your chat
+- `pity` : Adjust the pity before a guaranteed 5★ (*Default: 30 pity to get a guaranteed 5★*)
 
 ```
 Sample Browser Source URL
 
 *********************************************************************
-https://xivalex.github.io/genshin_gacha?jwt=<JWT Token>&id=<Account ID>&channel=xivalex&volume=50&sr=50&c=90&three=100&four=200&five=300&cost=10&points=test&check=true
+https://xivalex.github.io/genshin_gacha?jwt=<JWT Token>&id=<Account ID>&channel=xivalex&volume=50&sr=50&c=90&three=100&four=200&five=300&cost=10&points=test&check=true&pity=50
 *********************************************************************
 
 By using the sample URL, it sets the program to have:
@@ -66,15 +67,23 @@ By using the sample URL, it sets the program to have:
   - The Cost on using the command is only 10
   - Points name is set to "test"
   - The above settings will be displayed in chat once you refresh the browser source
+  - The Pity for a guaranteed 5★ is 50
 ```
 
 3. Test the program by typing `!wish` in your chat. Video should load and the following is displayed in chat. If video does not load, try refreshing the browser source or re-check the parameters in the URL.
 
-![sample_output](https://i.imgur.com/UKouEut.png)
+![sample_output](https://i.imgur.com/cNJdcwY.png)
 
 ## Features ##
 ### Queue ###
 - Only **one wish at a time** is displayed on stream. A queue is implemented so that when multiple viewers type `!wish` in chat, they will be placed in a queue (first-in, first-out) while waiting for the current wish on-stream to finish
+
+### Database ###
+- Characters and weapons are saved in a database. You can check your current inventory using `!wishcheck` command
+- Information is saved to the database every minute, if there will be any connection issues during this minute, wishes are not saved. Sorry for any inconvenience
+
+### Pity System ###
+- Pity is supported and this is the number of times the user has wished. By default, the value is 30 and if a user has wished for atleast 30 times without any 5★, the next wish will be a guaranteed 5★
 
 ### Multiple Wish `(TBD)` ###
 - Let the viewer do multiple wish by spending x10 of the cost amount (e.g. 1600 from the default value)
@@ -86,7 +95,22 @@ By using the sample URL, it sets the program to have:
 ## Other commands ##
 
 ### !wishqueue ###
-- Displays the current queue of users who typed `!wish`. Usable only by `Streamer` and `Moderators`
+- Displays the current queue of users who typed `!wish` in chat
+- Usable only by `Streamer` and `Moderators`
+
+### !wishinfo ###
+- Displays the current setting of the gacha in chat
+- Usable only by `Streamer` and `Moderators`
+
+### !wishcheck [name] ###
+- Displays the `constellation` of the character or weapon
+- e.g. !wishcheck Yanfei
+
+### !wishpity ###
+- Displays the current pity of the user
+
+### !wishcommand ###
+- Displays the list of available commands to be used
 
 ### !wishconfig `(TBD)` ###
 - Lets the `Streamer` or `Moderators` to modify the settings on-stream without the need to modify the URL parameters
