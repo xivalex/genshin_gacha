@@ -193,6 +193,11 @@ SRPool.push(
     value: five_star_prize,
     name: "★★★★★ Zhongli"
   },
+  {
+    path: `${videoPath}/5star_cyno_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Cyno"
+  },
 )
 
 RPool.push(
@@ -375,6 +380,11 @@ RPool.push(
     path: `${videoPath}/4star_xiangling_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xiangling"
+  },
+  {
+    path: `${videoPath}/4star_candace_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Candace"
   },
 )
 

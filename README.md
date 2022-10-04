@@ -181,7 +181,7 @@ Name | Rarity/Availability | Contributor
  Kuki Shinobu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BFuZWFPN_fQ)
  Collei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=rSLkzV7hbMI)
  Dori | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=e37Acs9rq44)
- Candace | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Candace | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
  Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
@@ -240,4 +240,4 @@ Name | Rarity/Availability | Contributor
  Kamisato Ayato | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=Xl3LD2pJusA)
  Tighnari | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Syan](https://www.youtube.com/watch?v=kyUptk875eA)
  Nilou | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Cyno | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Cyno | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
