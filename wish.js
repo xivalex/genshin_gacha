@@ -40,7 +40,7 @@ let __CHANNEL_NAME__ = "";
 
 let volume = 100 // 0 ~ 100 value only
 let sr_percentage = 1 // % on winning a 5★
-let c_percentage = 70 // % on winning a 3★
+let c_percentage = 80 // % on winning a 3★
 let points_name = "Primogems";
 let cost = 160
 let five_star_prize = 2000;
@@ -49,6 +49,9 @@ let three_star_prize = 0;
 let pity = 30;
 
 let video;
+let source;
+let multiVideo;
+let multiSource;
 let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
@@ -58,6 +61,11 @@ let userInfo = {};
 let randomVid = {};
 let queue = [];
 let dbRef = {};
+let wishcount = 0;
+let wishPool = [];
+let withSR = false;
+let multiPoints = 0;
+let videoPath;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm8SiQi5dROrkw32MZnHwY68X1kEVo-H4",
@@ -74,172 +82,171 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // TBD: Automate retrieve file name/path/value (maybe..)
-const videoPath = "./videos"
 SRPool.push(
   {
-    path: `${videoPath}/5star_albedo_VP8.webm`,
+    path: `/5star_albedo_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Albedo",
     dbname: 'Albedo'
   },
   {
-    path: `${videoPath}/5star_eula_VP8.webm`,
+    path: `/5star_eula_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Eula",
     dbname: 'Eula'
   },
   {
-    path: `${videoPath}/5star_keqing_VP8.webm`,
+    path: `/5star_keqing_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Keqing",
     dbname: 'Keqing'
   },
   {
-    path: `${videoPath}/5star_kokomi_VP8.webm`,
+    path: `/5star_kokomi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Sangonomiya Kokomi",
     dbname: 'Sangonomiya Kokomi'
   },
   {
-    path: `${videoPath}/5star_yae_VP8.webm`,
+    path: `/5star_yae_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Yae Miko",
     dbname: 'Yae Miko'
   },
   {
-    path: `${videoPath}/5star_ayato_VP8.webm`,
+    path: `/5star_ayato_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Kamisato Ayato",
     dbname: 'Kamisato Ayato'
   },
   {
-    path: `${videoPath}/5star_ayaka_VP8.webm`,
+    path: `/5star_ayaka_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Kamisato Ayaka",
     dbname: 'Kamisato Ayaka'
   },
   {
-    path: `${videoPath}/5star_diluc_VP8.webm`,
+    path: `/5star_diluc_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Diluc",
     dbname: 'Diluc'
   },
   {
-    path: `${videoPath}/5star_ganyu_VP8.webm`,
+    path: `/5star_ganyu_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Ganyu",
     dbname: 'Ganyu'
   },
   {
-    path: `${videoPath}/5star_hutao_VP8.webm`,
+    path: `/5star_hutao_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Hu Tao",
     dbname: 'Hu Tao'
   },
   {
-    path: `${videoPath}/5star_itto_VP8.webm`,
+    path: `/5star_itto_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Arataki Itto",
     dbname: 'Arataki Itto'
   },
   {
-    path: `${videoPath}/5star_jade_cutter_VP8.webm`,
+    path: `/5star_jade_cutter_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Primordial Jade Cutter",
     dbname: 'Primordial Jade Cutter'
   },
   {
-    path: `${videoPath}/5star_Jean_VP8.webm`,
+    path: `/5star_Jean_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Jean",
     dbname: 'Jean'
   },
   {
-    path: `${videoPath}/5star_kazuha_VP8.webm`,
+    path: `/5star_kazuha_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Kaedehara Kazuha",
     dbname: 'Kaedehara Kazuha'
   },
   {
-    path: `${videoPath}/5star_klee_VP8.webm`,
+    path: `/5star_klee_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Klee",
     dbname: 'Klee'
   },
   {
-    path: `${videoPath}/5star_Mona_VP8.webm`,
+    path: `/5star_Mona_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Mona",
     dbname: 'Mona'
   },
   {
-    path: `${videoPath}/5star_Qiqi_VP8.webm`,
+    path: `/5star_Qiqi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Qiqi",
     dbname: 'Qiqi'
   },
   {
-    path: `${videoPath}/5star_raiden_VP8.webm`,
+    path: `/5star_raiden_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Raiden Shogun",
     dbname: 'Raiden Shogun'
   },
   {
-    path: `${videoPath}/5star_shenhe_VP8.webm`,
+    path: `/5star_shenhe_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Shenhe",
     dbname: 'Shenhe'
   },
   {
-    path: `${videoPath}/5star_skyward_pride_VP8.webm`,
+    path: `/5star_skyward_pride_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Skyward Pride",
     dbname: 'Skyward Pride'
   },
   {
-    path: `${videoPath}/5star_tartaglia_VP8.webm`,
+    path: `/5star_tartaglia_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Tartaglia",
     dbname: 'Tartaglia'
   },
   {
-    path: `${videoPath}/5star_Tighnari_VP8.webm`,
+    path: `/5star_Tighnari_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Tighnari",
     dbname: 'Tighnari'
   },
   {
-    path: `${videoPath}/5star_venti_VP8.webm`,
+    path: `/5star_venti_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Venti",
     dbname: 'Venti'
   },
   {
-    path: `${videoPath}/5star_xiao_VP8.webm`,
+    path: `/5star_xiao_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Xiao",
     dbname: 'Xiao'
   },
   {
-    path: `${videoPath}/5star_yelan_VP8.webm`,
+    path: `/5star_yelan_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Yelan",
     dbname: 'Yelan'
   },
   {
-    path: `${videoPath}/5star_yoimiya_VP8.webm`,
+    path: `/5star_yoimiya_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Yoimiya",
     dbname: 'Yoimiya'
   },
   {
-    path: `${videoPath}/5star_zhongli_VP8.webm`,
+    path: `/5star_zhongli_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Zhongli",
     dbname: 'Zhongli'
   },
   {
-    path: `${videoPath}/5star_cyno_VP8.webm`,
+    path: `/5star_cyno_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Cyno",
     dbname: 'Cyno'
@@ -248,223 +255,223 @@ SRPool.push(
 
 RPool.push(
   {
-    path: `${videoPath}/4star_bennett_VP8.webm`,
+    path: `/4star_bennett_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Bennett",
     dbname: 'Bennett'
   },
   {
-    path: `${videoPath}/4star_dbane_VP8.webm`,
+    path: `/4star_dbane_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Dragon's Bane",
     dbname: "Dragon's Bane"
   },
   {
-    path: `${videoPath}/4star_diona_VP8.webm`,
+    path: `/4star_diona_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Diona",
     dbname: 'Diona'
   },
   {
-    path: `${videoPath}/4star_fav_warbow_VP8.webm`,
+    path: `/4star_fav_warbow_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Favonius Warbow",
     dbname: 'Favonius Warbow'
   },
   {
-    path: `${videoPath}/4star_flute_VP8.webm`,
+    path: `/4star_flute_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ The Flute",
     dbname: 'The Flute'
   },
   {
-    path: `${videoPath}/4star_lions_roar_VP8.webm`,
+    path: `/4star_lions_roar_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Lion's Roar",
     dbname: "Lion's Roar"
   },
   {
-    path: `${videoPath}/4star_ning_VP8.webm`,
+    path: `/4star_ning_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Ningguang",
     dbname: 'Ningguang'
   },
   {
-    path: `${videoPath}/4star_noelle_VP8.webm`,
+    path: `/4star_noelle_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Noelle",
     dbname: 'Noelle'
   },
   {
-    path: `${videoPath}/4star_rainslasher_VP8.webm`,
+    path: `/4star_rainslasher_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rainslasher",
     dbname: 'Rainslasher'
   },
   {
-    path: `${videoPath}/4star_rosaria_VP8.webm`,
+    path: `/4star_rosaria_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rosaria",
     dbname: 'Rosaria'
   },
   {
-    path: `${videoPath}/4star_yunjin_VP8.webm`,
+    path: `/4star_yunjin_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yun Jin",
     dbname: 'Yun Jin'
   },
   {
-    path: `${videoPath}/4star_rust_VP8.webm`,
+    path: `/4star_rust_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Rust",
     dbname: 'Rust'
   },
   {
-    path: `${videoPath}/4star_sac_greatsword_VP8.webm`,
+    path: `/4star_sac_greatsword_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sacrificial Greatsword",
     dbname: 'Sacrificial Greatsword'
   },
   {
-    path: `${videoPath}/4star_sacrificial_sword_VP8.webm`,
+    path: `/4star_sacrificial_sword_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sacrificial Sword",
     dbname: 'Sacrificial Sword'
   },
   {
-    path: `${videoPath}/4star_stringless_VP8.webm`,
+    path: `/4star_stringless_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ The Stringless",
     dbname: 'The Stringless'
   },
   {
-    path: `${videoPath}/4star_the_bell_VP8.webm`,
+    path: `/4star_the_bell_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ The Bell",
     dbname: 'The Bell'
   },
   {
-    path: `${videoPath}/4star_thoma_VP8.webm`,
+    path: `/4star_thoma_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Thoma",
     dbname: 'Thoma'
   },
   {
-    path: `${videoPath}/4star_xingqiu_VP8.webm`,
+    path: `/4star_xingqiu_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xingqiu",
     dbname: 'Xingqiu'
   },
   {
-    path: `${videoPath}/4star_xinyan_VP8.webm`,
+    path: `/4star_xinyan_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xinyan",
     dbname: 'Xinyan'
   },
   {
-    path: `${videoPath}/4star_yanfei_VP8.webm`,
+    path: `/4star_yanfei_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yanfei",
     dbname: 'Yanfei'
   },
   {
-    path: `${videoPath}/4star_amber_VP8.webm`,
+    path: `/4star_amber_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Amber",
     dbname: 'Amber'
   },
   {
-    path: `${videoPath}/4star_barbara_VP8.webm`,
+    path: `/4star_barbara_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Barbara",
     dbname: 'Barbara'
   },
   {
-    path: `${videoPath}/4star_beidou_VP8.webm`,
+    path: `/4star_beidou_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Beidou",
     dbname: 'Beidou'
   },
   {
-    path: `${videoPath}/4star_chongyun_VP8.webm`,
+    path: `/4star_chongyun_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Chongyun",
     dbname: 'Chongyun'
   },
   {
-    path: `${videoPath}/4star_collei_VP8.webm`,
+    path: `/4star_collei_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Collei",
     dbname: 'Collei'
   },
   {
-    path: `${videoPath}/4star_dori_VP8.webm`,
+    path: `/4star_dori_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Dori",
     dbname: 'Dori'
   },
   {
-    path: `${videoPath}/4star_fischl_VP8.webm`,
+    path: `/4star_fischl_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Fischl",
     dbname: 'Fischl'
   },
   {
-    path: `${videoPath}/4star_gorou_VP8.webm`,
+    path: `/4star_gorou_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Gorou",
     dbname: 'Gorou'
   },
   {
-    path: `${videoPath}/4star_kaeya_VP8.webm`,
+    path: `/4star_kaeya_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Kaeya",
     dbname: 'Kaeya'
   },
   {
-    path: `${videoPath}/4star_Kuki_VP8.webm`,
+    path: `/4star_Kuki_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Kuki Shinobu",
     dbname: 'Kuki Shinobu'
   },
   {
-    path: `${videoPath}/4star_yanfei_VP8.webm`,
+    path: `/4star_yanfei_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Yanfei",
     dbname: 'Yanfei'
   },
   {
-    path: `${videoPath}/4star_razor_VP8.webm`,
+    path: `/4star_razor_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Razor",
     dbname: 'Razor'
   },
   {
-    path: `${videoPath}/4star_sara_VP8.webm`,
+    path: `/4star_sara_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Kujou Sara",
     dbname: 'Kujou Sara'
   },
   {
-    path: `${videoPath}/4star_sayu_VP8.webm`,
+    path: `/4star_sayu_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sayu",
     dbname: 'Sayu'
   },
   {
-    path: `${videoPath}/4star_sucrose_VP8.webm`,
+    path: `/4star_sucrose_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Sucrose",
     dbname: 'Sucrose'
   },
   {
-    path: `${videoPath}/4star_xiangling_VP8.webm`,
+    path: `/4star_xiangling_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Xiangling",
     dbname: 'Xiangling'
   },
   {
-    path: `${videoPath}/4star_candace_VP8.webm`,
+    path: `/4star_candace_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Candace",
     dbname: 'Candace'
@@ -473,79 +480,79 @@ RPool.push(
 
 CPool.push(
   {
-    path: `${videoPath}/3star_black_tassel_VP8.webm`,
+    path: `/3star_black_tassel_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Black Tassel",
     dbname: 'Black Tassel'
   },
   {
-    path: `${videoPath}/3star_bloodstained_VP8.webm`,
+    path: `/3star_bloodstained_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Bloodtainted Greatsword",
     dbname: 'Bloodtainted Greatsword'
   },
   {
-    path: `${videoPath}/3star_cool_steel_VP8.webm`,
+    path: `/3star_cool_steel_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Cool Steel",
     dbname: 'Cool Steel'
   },
   {
-    path: `${videoPath}/3star_debate_club_VP8.webm`,
+    path: `/3star_debate_club_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Debate Club",
     dbname: 'Debate Club'
   },
   {
-    path: `${videoPath}/3star_emerald_orb_VP8.webm`,
+    path: `/3star_emerald_orb_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Emerald Orb",
     dbname: 'Emerald Orb'
   },
   {
-    path: `${videoPath}/3star_ferrous_shadow_VP8.webm`,
+    path: `/3star_ferrous_shadow_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Ferrous Shadow",
     dbname: 'Ferrous Shadow'
   },
   {
-    path: `${videoPath}/3star_hod_VP8.webm`,
+    path: `/3star_hod_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Harbinger of Dawn",
     dbname: 'Harbinger of Dawn'
   },
   {
-    path: `${videoPath}/3star_magic_guide_VP8.webm`,
+    path: `/3star_magic_guide_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Magic Guide",
     dbname: 'Magic Guide'
   },
   {
-    path: `${videoPath}/3star_raven_bow_VP8.webm`,
+    path: `/3star_raven_bow_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Raven Bow",
     dbname: 'Raven Bow'
   },
   {
-    path: `${videoPath}/3star_sharpshooter_VP8.webm`,
+    path: `/3star_sharpshooter_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Sharpshooter's Oath",
     dbname: "Sharpshooter's Oath"
   },
   {
-    path: `${videoPath}/3star_skyrider_VP8.webm`,
+    path: `/3star_skyrider_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Skyrider Sword",
     dbname: 'Skyrider Sword'
   },
   {
-    path: `${videoPath}/3star_slingshot_temp_VP8.webm`,
+    path: `/3star_slingshot_temp_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Slingshot",
     dbname: 'Slingshot'
   },
   {
-    path: `${videoPath}/3star_ttds_VP8.webm`,
+    path: `/3star_ttds_VP8.webm`,
     value: three_star_prize,
     name: "★★★ Thrilling Tales of Dragon Slayers",
     dbname: 'Thrilling Tales of Dragon Slayers'
@@ -576,6 +583,7 @@ function getDb() {
 
 function initializeVideoElement() {
   video = document.getElementById("video");
+  source = document.getElementById("source");
 
   video.onloadstart = function () {
     console.log("Video is now loaded");
@@ -595,6 +603,9 @@ function initializeVideoElement() {
       .then(response => response.json())
       .then(_data => {
           sendChatMessage(`Congratulations! ${displayName} just wished for [${randomVid.name}] and ${randomVid.value} ${points_name} has been added | ${points_name}: ${_data.newAmount} | pity: ${dbRef[displayName].pity}`);
+          wishcount = 0;
+          wishPool = [];
+          videoPath = '';
           allowed = true;
       });
     } else {
@@ -602,9 +613,50 @@ function initializeVideoElement() {
         .then(response => response.json())
         .then(_data => {
             sendChatMessage(`${displayName} just wished for [${randomVid.name}] | ${points_name}: ${_data.points} | pity: ${dbRef[displayName].pity}`);
+            wishcount = 0;
+            wishPool = [];
+            videoPath = '';
             allowed = true;
         });
     }
+  }
+
+}
+
+function initializeMultiVideoElement() {
+  multiVideo = document.getElementById("multiVid");
+  multiSource = document.getElementById("multiSource");
+
+  multiVideo.onloadstart = function () {
+    console.log("Video is now loaded");
+  };
+
+  multiVideo.oncanplaythrough = function () {
+    console.log("Video can now play");
+    multiVideo.play();
+  }
+
+  multiVideo.onended = function () {
+    let video = wishPool.shift();
+    if (video != undefined) {
+      multiPoints += video.value;
+      multiSource.setAttribute("src", videoPath + video.path);
+      multiVideo.load();
+      return;
+    }
+    console.log("Video Ended")
+    multiVideo.setAttribute("hidden", "hidden");
+
+    addPoints(displayName, multiPoints)
+    .then(response => response.json())
+    .then(_data => {
+      sendChatMessage(`${displayName} just wished for ${wishcount} times and ${multiPoints} ${points_name} has been added | ${points_name}: ${_data.newAmount} | pity: ${dbRef[displayName].pity}`);
+      wishcount = 0;
+      multiPoints = 0;
+      wishPool = [];
+      videoPath = '';
+      allowed = true;
+    });
   }
 
 }
@@ -662,33 +714,37 @@ var intervalIdWish = setInterval(async function() {
   if (allowed) {
 
     // Retrieves a name from the list
-    displayName = queue.shift();
+    let queueInfo = queue.shift();
+    if (queueInfo) {
+      displayName = queueInfo.user;
+      wishcount = queueInfo.wishcount;
+    } else {
+      displayName = undefined;
+    }
 
     // If a name was retrieved, show gacha video
     if (displayName) {
-      // console.log(`Wishing for ${displayName}...`);
-
       // Prevent any video from playing
       allowed = false;
+      let wishcost = wishcount * cost;
+
+      // Get user info in StreamElements
       await getUser(displayName)
       .then(response => response.json())
       .then(_data => { userInfo = _data; });
 
-      if (userInfo.points < cost) {
-        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points}`);
+      // Check if user has enough points
+      if (userInfo.points < wishcost) {
+        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points} | Required: ${wishcost}`);
         allowed = true;
         return;
       }
 
-      await addPoints(displayName, -cost);
+      // Deduct the points
+      await addPoints(displayName, -wishcost);
 
-      // Show the element
-      video.removeAttribute("hidden");
-
-      // Retrieve the source element
-      let source = document.getElementById("source");
-
-      let chosenPool;
+      console.log('Starting wish session...');
+      sendChatMessage(`${displayName}'s wish is now ongoing...`);
 
       // If user has no record in DB yet, create a new record
       if (undefined === dbRef[displayName]) {
@@ -697,41 +753,86 @@ var intervalIdWish = setInterval(async function() {
         };
       }
 
-      if (dbRef[displayName].pity === pity) {
-        // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
-        chosenPool = SRPool;
+      if (wishcount == 1) {
+        videoPath = "./videos"
       } else {
-        // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
-        chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
-                    ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+        videoPath = "./videos_multi"
       }
-      randomVid = randomItemFromArray(chosenPool);
-
-      // Set the video as the source of the element and play it
-      source.setAttribute("src", randomVid.path);
-      video.load();
-      video.volume = volume / 100;
-
-      // Update the pity of the user based on the result
-      switch (randomVid.value) {
-        case SRPool[0].value: dbRef[displayName].pity = 0; break;
-        default: dbRef[displayName].pity += 1;
-      }
-
-      // If user has no record of the char/weap yet, create a new record
-      if (undefined == dbRef[displayName][randomVid.dbname]) {
-        dbRef[displayName][randomVid.dbname] = {
-          constellation: 0
-        }
-      } else {
-        // Increase constellation of the char/weap if it is existing
-        dbRef[displayName][randomVid.dbname].constellation += 1;
-      }
+      multiWish();
     }
 
   }
 
 }, 3000);
+
+function multiWish() {
+  let chosenPool;
+
+  for (let i = 0; i < wishcount; i++) {
+    if (dbRef[displayName].pity === pity) {
+      // Default the video pool to SR due to pity
+      chosenPool = SRPool;
+      withSR = true;
+    } else {
+      // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+      chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
+                  ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+    }
+    // Retrieve a video from the video pool
+    randomVid = randomItemFromArray(chosenPool);
+
+    // If user has no record of the char/weap yet, create a new record
+    if (undefined == dbRef[displayName][randomVid.dbname]) {
+      dbRef[displayName][randomVid.dbname] = {
+        constellation: 0
+      }
+    } else {
+      // Increase constellation of the char/weap if it is existing
+      dbRef[displayName][randomVid.dbname].constellation += 1;
+    }
+
+    // Update the pity of the user based on the result
+    switch (randomVid.value) {
+      // If SR, reset pity and set flag to true
+      case SRPool[0].value: dbRef[displayName].pity = 0; withSR = true; break;
+      // If not SR, increase pity by 1
+      default: dbRef[displayName].pity += 1;
+    }
+
+    // Store the vid info
+    wishPool.push(randomVid);
+  }
+
+  // console.log('The current wishpool is:');
+  // console.log(wishPool);
+
+  if (wishPool.length == 1) {
+    // Show the element
+    video.removeAttribute("hidden");
+
+    // Set the video as the source of the element and play it
+    source.setAttribute("src", `${videoPath}${wishPool[0].path}`);
+    video.load();
+    video.volume = volume / 100;
+
+  } else {
+    // Show the element
+    multiVideo.removeAttribute("hidden");
+
+    // Set the start of the video
+    if (withSR) {
+      multiSource.setAttribute("src", `${videoPath}/5star_template_VP8.webm`);
+    } else {
+      multiSource.setAttribute("src", `${videoPath}/4star_template_VP8.webm`);
+    }
+    withSR = false;
+    // source.setAttribute("src", `${videoPath}`);
+    multiVideo.load();
+    multiVideo.volume = volume / 100;
+  }
+
+
+}
 
 function checkQueryParameters() {
 
@@ -849,6 +950,7 @@ function checkQueryParameters() {
   console.log(`5★ prize is ${params.five}`);
   console.log(`Command Cost is ${cost}`);
   console.log(`Points Name is ${points_name}`);
+  console.log(`Pity is ${pity}`);
 
   // Send a message in chat to verify the settings of the browser
   if (params.check) {
@@ -861,6 +963,7 @@ function checkQueryParameters() {
 // ***********
 
 initializeVideoElement();
+initializeMultiVideoElement();
 
 // Receives text from !
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
@@ -872,8 +975,12 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   // console.log(extra);
 
   if (command === 'wishqueue' && (flags.broadcaster || flags.mod)) {
+    let infoList = [];
+    queue.forEach(info => {
+      infoList.push(info.user+`(${info.wishcount})`)
+    })
     // Checks the current queue for the wish command (available for streamer and mods only)
-    sendChatMessage(`Current wish queue is: ${queue}`);
+    sendChatMessage(`Current wish queue is: ${infoList}`);
   } else if (command === 'wishinfo' && (flags.broadcaster || flags.mod)) {
     sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
   } else if (command === 'wishcheck') {
@@ -890,12 +997,22 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     // Check if the command is !wish
     if (command !== "wish") {return};
 
-    // Add the user in the queue if not yet included
-    if (queue.includes(user)) {return}
-    else {
-      queue.push(user)
-      sendChatMessage(`${user} is now added to the wish queue!`);
-    };
+    let verify = Number(message);
+    if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
+      sendChatMessage(`${user} inputted invalid wish parameter!`);
+    } else {
+      let userQueue = {};
+      userQueue.wishcount = message;
+      userQueue.user = user;
+
+      let obj = queue.find(o => o.user === user);
+
+      // Add the user in the queue if not yet included
+      if (obj != undefined) {return}
+      else {
+        queue.push(userQueue)
+      };
+    }
   }
 
 }
