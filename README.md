@@ -41,7 +41,7 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 - [**Required**] `channel` : Your Twitch channel name
 - `volume` : Adjust the volume of the video (*Default: 100*)
 - `sr` : Adjust the percentage on winning a 5★ against a 4★ (*Default: 1% to get a 5★*)
-- `c` : Adjust the percentage on winning a 3★ against a 4★ (*Default: 70% to get a 3★*)
+- `c` : Adjust the percentage on winning a 3★ against a 4★ (*Default: 90% to get a 3★*)
 - `three` : Adjust the prize when user wins a 3★ (*Default: 0*)
 - `four` : Adjust the prize when user wins a 4★ (*Default: 300*)
 - `five` : Adjust the prize when user wins a 5★ (*Default: 2000*)
@@ -70,44 +70,65 @@ By using the sample URL, it sets the program to have:
   - The Pity for a guaranteed 5★ is 50
 ```
 
-3. Test the program by typing `!wish` in your chat. Video should load and the following is displayed in chat. If video does not load, try refreshing the browser source or re-check the parameters in the URL.
+3. Test the program by typing `!wish` or `!wish <1~10>` in your chat. Video should load and the following is displayed in chat. If video does not load, try refreshing the browser source or re-check the parameters in the URL.
 
-![sample_output](https://i.imgur.com/cNJdcwY.png)
+![sample_output](https://i.imgur.com/Gp0PD9g.png)
+
+![multi_sample](https://i.imgur.com/PzDR4dq.png)
 
 ## Features ##
 ### Queue ###
-- Only **one wish at a time** is displayed on stream. A queue is implemented so that when multiple viewers type `!wish` in chat, they will be placed in a queue (first-in, first-out) while waiting for the current wish on-stream to finish
+- Only **one wish session at a time** is displayed on stream. A queue is implemented so that when multiple viewers type `!wish` in chat, they will be placed in a queue (first-in, first-out) while waiting for the current wish on-stream to finish
+
+![queue_sample](https://i.imgur.com/g3wI4Yl.png)
 
 ### Database ###
-- Characters and weapons are saved in a database. You can check your current inventory using `!wishcheck` command
+- Characters and weapons are saved in a database. You can check your current inventory using `!wishcheck <3/4/5/charname/weapname>` command
+
 - Information is saved to the database every minute, if there will be any connection issues during this minute, wishes are not saved. Sorry for any inconvenience
 
 ### Pity System ###
-- Pity is supported and this is the number of times the user has wished. By default, the value is 30 and if a user has wished for atleast 30 times without any 5★, the next wish will be a guaranteed 5★
-
-### Multiple Wish `(TBD)` ###
-- Let the viewer do multiple wish by spending x10 of the cost amount (e.g. 1600 from the default value)
-- As expected, video will display on-stream a lot longer than a single wish
+- Pity is the number of times the user has wished.
+- The default value is 30 and if a user has wished for atleast 30 times without any 5★, the next wish will be a guaranteed 5★
 
 ### "No Gamble" system `(TBD)` ###
 - If streamer does not want to make use of StreamElements and just show a wish video on-stream
 
 ## Other commands ##
+*Note: There is a 5-second delay for common commands to avoid spamming the chat*
 
 ### !wishqueue ###
 - Displays the current queue of users who typed `!wish` in chat
 - Usable only by `Streamer` and `Moderators`
 
+![wishqueue](https://i.imgur.com/hqgcIIy.png)
+
 ### !wishinfo ###
-- Displays the current setting of the gacha in chat
+- Displays the current setting
 - Usable only by `Streamer` and `Moderators`
 
-### !wishcheck [name] ###
-- Displays the `constellation` of the character or weapon
-- e.g. !wishcheck Yanfei
+### !wishreset ###
+- Reset the gacha to *possibly* fix any issues (if gacha still does not work, try refreshing the source)
+- Usable only by `Streamer` and `Moderators`
+
+### !wishlist [3/4/5] ###
+- Displays **all** available characters and weapons
+- Usable only by `Streamer` and `Moderators`
+
+![wishlist](https://i.imgur.com/mcxfmpG.png)
+
+### !wishcheck [3/4/5/charname/weapname] ###
+- Displays list of characters and/or weapons owned by the user and its corresponding constellation
+- e.g. !wishcheck Yanfei, !wishcheck 5
+
+![wishcheck](https://i.imgur.com/ZfyRr0P.png)
+
+![wishcheck-2](https://i.imgur.com/qlDyYrJ.png)
 
 ### !wishpity ###
 - Displays the current pity of the user
+
+![wishpity](https://i.imgur.com/K8uth8E.png)
 
 ### !wishcommand ###
 - Displays the list of available commands to be used

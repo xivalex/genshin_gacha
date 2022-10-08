@@ -40,7 +40,7 @@ let __CHANNEL_NAME__ = "";
 
 let volume = 100 // 0 ~ 100 value only
 let sr_percentage = 1 // % on winning a 5★
-let c_percentage = 80 // % on winning a 3★
+let c_percentage = 90 // % on winning a 3★
 let points_name = "Primogems";
 let cost = 160
 let five_star_prize = 2000;
@@ -48,10 +48,31 @@ let four_star_prize = 300;
 let three_star_prize = 0;
 let pity = 30;
 
+// ********************
+// SINGLE-WISH ELEMENTS
+// ********************
 let video;
-let source;
-let multiVideo;
-let multiSource;
+
+// ********************
+// MULTI-WISH ELEMENTS
+// ********************
+let startVid;
+let multiVid1;
+let multiVid2;
+let multiVid3;
+let multiVid4;
+let multiVid5;
+let multiVid6;
+let multiVid7;
+let multiVid8;
+let multiVid9;
+let multiVid10;
+let multiPoints = 0;
+let multiSummary = [];
+
+// ***********
+// DEFINITIONS
+// ***********
 let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
@@ -64,8 +85,9 @@ let dbRef = {};
 let wishcount = 0;
 let wishPool = [];
 let withSR = false;
-let multiPoints = 0;
 let videoPath;
+let delay = 5000;
+let lastCommand = 0;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm8SiQi5dROrkw32MZnHwY68X1kEVo-H4",
@@ -581,9 +603,11 @@ function getDb() {
   });
 }
 
+// ********************
+// SINGLE-WISH EVENT LISTENER
+// ********************
 function initializeVideoElement() {
   video = document.getElementById("video");
-  source = document.getElementById("source");
 
   video.onloadstart = function () {
     console.log("Video is now loaded");
@@ -602,62 +626,311 @@ function initializeVideoElement() {
       addPoints(displayName, randomVid.value)
       .then(response => response.json())
       .then(_data => {
-          sendChatMessage(`Congratulations! ${displayName} just wished for [${randomVid.name}] and ${randomVid.value} ${points_name} has been added | ${points_name}: ${_data.newAmount} | pity: ${dbRef[displayName].pity}`);
+          let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
+          if (multiSummary.length != 0) {
+            result += ` | ${multiSummary}`
+          }
+          sendChatMessage(result);
           wishcount = 0;
+          multiPoints = 0;
           wishPool = [];
+          multiSummary = [];
           videoPath = '';
           allowed = true;
       });
     } else {
-        getUser(displayName)
-        .then(response => response.json())
-        .then(_data => {
-            sendChatMessage(`${displayName} just wished for [${randomVid.name}] | ${points_name}: ${_data.points} | pity: ${dbRef[displayName].pity}`);
-            wishcount = 0;
-            wishPool = [];
-            videoPath = '';
-            allowed = true;
-        });
+      getUser(displayName)
+      .then(response => response.json())
+      .then(_data => {
+          sendChatMessage(`${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.points}) | pity: ${dbRef[displayName].pity}`);
+          wishcount = 0;
+          multiPoints = 0;
+          wishPool = [];
+          multiSummary = [];
+          videoPath = '';
+          allowed = true;
+      });
     }
   }
 
 }
 
-function initializeMultiVideoElement() {
-  multiVideo = document.getElementById("multiVid");
-  multiSource = document.getElementById("multiSource");
+// ********************
+// MULTI-WISH EVENT LISTENER
+// ********************
+function initializeMultiVideoStartElement() {
+  startVid = document.getElementById("startVid");
 
-  multiVideo.onloadstart = function () {
-    console.log("Video is now loaded");
+  startVid.onloadstart = function () {
+    console.log("Start Video is now loaded");
   };
 
-  multiVideo.oncanplaythrough = function () {
-    console.log("Video can now play");
-    multiVideo.play();
+  startVid.oncanplaythrough = function () {
+    console.log("Start Video can now play");
+    startVid.play();
   }
 
-  multiVideo.onended = function () {
-    let video = wishPool.shift();
-    if (video != undefined) {
-      multiPoints += video.value;
-      multiSource.setAttribute("src", videoPath + video.path);
-      multiVideo.load();
-      return;
+  startVid.onended = function () {
+    console.log("Start Video Ended")
+    startVid.setAttribute("hidden", "hidden");
+    // Start first wish
+    multiVid1.removeAttribute("hidden");
+    multiVid1.play();
+  }
+}
+
+function initializeMultiVideo1Element() {
+  multiVid1 = document.getElementById("multiVid1");
+
+  multiVid1.onloadstart = function () {
+    console.log("Video 1 is now loaded");
+  };
+
+  multiVid1.oncanplaythrough = function () {
+    console.log("Video 1 can now play");
+  }
+
+  multiVid1.onended = function () {
+    console.log("Video 1 Ended")
+    multiVid1.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid2.src != '') {
+      multiVid2.removeAttribute("hidden");
+      multiVid2.play();
+    } else {
+      stopWish();
     }
-    console.log("Video Ended")
-    multiVideo.setAttribute("hidden", "hidden");
-
-    addPoints(displayName, multiPoints)
-    .then(response => response.json())
-    .then(_data => {
-      sendChatMessage(`${displayName} just wished for ${wishcount} times and ${multiPoints} ${points_name} has been added | ${points_name}: ${_data.newAmount} | pity: ${dbRef[displayName].pity}`);
-      wishcount = 0;
-      multiPoints = 0;
-      wishPool = [];
-      videoPath = '';
-      allowed = true;
-    });
   }
+}
+
+function initializeMultiVideo2Element() {
+  multiVid2 = document.getElementById("multiVid2");
+
+  multiVid2.onloadstart = function () {
+    console.log("Video 2 is now loaded");
+  };
+
+  multiVid2.oncanplaythrough = function () {
+    console.log("Video 2 can now play");
+  }
+
+  multiVid2.onended = function () {
+    console.log("Video 2 Ended")
+    multiVid2.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid3.src != '') {
+      multiVid3.removeAttribute("hidden");
+      multiVid3.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo3Element() {
+  multiVid3 = document.getElementById("multiVid3");
+
+  multiVid3.onloadstart = function () {
+    console.log("Video 3 is now loaded");
+  };
+
+  multiVid3.oncanplaythrough = function () {
+    console.log("Video 3 can now play");
+  }
+
+  multiVid3.onended = function () {
+    console.log("Video 3 Ended")
+    multiVid3.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid4.src != '') {
+      multiVid4.removeAttribute("hidden");
+      multiVid4.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo4Element() {
+  multiVid4 = document.getElementById("multiVid4");
+
+  multiVid4.onloadstart = function () {
+    console.log("Video 4 is now loaded");
+  };
+
+  multiVid4.oncanplaythrough = function () {
+    console.log("Video 4 can now play");
+  }
+
+  multiVid4.onended = function () {
+    console.log("Video 4 Ended")
+    multiVid4.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid5.src != '') {
+      multiVid5.removeAttribute("hidden");
+      multiVid5.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo5Element() {
+  multiVid5 = document.getElementById("multiVid5");
+
+  multiVid5.onloadstart = function () {
+    console.log("Video 5 is now loaded");
+  };
+
+  multiVid5.oncanplaythrough = function () {
+    console.log("Video 5 can now play");
+  }
+
+  multiVid5.onended = function () {
+    console.log("Video 5 Ended")
+    multiVid5.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid6.src != '') {
+      multiVid6.removeAttribute("hidden");
+      multiVid6.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo6Element() {
+  multiVid6 = document.getElementById("multiVid6");
+
+  multiVid6.onloadstart = function () {
+    console.log("Video 6 is now loaded");
+  };
+
+  multiVid6.oncanplaythrough = function () {
+    console.log("Video 6 can now play");
+  }
+
+  multiVid6.onended = function () {
+    console.log("Video 6 Ended")
+    multiVid6.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid7.src != '') {
+      multiVid7.removeAttribute("hidden");
+      multiVid7.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo7Element() {
+  multiVid7 = document.getElementById("multiVid7");
+
+  multiVid7.onloadstart = function () {
+    console.log("Video 7 is now loaded");
+  };
+
+  multiVid7.oncanplaythrough = function () {
+    console.log("Video 7 can now play");
+  }
+
+  multiVid7.onended = function () {
+    console.log("Video 7 Ended")
+    multiVid7.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid8.src != '') {
+      multiVid8.removeAttribute("hidden");
+      multiVid8.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo8Element() {
+  multiVid8 = document.getElementById("multiVid8");
+
+  multiVid8.onloadstart = function () {
+    console.log("Video 8 is now loaded");
+  };
+
+  multiVid8.oncanplaythrough = function () {
+    console.log("Video 8 can now play");
+  }
+
+  multiVid8.onended = function () {
+    console.log("Video 8 Ended")
+    multiVid8.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid9.src != '') {
+      multiVid9.removeAttribute("hidden");
+      multiVid9.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo9Element() {
+  multiVid9 = document.getElementById("multiVid9");
+
+  multiVid9.onloadstart = function () {
+    console.log("Video 9 is now loaded");
+  };
+
+  multiVid9.oncanplaythrough = function () {
+    console.log("Video 9 can now play");
+  }
+
+  multiVid9.onended = function () {
+    console.log("Video 9 Ended")
+    multiVid9.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (multiVid10.src != '') {
+      multiVid10.removeAttribute("hidden");
+      multiVid10.play();
+    } else {
+      stopWish();
+    }
+  }
+}
+
+function initializeMultiVideo10Element() {
+  multiVid10 = document.getElementById("multiVid10");
+
+  multiVid10.onloadstart = function () {
+    console.log("Video 10 is now loaded");
+  };
+
+  multiVid10.oncanplaythrough = function () {
+    console.log("Video 10 can now play");
+  }
+
+  multiVid10.onended = function () {
+    console.log("Video 10 Ended")
+    multiVid10.setAttribute("hidden", "hidden");
+    stopWish();
+  }
+}
+
+function stopWish() {
+  console.log('Now stopping wish...')
+
+  addPoints(displayName, multiPoints)
+  .then(response => response.json())
+  .then(_data => {
+    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
+    if (multiSummary.length != 0) {
+      result += ` | ${multiSummary}`
+    }
+    sendChatMessage(result);
+    wishcount = 0;
+    multiPoints = 0;
+    multiSummary = [];
+    wishPool = [];
+    videoPath = '';
+    allowed = true;
+  });
 
 }
 
@@ -744,7 +1017,7 @@ var intervalIdWish = setInterval(async function() {
       await addPoints(displayName, -wishcost);
 
       console.log('Starting wish session...');
-      sendChatMessage(`${displayName}'s wish is now ongoing...`);
+      sendChatMessage(`${displayName}'s ${wishcount}x wish is ongoing...`);
 
       // If user has no record in DB yet, create a new record
       if (undefined === dbRef[displayName]) {
@@ -794,44 +1067,70 @@ function multiWish() {
     // Update the pity of the user based on the result
     switch (randomVid.value) {
       // If SR, reset pity and set flag to true
-      case SRPool[0].value: dbRef[displayName].pity = 0; withSR = true; break;
+      case SRPool[0].value:
+        dbRef[displayName].pity = 0;
+        withSR = true;
+        multiSummary.push(randomVid.name);
+        break;
+      // If R, increase pity and save the value
+      case RPool[0].value: multiSummary.push(randomVid.name);
       // If not SR, increase pity by 1
       default: dbRef[displayName].pity += 1;
     }
 
+    // Increment the total amount of points;
+    multiPoints += randomVid.value;
+
+    switch(i) {
+      case 0: multiVid1.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 1: multiVid2.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 2: multiVid3.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 3: multiVid4.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 4: multiVid5.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 5: multiVid6.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 6: multiVid7.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 7: multiVid8.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 8: multiVid9.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 9: multiVid10.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+    }
     // Store the vid info
     wishPool.push(randomVid);
   }
-
-  // console.log('The current wishpool is:');
-  // console.log(wishPool);
 
   if (wishPool.length == 1) {
     // Show the element
     video.removeAttribute("hidden");
 
     // Set the video as the source of the element and play it
-    source.setAttribute("src", `${videoPath}${wishPool[0].path}`);
+    video.setAttribute("src", `${videoPath}${wishPool[0].path}`);
     video.load();
     video.volume = volume / 100;
 
   } else {
     // Show the element
-    multiVideo.removeAttribute("hidden");
+    startVid.removeAttribute("hidden");
 
     // Set the start of the video
     if (withSR) {
-      multiSource.setAttribute("src", `${videoPath}/5star_template_VP8.webm`);
+      startVid.setAttribute("src", `${videoPath}/5star_template_VP8.webm`);
     } else {
-      multiSource.setAttribute("src", `${videoPath}/4star_template_VP8.webm`);
+      startVid.setAttribute("src", `${videoPath}/4star_template_VP8.webm`);
     }
     withSR = false;
-    // source.setAttribute("src", `${videoPath}`);
-    multiVideo.load();
-    multiVideo.volume = volume / 100;
+
+    startVid.volume = volume / 100;
+    startVid.load();
+    multiVid1.load();
+    multiVid2.load();
+    multiVid3.load();
+    multiVid4.load();
+    multiVid5.load();
+    multiVid6.load();
+    multiVid7.load();
+    multiVid8.load();
+    multiVid9.load();
+    multiVid10.load();
   }
-
-
 }
 
 function checkQueryParameters() {
@@ -958,12 +1257,30 @@ function checkQueryParameters() {
   }
 }
 
+function isCooldown() {
+  if (lastCommand >= (Date.now() - delay)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // ***********
 // ENTRY POINT
 // ***********
 
 initializeVideoElement();
-initializeMultiVideoElement();
+initializeMultiVideoStartElement();
+initializeMultiVideo1Element();
+initializeMultiVideo2Element();
+initializeMultiVideo3Element();
+initializeMultiVideo4Element();
+initializeMultiVideo5Element();
+initializeMultiVideo6Element();
+initializeMultiVideo7Element();
+initializeMultiVideo8Element();
+initializeMultiVideo9Element();
+initializeMultiVideo10Element();
 
 // Receives text from !
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
@@ -983,35 +1300,87 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     sendChatMessage(`Current wish queue is: ${infoList}`);
   } else if (command === 'wishinfo' && (flags.broadcaster || flags.mod)) {
     sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
-  } else if (command === 'wishcheck') {
-    if (undefined === dbRef[user][message]) {
-      sendChatMessage(`${user} does not have that character yet`);
+  } else if (command === 'wishlist' && (flags.broadcaster || flags.mod)) {
+    if (message === '') {
+      sendChatMessage(`${user}, !wishlist [3/4/5] for list of characters/weapons available`);
     } else {
-      sendChatMessage(`${user}'s ${message} constellation is ${dbRef[user][message].constellation}`);
+      let output = [];
+      switch (message) {
+        case '3': CPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 3★: ${output}`); break;
+        case '4': RPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 4★: ${output}`); break;
+        case '5': SRPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 5★: ${output}`); break;
+        default: sendChatMessage(`${user}, !wishlist [3/4/5] for list of characters/weapons available`);
+      }
     }
+  } else if (command === 'wishreset' && (flags.broadcaster || flags.mod)) {
+    sendChatMessage(`Wish Simulator is now resetting...`)
+    if(!allowed) {allowed = true};
+    wishcount = 0;
+    multiPoints = 0;
+    multiSummary = [];
+    wishPool = [];
+    videoPath = '';
+    allowed = true;
+  } else if (command === 'wishcheck') {
+    if (isCooldown()) {return;}
+    if (message === '') {
+      sendChatMessage(`${user}, !wishcheck [3/4/5/<char>/<weap>] for list of characters/weapons in your inventory`);
+    } else {
+      let output = [];
+      let userItems = dbRef[user];
+      if (undefined === userItems) {
+        sendChatMessage(`${user}, you have no characters/weapons yet...`);
+      } else {
+        switch (message) {
+          case '3': CPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 3★: ${output.slice(0,-2)}`); break;
+          case '4': RPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 4★: ${output.slice(0,-2)}`); break;
+          case '5': SRPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 5★: ${output.slice(0,-2)}`); break;
+          default:
+            if (undefined === dbRef[user][message]) {
+              sendChatMessage(`${user} does not have that character yet`);
+            } else {
+              sendChatMessage(`${user}'s ${message} constellation is ${dbRef[user][message].constellation}`);
+            }
+        }
+      }
+    }
+    lastCommand = Date.now();
   } else if (command === 'wishpity') {
-      sendChatMessage(`${user}'s current pity count is ${dbRef[user].pity}`);
+    if (isCooldown()) {return;}
+    sendChatMessage(`${user}'s current pity count is ${dbRef[user].pity}`);
+    lastCommand = Date.now();
   } else if (command === 'wishcommand') {
-      sendChatMessage(`List of commands are: !wishqueue(mods), !wishinfo(mods), !wishcheck <char/weap>, !wishpity, !wish`)
+    if (isCooldown()) {return;}
+    sendChatMessage(`List of commands are: [MODS] !wishqueue, !wishinfo, !wishreset, !wishlist <3/4/5>, || [ALL] !wishcheck <3/4/5/charname/weapname>, !wishpity, !wish <blank/1~10>`)
+    lastCommand = Date.now();
   } else {
     // Check if the command is !wish
     if (command !== "wish") {return};
 
-    let verify = Number(message);
-    if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
-      sendChatMessage(`${user} inputted invalid wish parameter!`);
+    // Check if user is already in the queue
+    let obj = queue.find(o => o.user === user);
+    if (obj != undefined) {
+      sendChatMessage(`${user}, you are already in queue...`)
+      return;
+    }
+
+    if (message === '') {
+      queue.push({
+        wishcount: 1,
+        user: user
+      })
     } else {
-      let userQueue = {};
-      userQueue.wishcount = message;
-      userQueue.user = user;
+      let verify = Number(message);
+      // Check if message is a number, within 1~10 range and it is an integer
+      if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
+        sendChatMessage(`${user}, please input blank(1 wish) or 1~10 only`);
+      } else {
+        queue.push({
+          wishcount: message,
+          user: user
+        })
+      }
 
-      let obj = queue.find(o => o.user === user);
-
-      // Add the user in the queue if not yet included
-      if (obj != undefined) {return}
-      else {
-        queue.push(userQueue)
-      };
     }
   }
 
