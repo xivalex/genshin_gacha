@@ -88,6 +88,7 @@ let withSR = false;
 let videoPath;
 let delay = 5000;
 let lastCommand = 0;
+let currentCount = 1;
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm8SiQi5dROrkw32MZnHwY68X1kEVo-H4",
@@ -632,6 +633,7 @@ function initializeVideoElement() {
           }
           sendChatMessage(result);
           wishcount = 0;
+          currentCount = 0;
           multiPoints = 0;
           wishPool = [];
           multiSummary = [];
@@ -675,6 +677,7 @@ function initializeMultiVideoStartElement() {
     startVid.setAttribute("hidden", "hidden");
     // Start first wish
     multiVid1.removeAttribute("hidden");
+    currentCount += 1;
     multiVid1.play();
   }
 }
@@ -694,7 +697,8 @@ function initializeMultiVideo1Element() {
     console.log("Video 1 Ended")
     multiVid1.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid2.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid2.removeAttribute("hidden");
       multiVid2.play();
     } else {
@@ -718,7 +722,8 @@ function initializeMultiVideo2Element() {
     console.log("Video 2 Ended")
     multiVid2.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid3.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid3.removeAttribute("hidden");
       multiVid3.play();
     } else {
@@ -766,7 +771,8 @@ function initializeMultiVideo4Element() {
     console.log("Video 4 Ended")
     multiVid4.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid5.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid5.removeAttribute("hidden");
       multiVid5.play();
     } else {
@@ -790,7 +796,8 @@ function initializeMultiVideo5Element() {
     console.log("Video 5 Ended")
     multiVid5.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid6.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid6.removeAttribute("hidden");
       multiVid6.play();
     } else {
@@ -814,7 +821,8 @@ function initializeMultiVideo6Element() {
     console.log("Video 6 Ended")
     multiVid6.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid7.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid7.removeAttribute("hidden");
       multiVid7.play();
     } else {
@@ -838,7 +846,8 @@ function initializeMultiVideo7Element() {
     console.log("Video 7 Ended")
     multiVid7.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid8.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid8.removeAttribute("hidden");
       multiVid8.play();
     } else {
@@ -862,7 +871,8 @@ function initializeMultiVideo8Element() {
     console.log("Video 8 Ended")
     multiVid8.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid9.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid9.removeAttribute("hidden");
       multiVid9.play();
     } else {
@@ -886,7 +896,8 @@ function initializeMultiVideo9Element() {
     console.log("Video 9 Ended")
     multiVid9.setAttribute("hidden", "hidden");
     // Play next vid if available
-    if (multiVid10.src != '') {
+    if (currentCount < wishcount) {
+      currentCount += 1;
       multiVid10.removeAttribute("hidden");
       multiVid10.play();
     } else {
@@ -925,6 +936,7 @@ function stopWish() {
     }
     sendChatMessage(result);
     wishcount = 0;
+    currentCount = 1;
     multiPoints = 0;
     multiSummary = [];
     wishPool = [];
@@ -1082,16 +1094,16 @@ function multiWish() {
     multiPoints += randomVid.value;
 
     switch(i) {
-      case 0: multiVid1.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 1: multiVid2.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 2: multiVid3.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 3: multiVid4.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 4: multiVid5.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 5: multiVid6.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 6: multiVid7.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 7: multiVid8.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 8: multiVid9.setAttribute("src", `${videoPath}${randomVid.path}`); break;
-      case 9: multiVid10.setAttribute("src", `${videoPath}${randomVid.path}`); break;
+      case 0: multiVid1.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid1.load(); break;
+      case 1: multiVid2.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid2.load(); break;
+      case 2: multiVid3.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid3.load(); break;
+      case 3: multiVid4.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid4.load(); break;
+      case 4: multiVid5.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid5.load(); break;
+      case 5: multiVid6.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid6.load(); break;
+      case 6: multiVid7.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid7.load(); break;
+      case 7: multiVid8.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid8.load(); break;
+      case 8: multiVid9.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid9.load(); break;
+      case 9: multiVid10.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid10.load(); break;
     }
     // Store the vid info
     wishPool.push(randomVid);
@@ -1120,16 +1132,6 @@ function multiWish() {
 
     startVid.volume = volume / 100;
     startVid.load();
-    multiVid1.load();
-    multiVid2.load();
-    multiVid3.load();
-    multiVid4.load();
-    multiVid5.load();
-    multiVid6.load();
-    multiVid7.load();
-    multiVid8.load();
-    multiVid9.load();
-    multiVid10.load();
   }
 }
 
@@ -1316,6 +1318,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     sendChatMessage(`Wish Simulator is now resetting...`)
     if(!allowed) {allowed = true};
     wishcount = 0;
+    currentCount = 1;
     multiPoints = 0;
     multiSummary = [];
     wishPool = [];
