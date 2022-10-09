@@ -77,6 +77,7 @@ let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
 let allowed = true;
+let ongoingWish = false;
 let displayName;
 let userInfo = {};
 let randomVid = {};
@@ -608,19 +609,7 @@ function getDb() {
 // SINGLE-WISH EVENT LISTENER
 // ********************
 function initializeVideoElement() {
-  video = document.getElementById("video");
-
-  video.onloadstart = function () {
-    console.log("Video is now loaded");
-  };
-
-  video.oncanplaythrough = function () {
-    console.log("Video can now play");
-    video.play();
-  }
-
-  video.onended = function () {
-    console.log("Video Ended")
+  function nextVideo() {
     video.setAttribute("hidden", "hidden");
 
     if (randomVid.value != 0) {
@@ -631,9 +620,10 @@ function initializeVideoElement() {
           if (multiSummary.length != 0) {
             result += ` | ${multiSummary}`
           }
+          console.log(result);
           sendChatMessage(result);
           wishcount = 0;
-          currentCount = 0;
+          currentCount = 1;
           multiPoints = 0;
           wishPool = [];
           multiSummary = [];
@@ -644,8 +634,10 @@ function initializeVideoElement() {
       getUser(displayName)
       .then(response => response.json())
       .then(_data => {
+        console.log(`${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.points}) | pity: ${dbRef[displayName].pity}`);
           sendChatMessage(`${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.points}) | pity: ${dbRef[displayName].pity}`);
           wishcount = 0;
+          currentCount = 1;
           multiPoints = 0;
           wishPool = [];
           multiSummary = [];
@@ -654,6 +646,35 @@ function initializeVideoElement() {
       });
     }
   }
+  video = document.getElementById("video");
+
+  video.onloadstart = function () {
+    console.log("Single Video is now loaded");
+  };
+
+  video.oncanplaythrough = function () {
+    console.log("Single Video can now play");
+    video.play();
+  }
+
+  video.onplaying = function () {
+    console.log("Single Video is now playing");
+  }
+
+  video.onerror = function () {
+    console.log("Single Video error");
+    nextVideo();
+  }
+
+  video.onstalled = function () {
+    console.log("Single Video stalled");
+    nextVideo();
+  }
+
+  video.onended = function () {
+    console.log("Single Video Ended");
+    nextVideo();
+  }
 
 }
 
@@ -661,6 +682,14 @@ function initializeVideoElement() {
 // MULTI-WISH EVENT LISTENER
 // ********************
 function initializeMultiVideoStartElement() {
+  function nextVideo() {
+    startVid.setAttribute("hidden", "hidden");
+    // Start first wish
+    multiVid1.removeAttribute("hidden");
+    // currentCount += 1;
+    multiVid1.play();
+  }
+
   startVid = document.getElementById("startVid");
 
   startVid.onloadstart = function () {
@@ -672,29 +701,28 @@ function initializeMultiVideoStartElement() {
     startVid.play();
   }
 
+  startVid.onplaying = function () {
+    console.log("Start Video is now playing");
+  }
+
+  startVid.onerror = function () {
+    console.log("Start Video error");
+    nextVideo();
+  }
+
+  startVid.onstalled = function () {
+    console.log("Start Video stalled");
+    nextVideo();
+  }
+
   startVid.onended = function () {
-    console.log("Start Video Ended")
-    startVid.setAttribute("hidden", "hidden");
-    // Start first wish
-    multiVid1.removeAttribute("hidden");
-    currentCount += 1;
-    multiVid1.play();
+    console.log("Start Video Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo1Element() {
-  multiVid1 = document.getElementById("multiVid1");
-
-  multiVid1.onloadstart = function () {
-    console.log("Video 1 is now loaded");
-  };
-
-  multiVid1.oncanplaythrough = function () {
-    console.log("Video 1 can now play");
-  }
-
-  multiVid1.onended = function () {
-    console.log("Video 1 Ended")
+  function nextVideo() {
     multiVid1.setAttribute("hidden", "hidden");
     // Play next vid if available
     if (currentCount < wishcount) {
@@ -705,9 +733,50 @@ function initializeMultiVideo1Element() {
       stopWish();
     }
   }
+  multiVid1 = document.getElementById("multiVid1");
+
+  multiVid1.onloadstart = function () {
+    console.log("Video 1 is now loaded");
+  };
+
+  multiVid1.oncanplaythrough = function () {
+    console.log("Video 1 can now play");
+  }
+
+  multiVid1.onplaying = function () {
+    console.log("Video 1 is now playing");
+    console.log(multiVid1.src);
+  }
+
+  multiVid1.onerror = function () {
+    console.log("Video 1 error");
+    nextVideo();
+  }
+
+  multiVid1.onstalled = function () {
+    console.log("Video 1 stalled");
+    nextVideo();
+  }
+
+  multiVid1.onended = function () {
+    console.log("Video 1 Ended");
+    nextVideo();
+  }
 }
 
 function initializeMultiVideo2Element() {
+  function nextVideo() {
+    multiVid2.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid3.removeAttribute("hidden");
+      multiVid3.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid2 = document.getElementById("multiVid2");
 
   multiVid2.onloadstart = function () {
@@ -718,21 +787,40 @@ function initializeMultiVideo2Element() {
     console.log("Video 2 can now play");
   }
 
+  multiVid2.onplaying = function () {
+    console.log("Video 2 is now playing");
+    console.log(multiVid2.src);
+  }
+
+  multiVid2.onerror = function () {
+    console.log("Video 2 error");
+    nextVideo();
+  }
+
+  multiVid2.onstalled = function () {
+    console.log("Video 2 stalled");
+    nextVideo();
+  }
+
   multiVid2.onended = function () {
-    console.log("Video 2 Ended")
-    multiVid2.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid3.removeAttribute("hidden");
-      multiVid3.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 2 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo3Element() {
+  function nextVideo() {
+    multiVid3.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid4.removeAttribute("hidden");
+      multiVid4.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid3 = document.getElementById("multiVid3");
 
   multiVid3.onloadstart = function () {
@@ -743,20 +831,40 @@ function initializeMultiVideo3Element() {
     console.log("Video 3 can now play");
   }
 
+  multiVid3.onplaying = function () {
+    console.log("Video 3 is now playing");
+    console.log(multiVid3.src);
+  }
+
+  multiVid3.onerror = function () {
+    console.log("Video 3 error");
+    nextVideo();
+  }
+
+  multiVid3.onstalled = function () {
+    console.log("Video 3 stalled");
+    nextVideo();
+  }
+
   multiVid3.onended = function () {
-    console.log("Video 3 Ended")
-    multiVid3.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (multiVid4.src != '') {
-      multiVid4.removeAttribute("hidden");
-      multiVid4.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 3 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo4Element() {
+  function nextVideo() {
+    multiVid4.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid5.removeAttribute("hidden");
+      multiVid5.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid4 = document.getElementById("multiVid4");
 
   multiVid4.onloadstart = function () {
@@ -767,21 +875,40 @@ function initializeMultiVideo4Element() {
     console.log("Video 4 can now play");
   }
 
+  multiVid4.onplaying = function () {
+    console.log("Video 4 is now playing");
+    console.log(multiVid4.src);
+  }
+
+  multiVid4.onerror = function () {
+    console.log("Video 4 error");
+    nextVideo();
+  }
+
+  multiVid4.onstalled = function () {
+    console.log("Video 4 stalled");
+    nextVideo();
+  }
+
   multiVid4.onended = function () {
-    console.log("Video 4 Ended")
-    multiVid4.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid5.removeAttribute("hidden");
-      multiVid5.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 4 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo5Element() {
+  function nextVideo() {
+    multiVid5.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid6.removeAttribute("hidden");
+      multiVid6.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid5 = document.getElementById("multiVid5");
 
   multiVid5.onloadstart = function () {
@@ -792,21 +919,40 @@ function initializeMultiVideo5Element() {
     console.log("Video 5 can now play");
   }
 
+  multiVid5.onplaying = function () {
+    console.log("Video 5 is now playing");
+    console.log(multiVid5.src);
+  }
+
+  multiVid5.onerror = function () {
+    console.log("Video 5 error");
+    nextVideo();
+  }
+
+  multiVid5.onstalled = function () {
+    console.log("Video 5 stalled");
+    nextVideo();
+  }
+
   multiVid5.onended = function () {
-    console.log("Video 5 Ended")
-    multiVid5.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid6.removeAttribute("hidden");
-      multiVid6.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 5 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo6Element() {
+  function nextVideo() {
+    multiVid6.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid7.removeAttribute("hidden");
+      multiVid7.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid6 = document.getElementById("multiVid6");
 
   multiVid6.onloadstart = function () {
@@ -817,21 +963,40 @@ function initializeMultiVideo6Element() {
     console.log("Video 6 can now play");
   }
 
+  multiVid6.onplaying = function () {
+    console.log("Video 6 is now playing");
+    console.log(multiVid6.src);
+  }
+
+  multiVid6.onerror = function () {
+    console.log("Video 6 error");
+    nextVideo();
+  }
+
+  multiVid6.onstalled = function () {
+    console.log("Video 6 stalled");
+    nextVideo();
+  }
+
   multiVid6.onended = function () {
-    console.log("Video 6 Ended")
-    multiVid6.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid7.removeAttribute("hidden");
-      multiVid7.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 6 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo7Element() {
+  function nextVideo() {
+    multiVid7.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid8.removeAttribute("hidden");
+      multiVid8.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid7 = document.getElementById("multiVid7");
 
   multiVid7.onloadstart = function () {
@@ -842,21 +1007,40 @@ function initializeMultiVideo7Element() {
     console.log("Video 7 can now play");
   }
 
+  multiVid7.onplaying = function () {
+    console.log("Video 7 is now playing");
+    console.log(multiVid7.src);
+  }
+
+  multiVid7.onerror = function () {
+    console.log("Video 7 error");
+    nextVideo();
+  }
+
+  multiVid7.onstalled = function () {
+    console.log("Video 7 stalled");
+    nextVideo();
+  }
+
   multiVid7.onended = function () {
-    console.log("Video 7 Ended")
-    multiVid7.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid8.removeAttribute("hidden");
-      multiVid8.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 7 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo8Element() {
+  function nextVideo() {
+    multiVid8.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid9.removeAttribute("hidden");
+      multiVid9.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid8 = document.getElementById("multiVid8");
 
   multiVid8.onloadstart = function () {
@@ -867,21 +1051,40 @@ function initializeMultiVideo8Element() {
     console.log("Video 8 can now play");
   }
 
+  multiVid8.onplaying = function () {
+    console.log("Video 8 is now playing");
+    console.log(multiVid8.src);
+  }
+
+  multiVid8.onerror = function () {
+    console.log("Video 8 error");
+    nextVideo();
+  }
+
+  multiVid8.onstalled = function () {
+    console.log("Video 8 stalled");
+    nextVideo();
+  }
+
   multiVid8.onended = function () {
-    console.log("Video 8 Ended")
-    multiVid8.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid9.removeAttribute("hidden");
-      multiVid9.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 8 Ended");
+    nextVideo();
   }
 }
 
 function initializeMultiVideo9Element() {
+  function nextVideo() {
+    multiVid9.setAttribute("hidden", "hidden");
+    // Play next vid if available
+    if (currentCount < wishcount) {
+      currentCount += 1;
+      multiVid10.removeAttribute("hidden");
+      multiVid10.play();
+    } else {
+      stopWish();
+    }
+
+  }
   multiVid9 = document.getElementById("multiVid9");
 
   multiVid9.onloadstart = function () {
@@ -892,17 +1095,24 @@ function initializeMultiVideo9Element() {
     console.log("Video 9 can now play");
   }
 
+  multiVid9.onplaying = function () {
+    console.log("Video 9 is now playing");
+    console.log(multiVid9.src);
+  }
+
+  multiVid9.onerror = function () {
+    console.log("Video 9 error");
+    nextVideo();
+  }
+
+  multiVid9.onstalled = function () {
+    console.log("Video 9 stalled");
+    nextVideo();
+  }
+
   multiVid9.onended = function () {
-    console.log("Video 9 Ended")
-    multiVid9.setAttribute("hidden", "hidden");
-    // Play next vid if available
-    if (currentCount < wishcount) {
-      currentCount += 1;
-      multiVid10.removeAttribute("hidden");
-      multiVid10.play();
-    } else {
-      stopWish();
-    }
+    console.log("Video 9 Ended");
+    nextVideo();
   }
 }
 
@@ -917,15 +1127,32 @@ function initializeMultiVideo10Element() {
     console.log("Video 10 can now play");
   }
 
+  multiVid10.onplaying = function () {
+    console.log("Video 10 is now playing");
+    console.log(multiVid10.src);
+  }
+
+  multiVid10.onerror = function () {
+    console.log("Video 10 error");
+    multiVid10.setAttribute("hidden", "hidden");
+    stopWish();
+  }
+
+  multiVid10.onstalled = function () {
+    console.log("Video 10 stalled");
+    multiVid10.setAttribute("hidden", "hidden");
+    stopWish();
+  }
+
   multiVid10.onended = function () {
-    console.log("Video 10 Ended")
+    console.log("Video 10 Ended");
     multiVid10.setAttribute("hidden", "hidden");
     stopWish();
   }
 }
 
 function stopWish() {
-  console.log('Now stopping wish...')
+  console.log('Ending wish session...')
 
   addPoints(displayName, multiPoints)
   .then(response => response.json())
@@ -934,6 +1161,7 @@ function stopWish() {
     if (multiSummary.length != 0) {
       result += ` | ${multiSummary}`
     }
+    console.log(result)
     sendChatMessage(result);
     wishcount = 0;
     currentCount = 1;
@@ -1028,7 +1256,7 @@ var intervalIdWish = setInterval(async function() {
       // Deduct the points
       await addPoints(displayName, -wishcost);
 
-      console.log('Starting wish session...');
+      console.log(`${displayName}'s ${wishcount}x wish is ongoing...`);
       sendChatMessage(`${displayName}'s ${wishcount}x wish is ongoing...`);
 
       // If user has no record in DB yet, create a new record
