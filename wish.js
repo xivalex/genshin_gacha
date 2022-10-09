@@ -404,12 +404,6 @@ RPool.push(
     dbname: 'Xinyan'
   },
   {
-    path: `/4star_yanfei_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Yanfei",
-    dbname: 'Yanfei'
-  },
-  {
     path: `/4star_amber_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Amber",
@@ -464,7 +458,7 @@ RPool.push(
     dbname: 'Kaeya'
   },
   {
-    path: `/4star_Kuki_VP8.webm`,
+    path: `/4star_kuki_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Kuki Shinobu",
     dbname: 'Kuki Shinobu'
@@ -726,7 +720,7 @@ function initializeMultiVideoStartElement() {
 
   startVid.onerror = function () {
     console.log("Start Video error");
-    nextVideo();
+    stopWish();
   }
 
   startVid.onstalled = function () {
@@ -770,7 +764,7 @@ function initializeMultiVideo1Element() {
 
   multiVid1.onerror = function () {
     console.log("Video 1 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid1.onstalled = function () {
@@ -815,7 +809,7 @@ function initializeMultiVideo2Element() {
 
   multiVid2.onerror = function () {
     console.log("Video 2 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid2.onstalled = function () {
@@ -860,7 +854,7 @@ function initializeMultiVideo3Element() {
 
   multiVid3.onerror = function () {
     console.log("Video 3 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid3.onstalled = function () {
@@ -905,7 +899,7 @@ function initializeMultiVideo4Element() {
 
   multiVid4.onerror = function () {
     console.log("Video 4 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid4.onstalled = function () {
@@ -950,7 +944,7 @@ function initializeMultiVideo5Element() {
 
   multiVid5.onerror = function () {
     console.log("Video 5 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid5.onstalled = function () {
@@ -995,7 +989,7 @@ function initializeMultiVideo6Element() {
 
   multiVid6.onerror = function () {
     console.log("Video 6 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid6.onstalled = function () {
@@ -1040,7 +1034,7 @@ function initializeMultiVideo7Element() {
 
   multiVid7.onerror = function () {
     console.log("Video 7 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid7.onstalled = function () {
@@ -1085,7 +1079,7 @@ function initializeMultiVideo8Element() {
 
   multiVid8.onerror = function () {
     console.log("Video 8 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid8.onstalled = function () {
@@ -1130,7 +1124,7 @@ function initializeMultiVideo9Element() {
 
   multiVid9.onerror = function () {
     console.log("Video 9 error");
-    nextVideo();
+    stopWish();
   }
 
   multiVid9.onstalled = function () {
