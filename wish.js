@@ -725,7 +725,7 @@ function initializeMultiVideoStartElement() {
 
   startVid.onstalled = function () {
     console.log("Start Video stalled");
-    nextVideo();
+    stopWish();
   }
 
   startVid.onended = function () {
@@ -769,7 +769,7 @@ function initializeMultiVideo1Element() {
 
   multiVid1.onstalled = function () {
     console.log("Video 1 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid1.onended = function () {
@@ -814,7 +814,7 @@ function initializeMultiVideo2Element() {
 
   multiVid2.onstalled = function () {
     console.log("Video 2 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid2.onended = function () {
@@ -859,7 +859,7 @@ function initializeMultiVideo3Element() {
 
   multiVid3.onstalled = function () {
     console.log("Video 3 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid3.onended = function () {
@@ -904,7 +904,7 @@ function initializeMultiVideo4Element() {
 
   multiVid4.onstalled = function () {
     console.log("Video 4 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid4.onended = function () {
@@ -949,7 +949,7 @@ function initializeMultiVideo5Element() {
 
   multiVid5.onstalled = function () {
     console.log("Video 5 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid5.onended = function () {
@@ -994,7 +994,7 @@ function initializeMultiVideo6Element() {
 
   multiVid6.onstalled = function () {
     console.log("Video 6 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid6.onended = function () {
@@ -1039,7 +1039,7 @@ function initializeMultiVideo7Element() {
 
   multiVid7.onstalled = function () {
     console.log("Video 7 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid7.onended = function () {
@@ -1084,7 +1084,7 @@ function initializeMultiVideo8Element() {
 
   multiVid8.onstalled = function () {
     console.log("Video 8 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid8.onended = function () {
@@ -1129,7 +1129,7 @@ function initializeMultiVideo9Element() {
 
   multiVid9.onstalled = function () {
     console.log("Video 9 stalled");
-    nextVideo();
+    stopWish();
   }
 
   multiVid9.onended = function () {
