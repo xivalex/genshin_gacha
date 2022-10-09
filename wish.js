@@ -56,6 +56,7 @@ let video;
 // ********************
 // MULTI-WISH ELEMENTS
 // ********************
+let wishongoing = false;
 let startVid;
 let multiVid1;
 let multiVid2;
@@ -67,6 +68,17 @@ let multiVid7;
 let multiVid8;
 let multiVid9;
 let multiVid10;
+let startVidplay = false;
+let multiVid1play = false;
+let multiVid2play = false;
+let multiVid3play = false;
+let multiVid4play = false;
+let multiVid5play = false;
+let multiVid6play = false;
+let multiVid7play = false;
+let multiVid8play = false;
+let multiVid9play = false;
+let multiVid10play = false;
 let multiPoints = 0;
 let multiSummary = [];
 
@@ -77,7 +89,6 @@ let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
 let allowed = true;
-let ongoingWish = false;
 let displayName;
 let userInfo = {};
 let randomVid = {};
@@ -180,7 +191,7 @@ SRPool.push(
     dbname: 'Primordial Jade Cutter'
   },
   {
-    path: `/5star_Jean_VP8.webm`,
+    path: `/5star_jean_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Jean",
     dbname: 'Jean'
@@ -198,13 +209,13 @@ SRPool.push(
     dbname: 'Klee'
   },
   {
-    path: `/5star_Mona_VP8.webm`,
+    path: `/5star_mona_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Mona",
     dbname: 'Mona'
   },
   {
-    path: `/5star_Qiqi_VP8.webm`,
+    path: `/5star_qiqi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Qiqi",
     dbname: 'Qiqi'
@@ -234,7 +245,7 @@ SRPool.push(
     dbname: 'Tartaglia'
   },
   {
-    path: `/5star_Tighnari_VP8.webm`,
+    path: `/5star_tighnari_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Tighnari",
     dbname: 'Tighnari'
@@ -628,6 +639,10 @@ function initializeVideoElement() {
           wishPool = [];
           multiSummary = [];
           videoPath = '';
+          wishongoing = false;
+          startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+          multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+          multiVid10play = false;
           allowed = true;
       });
     } else {
@@ -642,6 +657,10 @@ function initializeVideoElement() {
           wishPool = [];
           multiSummary = [];
           videoPath = '';
+          wishongoing = false;
+          startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+          multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+          multiVid10play = false;
           allowed = true;
       });
     }
@@ -698,7 +717,7 @@ function initializeMultiVideoStartElement() {
 
   startVid.oncanplaythrough = function () {
     console.log("Start Video can now play");
-    startVid.play();
+    startVidplay = true;
   }
 
   startVid.onplaying = function () {
@@ -741,6 +760,7 @@ function initializeMultiVideo1Element() {
 
   multiVid1.oncanplaythrough = function () {
     console.log("Video 1 can now play");
+    multiVid1play = true;
   }
 
   multiVid1.onplaying = function () {
@@ -785,6 +805,7 @@ function initializeMultiVideo2Element() {
 
   multiVid2.oncanplaythrough = function () {
     console.log("Video 2 can now play");
+    multiVid2play = true;
   }
 
   multiVid2.onplaying = function () {
@@ -829,6 +850,7 @@ function initializeMultiVideo3Element() {
 
   multiVid3.oncanplaythrough = function () {
     console.log("Video 3 can now play");
+    multiVid3play = true;
   }
 
   multiVid3.onplaying = function () {
@@ -873,6 +895,7 @@ function initializeMultiVideo4Element() {
 
   multiVid4.oncanplaythrough = function () {
     console.log("Video 4 can now play");
+    multiVid4play = true;
   }
 
   multiVid4.onplaying = function () {
@@ -917,6 +940,7 @@ function initializeMultiVideo5Element() {
 
   multiVid5.oncanplaythrough = function () {
     console.log("Video 5 can now play");
+    multiVid5play = true;
   }
 
   multiVid5.onplaying = function () {
@@ -961,6 +985,7 @@ function initializeMultiVideo6Element() {
 
   multiVid6.oncanplaythrough = function () {
     console.log("Video 6 can now play");
+    multiVid6play = true;
   }
 
   multiVid6.onplaying = function () {
@@ -1005,6 +1030,7 @@ function initializeMultiVideo7Element() {
 
   multiVid7.oncanplaythrough = function () {
     console.log("Video 7 can now play");
+    multiVid7play = true;
   }
 
   multiVid7.onplaying = function () {
@@ -1049,6 +1075,7 @@ function initializeMultiVideo8Element() {
 
   multiVid8.oncanplaythrough = function () {
     console.log("Video 8 can now play");
+    multiVid8play = true;
   }
 
   multiVid8.onplaying = function () {
@@ -1093,6 +1120,7 @@ function initializeMultiVideo9Element() {
 
   multiVid9.oncanplaythrough = function () {
     console.log("Video 9 can now play");
+    multiVid9play = true;
   }
 
   multiVid9.onplaying = function () {
@@ -1125,6 +1153,7 @@ function initializeMultiVideo10Element() {
 
   multiVid10.oncanplaythrough = function () {
     console.log("Video 10 can now play");
+    multiVid10play = true;
   }
 
   multiVid10.onplaying = function () {
@@ -1170,6 +1199,10 @@ function stopWish() {
     wishPool = [];
     videoPath = '';
     allowed = true;
+    wishongoing = false;
+    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+    multiVid10play = false;
   });
 
 }
@@ -1221,6 +1254,42 @@ var intervalIdDb = setInterval(async function() {
 
 }, 60000);
 
+function startMulti() {
+  // Show the element
+  startVid.removeAttribute("hidden");
+  startVid.play();
+  wishongoing = true;
+  console.log('All Videos are now playable!');
+}
+var intervalIdPlayAll = setInterval(async function() {
+
+  if (!allowed && !wishongoing) {
+    console.log('Waiting for all videos to be playable...');
+    switch (wishcount) {
+      case '1': wishongoing = true; break;
+      case '2':
+        if (startVidplay && multiVid1play && multiVid2play) startMulti(); break;
+      case '3':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play) startMulti(); break;
+      case '4':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play) startMulti(); break;
+      case '5':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play) startMulti(); break;
+      case '6':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play && multiVid6play) startMulti(); break;
+      case '7':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play && multiVid6play && multiVid7play) startMulti(); break;
+      case '8':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play && multiVid6play && multiVid7play && multiVid8play) startMulti(); break;
+      case '9':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play && multiVid6play && multiVid7play && multiVid8play && multiVid9play) startMulti(); break;
+      case '10':
+        if (startVidplay && multiVid1play && multiVid2play && multiVid3play && multiVid4play && multiVid5play && multiVid6play && multiVid7play && multiVid8play && multiVid9play && multiVid10play) startMulti(); break;
+    }
+  }
+
+}, 1000);
+
 var intervalIdWish = setInterval(async function() {
 
   // Check if there is no ongoing video
@@ -1250,6 +1319,10 @@ var intervalIdWish = setInterval(async function() {
       if (userInfo.points < wishcost) {
         sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points} | Required: ${wishcost}`);
         allowed = true;
+        wishongoing = false;
+        startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+        multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+        multiVid10play = false;
         return;
       }
 
@@ -1347,8 +1420,6 @@ function multiWish() {
     video.volume = volume / 100;
 
   } else {
-    // Show the element
-    startVid.removeAttribute("hidden");
 
     // Set the start of the video
     if (withSR) {
@@ -1551,7 +1622,10 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     multiSummary = [];
     wishPool = [];
     videoPath = '';
-    allowed = true;
+    wishongoing = false;
+    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+    multiVid10play = false;
   } else if (command === 'wishcheck') {
     if (isCooldown()) {return;}
     if (message === '') {
@@ -1597,7 +1671,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
 
     if (message === '') {
       queue.push({
-        wishcount: 1,
+        wishcount: '1',
         user: user
       })
     } else {
