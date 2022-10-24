@@ -286,6 +286,24 @@ SRPool.push(
     name: "★★★★★ Cyno",
     dbname: 'Cyno'
   },
+  {
+    path: `/5star_kok_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Key of Khaj-Nisut",
+    dbname: 'Key of Khaj-Nisut'
+  },
+  {
+    path: `/5star_nilou_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Nilou",
+    dbname: 'Nilou'
+  },
+  {
+    path: `/5star_skyward_blade_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Skyward Blade",
+    dbname: 'Skyward Blade'
+  },
 )
 
 RPool.push(
@@ -504,6 +522,24 @@ RPool.push(
     value: four_star_prize,
     name: "★★★★ Candace",
     dbname: 'Candace'
+  },
+  {
+    path: `/4star_eye_of_perception_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Eye of Perception",
+    dbname: 'Eye of Perception'
+  },
+  {
+    path: `/4star_wandering_evenstar_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Wandering Evenstar",
+    dbname: 'Wandering Evenstar'
+  },
+  {
+    path: `/4star_xiphos_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xiphos' Moonlight",
+    dbname: "Xiphos' Moonlight"
   },
 )
 
@@ -1177,27 +1213,30 @@ function initializeMultiVideo10Element() {
 function stopWish() {
   console.log('Ending wish session...')
 
-  addPoints(displayName, multiPoints)
-  .then(response => response.json())
-  .then(_data => {
-    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
-    if (multiSummary.length != 0) {
-      result += ` | ${multiSummary}`
-    }
-    console.log(result)
-    sendChatMessage(result);
-    wishcount = 0;
-    currentCount = 1;
-    multiPoints = 0;
-    multiSummary = [];
-    wishPool = [];
-    videoPath = '';
-    allowed = true;
-    wishongoing = false;
-    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-    multiVid10play = false;
-  });
+  // execute only when a wish is ongoing
+  if (!allowed) {
+    addPoints(displayName, multiPoints)
+    .then(response => response.json())
+    .then(_data => {
+      let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
+      if (multiSummary.length != 0) {
+        result += ` | ${multiSummary}`
+      }
+      console.log(result)
+      sendChatMessage(result);
+      wishcount = 0;
+      currentCount = 1;
+      multiPoints = 0;
+      multiSummary = [];
+      wishPool = [];
+      videoPath = '';
+      allowed = true;
+      wishongoing = false;
+      startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+      multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+      multiVid10play = false;
+    });
+  }
 
 }
 
@@ -1258,7 +1297,7 @@ function startMulti() {
 var intervalIdPlayAll = setInterval(async function() {
 
   if (!allowed && !wishongoing) {
-    console.log('Waiting for all videos to be playable...');
+    console.log('Waiting for all videos to be playable...' + wishcount);
     switch (wishcount) {
       case '1': wishongoing = true; break;
       case '2':
@@ -1669,13 +1708,14 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
         user: user
       })
     } else {
-      let verify = Number(message);
+      // remove decimal value if any
+      let verify = Number(message) | 0;
       // Check if message is a number, within 1~10 range and it is an integer
       if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
         sendChatMessage(`${user}, please input blank(1 wish) or 1~10 only`);
       } else {
         queue.push({
-          wishcount: message,
+          wishcount: verify.toString(),
           user: user
         })
       }

@@ -194,11 +194,11 @@ Name | Rarity/Availability | Contributor
  Favonius Codex | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  The Widsith | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Sacrificial Fragments | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Eye of Perception | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Eye of Perception | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Wine and Song | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Xiphos' Moonlight | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Xiphos' Moonlight | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Makhaira Aquamarine | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
- Wandering Evenstar | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Wandering Evenstar | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Lisa | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Barbara | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=aJiqaAsvRk8)
  Kaeya | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=pRC4XW1UsOI)
@@ -227,8 +227,9 @@ Name | Rarity/Availability | Contributor
  Collei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=rSLkzV7hbMI)
  Dori | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=e37Acs9rq44)
  Candace | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
+ Layla | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Summit Shaper | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Primordial Jade Cutter | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Xeno Archive](https://www.youtube.com/watch?v=-wK-y6RC1SQ)
@@ -257,8 +258,9 @@ Name | Rarity/Availability | Contributor
  Everlasting Moonglow | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Kagura's Verity | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Hunter's Path | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Key of Khaj-Nisut | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Key of Khaj-Nisut | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Staff of the Scarlet Sands | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ A Thousand Floating Dreams | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Kamisato Ayaka | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=xs5GqPZjieU)
  Jean | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BAnbfpGsJyQ)
  Diluc | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=cRnrz3DQHDQ)
@@ -284,5 +286,6 @@ Name | Rarity/Availability | Contributor
  Shenhe | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [TheGamicissist](https://www.youtube.com/watch?v=4SbsZ7Qu1sg)
  Kamisato Ayato | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=Xl3LD2pJusA)
  Tighnari | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Syan](https://www.youtube.com/watch?v=kyUptk875eA)
- Nilou | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Nilou | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Cyno | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
+ Nahida | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
