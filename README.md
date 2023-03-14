@@ -18,26 +18,41 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 
 > *Also, I do accept (and/or request) contributions in terms of the videos that can be used for the gacha. Unfortunately.. I cannot pull for **EVERY SINGLE CHARACTER OR WEAPON** that can be showcased in the simulator..*
 
-## Pre-requisite ##
+## Changelogs ##
 
-#### Account information linked in Streamelements
-> *Current implementation makes use of StreamElements to manage the chats and/or points. I could consider adding a version or parameter so that JWT Token **will not be required** if there will be a demand for it*
-1. Go to [StreamElements Dashboard](https://streamelements.com/dashboard) and click the account icon in the upper-right of the display
+### `v1.0` ###
+> Initial implementation and base database
 
-![AccountInfo](https://i.imgur.com/BrL7emT.png)
+### `v1.1` ###
+> Added characters and weapons to be obtained
+> Type | Rarity | Name
+> --- | --- | ---
+> Character | 5★ | Nilou
+> Weapon | 4★ | Eye of Perception
+> Weapon | 4★ | Wandering Evenstar
+> Weapon | 4★ | Xiphos' Moonlight
+> Weapon | 5★ | Skyward Blade
+> Weapon | 5★ | Key of Khaj-Nisut
 
-2. In the `CHANNELS` tab, click the `Show secrets` button to display account-specific information
-> *Needless to say, information in this section is **PRIVATE** and should not be shared to anyone. The `Account ID` and `JWT Token` will be required by the program to give access to your StreamElements*
-
-![Secrets](https://i.imgur.com/jkVz5kz.png)
+### `v1.2` ###
+> Added characters and weapons to be obtained
+> Type | Rarity | Name
+> --- | --- | ---
+> Character | 4★ | Faruzan
+> Character | 4★ | Yaoyao
+> Character | 4★ | Layla
+> Character | 4★ | Shikonoin Heizou
+> Character | 5★ | Nahida
+> Character | 5★ | Wanderer
+> Character | 5★ | Alhaitham
+> Weapon | 5★ | Tulaytullah's Remembrance
+> Weapon | 5★ | Skyward Spine
 
 ## Instruction ##
 
 1. In your preferred broardcasting software (e.g. OBS), add a browser source and use the link: https://xivalex.github.io/genshin_gacha
 
 2. The following are the URL parameters that can be used to customize the behavior of the simulator
-- [**Required**] `jwt` : Your JWT Token
-- [**Required**] `id` : Your Account ID
 - [**Required**] `channel` : Your Twitch channel name
 - `volume` : Adjust the volume of the video (*Default: 100*)
 - `sr` : Adjust the percentage on winning a 5★ against a 4★ (*Default: 1% to get a 5★*)
@@ -221,13 +236,17 @@ Name | Rarity/Availability | Contributor
  Sayu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=KNqI-GOuEIc)
  Gorou | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=yuOUjd6P8fw)
  Kujou Sara | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=JHMs-32U29M)
- Shikonoin Heizou | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Shikonoin Heizou | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Stealthless](https://www.youtube.com/watch?v=gYMdE8bGXu0)
  Yun jin | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Kuki Shinobu | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BFuZWFPN_fQ)
  Collei | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=rSLkzV7hbMI)
  Dori | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=e37Acs9rq44)
  Candace | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
- Layla | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Layla | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Stealthless](https://www.youtube.com/watch?v=gYMdE8bGXu0)
+ Faruzan | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Kekvin](https://www.youtube.com/watch?v=24-KpKwzGG8)
+ Yaoyao | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [Rihigh](https://www.youtube.com/watch?v=AT8m5Q6BcvE)
+ Mika | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Kaveh | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
@@ -241,7 +260,7 @@ Name | Rarity/Availability | Contributor
  The Unforged | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Redhorn Stonethresher | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Staff of Homa | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
- Skyward Spine | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Skyward Spine | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Nongabe](https://www.youtube.com/watch?v=RIoOkmMqArA)
  Vortex Vanquisher | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Primordial Jade-winged Spear | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Calamity Queller | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
@@ -261,6 +280,9 @@ Name | Rarity/Availability | Contributor
  Key of Khaj-Nisut | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Staff of the Scarlet Sands | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  A Thousand Floating Dreams | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Tulaytullah's Remembrance | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Nongabe](https://www.youtube.com/watch?v=RIoOkmMqArA)
+ Light of Foliar Incision | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Beacon of the Reed Sea | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Kamisato Ayaka | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=xs5GqPZjieU)
  Jean | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=BAnbfpGsJyQ)
  Diluc | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Genshin Impact Wishes](https://www.youtube.com/watch?v=cRnrz3DQHDQ)
@@ -288,4 +310,8 @@ Name | Rarity/Availability | Contributor
  Tighnari | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Syan](https://www.youtube.com/watch?v=kyUptk875eA)
  Nilou | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Cyno | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Kekvin](https://www.youtube.com/watch?v=eHe6nCreb_c)
- Nahida | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Nahida | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Yuan Chu](https://www.youtube.com/watch?v=RuFN5cO8JVE)
+ Wanderer | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [Dark Narga](https://www.youtube.com/watch?v=DyVXPY2yia0)
+ Alhaitham | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-yellow) | [Rihigh](https://www.youtube.com/watch?v=AT8m5Q6BcvE)
+ Dehya | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
+ Baizhu | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |

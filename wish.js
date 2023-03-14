@@ -34,9 +34,9 @@ import { getDatabase, ref, child, get, set, update } from "https://www.gstatic.c
 // ***************
 // DEFAULT VALUES
 // ***************
-let __JWT_TOKEN__ = "";
-let __CHANNEL_ID__ = "";
 let __CHANNEL_NAME__ = "";
+let __CHANNEL_UID__ = "";
+let errFlg = false;
 
 let volume = 100 // 0 ~ 100 value only
 let sr_percentage = 1 // % on winning a 5★
@@ -47,6 +47,7 @@ let five_star_prize = 2000;
 let four_star_prize = 300;
 let three_star_prize = 0;
 let pity = 30;
+let dropsRewards = 1600;
 
 // ********************
 // SINGLE-WISH ELEMENTS
@@ -83,16 +84,17 @@ let multiPoints = 0;
 let multiSummary = [];
 
 // ***********
-// DEFINITIONS
+// GLOBAL DEFS
 // ***********
 let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
 let allowed = true;
+let drops = false;
 let displayName;
-let userInfo = {};
 let randomVid = {};
 let queue = [];
+let dropsQueue = [];
 let dbRef = {};
 let wishcount = 0;
 let wishPool = [];
@@ -100,7 +102,662 @@ let withSR = false;
 let videoPath;
 let delay = 5000;
 let lastCommand = 0;
+let dropsOnTime = 0;
 let currentCount = 1;
+let version = 1.2;
+
+SRPool.push(
+  {
+    path: `/5star_albedo_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Albedo",
+    altname: ["albedo"],
+    dbname: 'Albedo'
+  },
+  {
+    path: `/5star_eula_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Eula",
+    altname: ["eula"],
+    dbname: 'Eula'
+  },
+  {
+    path: `/5star_keqing_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Keqing",
+    altname: ["keqing"],
+    dbname: 'Keqing'
+  },
+  {
+    path: `/5star_kokomi_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Sangonomiya Kokomi",
+    altname: ["sangonomiya kokomi", "kokomi"],
+    dbname: 'Sangonomiya Kokomi'
+  },
+  {
+    path: `/5star_yae_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Yae Miko",
+    altname: ["yae miko", "yae", "miko"],
+    dbname: 'Yae Miko'
+  },
+  {
+    path: `/5star_ayato_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kamisato Ayato",
+    altname: ["kamisato ayato", "ayato"],
+    dbname: 'Kamisato Ayato'
+  },
+  {
+    path: `/5star_ayaka_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kamisato Ayaka",
+    altname: ["kamisato ayaka", "ayaka"],
+    dbname: 'Kamisato Ayaka'
+  },
+  {
+    path: `/5star_diluc_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Diluc",
+    altname: ["diluc"],
+    dbname: 'Diluc'
+  },
+  {
+    path: `/5star_ganyu_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Ganyu",
+    altname: ["ganyu"],
+    dbname: 'Ganyu'
+  },
+  {
+    path: `/5star_hutao_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Hu Tao",
+    altname: ["hu tao", "hutao"],
+    dbname: 'Hu Tao'
+  },
+  {
+    path: `/5star_itto_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Arataki Itto",
+    altname: ["arataki itto", "itto"],
+    dbname: 'Arataki Itto'
+  },
+  {
+    path: `/5star_jade_cutter_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Primordial Jade Cutter",
+    altname: ["primordial jade cutter", "jade cutter"],
+    dbname: 'Primordial Jade Cutter'
+  },
+  {
+    path: `/5star_jean_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Jean",
+    altname: ["jean"],
+    dbname: 'Jean'
+  },
+  {
+    path: `/5star_kazuha_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Kaedehara Kazuha",
+    altname: ["kaedehara kazuha", "kazuha"],
+    dbname: 'Kaedehara Kazuha'
+  },
+  {
+    path: `/5star_klee_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Klee",
+    altname: ["klee"],
+    dbname: 'Klee'
+  },
+  {
+    path: `/5star_mona_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Mona",
+    altname: ["mona"],
+    dbname: 'Mona'
+  },
+  {
+    path: `/5star_qiqi_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Qiqi",
+    altname: ["qiqi"],
+    dbname: 'Qiqi'
+  },
+  {
+    path: `/5star_raiden_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Raiden Shogun",
+    altname: ["raiden shogun", "raiden"],
+    dbname: 'Raiden Shogun'
+  },
+  {
+    path: `/5star_shenhe_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Shenhe",
+    altname: ["shenhe"],
+    dbname: 'Shenhe'
+  },
+  {
+    path: `/5star_skyward_pride_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Skyward Pride",
+    altname: ["skyward pride"],
+    dbname: 'Skyward Pride'
+  },
+  {
+    path: `/5star_tartaglia_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Tartaglia",
+    altname: ["tartaglia", "childe"],
+    dbname: 'Tartaglia'
+  },
+  {
+    path: `/5star_tighnari_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Tighnari",
+    altname: ["tighnari"],
+    dbname: 'Tighnari'
+  },
+  {
+    path: `/5star_venti_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Venti",
+    altname: ["venti"],
+    dbname: 'Venti'
+  },
+  {
+    path: `/5star_xiao_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Xiao",
+    altname: ["xiao"],
+    dbname: 'Xiao'
+  },
+  {
+    path: `/5star_yelan_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Yelan",
+    altname: ["yelan"],
+    dbname: 'Yelan'
+  },
+  {
+    path: `/5star_yoimiya_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Yoimiya",
+    altname: ["yoimiya"],
+    dbname: 'Yoimiya'
+  },
+  {
+    path: `/5star_zhongli_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Zhongli",
+    altname: ["zhongli"],
+    dbname: 'Zhongli'
+  },
+  {
+    path: `/5star_cyno_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Cyno",
+    altname: ["cyno"],
+    dbname: 'Cyno'
+  },
+  {
+    path: `/5star_kok_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Key of Khaj-Nisut",
+    altname: ["key of khaj-nisut", "key of khaj nisut", "kok"],
+    dbname: 'Key of Khaj-Nisut'
+  },
+  {
+    path: `/5star_nilou_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Nilou",
+    altname: ["nilou"],
+    dbname: 'Nilou'
+  },
+  {
+    path: `/5star_skyward_blade_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Skyward Blade",
+    altname: ["skyward blade"],
+    dbname: 'Skyward Blade'
+  },
+  {
+    path: `/5star_alhaitham_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Alhaitham",
+    altname: ["alhaitham"],
+    dbname: 'Alhaitham'
+  },
+  {
+    path: `/5star_nahida_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Nahida",
+    altname: ["nahida"],
+    dbname: 'Nahida'
+  },
+  {
+    path: `/5star_wanderer_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Wanderer",
+    altname: ["wanderer"],
+    dbname: 'Wanderer'
+  },
+  {
+    path: `/5star_skyward_spine_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Skyward Spine",
+    altname: ["skyward spine"],
+    dbname: 'Skyward Spine'
+  },
+  {
+    path: `/5star_tulaytullah_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Tulaytullah's Remembrance",
+    altname: ["tulaytullah's remembrance", "tulaytullah", "wanderer bell"],
+    dbname: "Tulaytullah's Remembrance"
+  },
+)
+
+RPool.push(
+  {
+    path: `/4star_bennett_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Bennett",
+    altname: ["bennett"],
+    dbname: 'Bennett'
+  },
+  {
+    path: `/4star_dbane_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Dragon's Bane",
+    altname: ["dragon's bane", "dbane", "dragons bane"],
+    dbname: "Dragon's Bane"
+  },
+  {
+    path: `/4star_diona_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Diona",
+    altname: ["diona"],
+    dbname: 'Diona'
+  },
+  {
+    path: `/4star_fav_warbow_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Favonius Warbow",
+    altname: ["favonius warbow", "favbow", "favonius bow"],
+    dbname: 'Favonius Warbow'
+  },
+  {
+    path: `/4star_flute_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ The Flute",
+    altname: ["the flute", "flute"],
+    dbname: 'The Flute'
+  },
+  {
+    path: `/4star_lions_roar_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Lion's Roar",
+    altname: ["lion's roar", "lions roar"],
+    dbname: "Lion's Roar"
+  },
+  {
+    path: `/4star_ning_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Ningguang",
+    altname: ["ningguang", "ning"],
+    dbname: 'Ningguang'
+  },
+  {
+    path: `/4star_noelle_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Noelle",
+    altname: ["noelle"],
+    dbname: 'Noelle'
+  },
+  {
+    path: `/4star_rainslasher_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Rainslasher",
+    altname: ["rainslasher", "painslasher"],
+    dbname: 'Rainslasher'
+  },
+  {
+    path: `/4star_rosaria_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Rosaria",
+    altname: ["rosaria"],
+    dbname: 'Rosaria'
+  },
+  {
+    path: `/4star_yunjin_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Yun Jin",
+    altname: ["yun jin", "yunjin"],
+    dbname: 'Yun Jin'
+  },
+  {
+    path: `/4star_rust_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Rust",
+    altname: ["rust"],
+    dbname: 'Rust'
+  },
+  {
+    path: `/4star_sac_greatsword_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sacrificial Greatsword",
+    altname: ["sacrificial greatsword", "sac greatsword"],
+    dbname: 'Sacrificial Greatsword'
+  },
+  {
+    path: `/4star_sacrificial_sword_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sacrificial Sword",
+    altname: ["sacrificial sword", "sacsword", "sac sword"],
+    dbname: 'Sacrificial Sword'
+  },
+  {
+    path: `/4star_stringless_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ The Stringless",
+    altname: ["the stringless", "stringless"],
+    dbname: 'The Stringless'
+  },
+  {
+    path: `/4star_the_bell_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ The Bell",
+    altname: ["the bell"],
+    dbname: 'The Bell'
+  },
+  {
+    path: `/4star_thoma_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Thoma",
+    altname: ["thoma"],
+    dbname: 'Thoma'
+  },
+  {
+    path: `/4star_xingqiu_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xingqiu",
+    altname: ["xingqiu", "xq"],
+    dbname: 'Xingqiu'
+  },
+  {
+    path: `/4star_xinyan_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xinyan",
+    altname: ["xinyan"],
+    dbname: 'Xinyan'
+  },
+  {
+    path: `/4star_amber_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Amber",
+    altname: ["amber"],
+    dbname: 'Amber'
+  },
+  {
+    path: `/4star_barbara_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Barbara",
+    altname: ["barbara"],
+    dbname: 'Barbara'
+  },
+  {
+    path: `/4star_beidou_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Beidou",
+    altname: ["beidou"],
+    dbname: 'Beidou'
+  },
+  {
+    path: `/4star_chongyun_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Chongyun",
+    altname: ["chongyun"],
+    dbname: 'Chongyun'
+  },
+  {
+    path: `/4star_collei_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Collei",
+    altname: ["collei"],
+    dbname: 'Collei'
+  },
+  {
+    path: `/4star_dori_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Dori",
+    altname: ["dori"],
+    dbname: 'Dori'
+  },
+  {
+    path: `/4star_fischl_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Fischl",
+    altname: ["fishchl", "fish"],
+    dbname: 'Fischl'
+  },
+  {
+    path: `/4star_gorou_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Gorou",
+    altname: ["gorou"],
+    dbname: 'Gorou'
+  },
+  {
+    path: `/4star_kaeya_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kaeya",
+    altname: ["kaeya"],
+    dbname: 'Kaeya'
+  },
+  {
+    path: `/4star_kuki_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kuki Shinobu",
+    altname: ["kuki shinobu", "kuki", "shinobu"],
+    dbname: 'Kuki Shinobu'
+  },
+  {
+    path: `/4star_yanfei_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Yanfei",
+    altname: ["yanfei", "yan fei"],
+    dbname: 'Yanfei'
+  },
+  {
+    path: `/4star_razor_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Razor",
+    altname: ["razor"],
+    dbname: 'Razor'
+  },
+  {
+    path: `/4star_sara_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Kujou Sara",
+    altname: ["kujou sara", "sara", "kujou"],
+    dbname: 'Kujou Sara'
+  },
+  {
+    path: `/4star_sayu_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sayu",
+    altname: ["sayu"],
+    dbname: 'Sayu'
+  },
+  {
+    path: `/4star_sucrose_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Sucrose",
+    altname: ["sucrose"],
+    dbname: 'Sucrose'
+  },
+  {
+    path: `/4star_xiangling_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xiangling",
+    altname: ["xiangling"],
+    dbname: 'Xiangling'
+  },
+  {
+    path: `/4star_candace_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Candace",
+    altname: ["candace"],
+    dbname: 'Candace'
+  },
+  {
+    path: `/4star_eye_of_perception_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Eye of Perception",
+    altname: ["eye of perception", "eye", "eop"],
+    dbname: 'Eye of Perception'
+  },
+  {
+    path: `/4star_wandering_evenstar_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Wandering Evenstar",
+    altname: ["wandering evenstar", "evenstar"],
+    dbname: 'Wandering Evenstar'
+  },
+  {
+    path: `/4star_xiphos_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Xiphos' Moonlight",
+    altname: ["xiphos' moonlight", "xiphos"],
+    dbname: "Xiphos' Moonlight"
+  },
+  {
+    path: `/4star_faruzan_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Faruzan",
+    altname: ["faruzan"],
+    dbname: "Faruzan"
+  },
+  {
+    path: `/4star_heizou_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Shikonoin Heizou",
+    altname: ["shikonoin heizou", "heizou"],
+    dbname: "Shikonoin Heizou"
+  },
+  {
+    path: `/4star_layla_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Layla",
+    altname: ["layla"],
+    dbname: "Layla"
+  },
+  {
+    path: `/4star_yaoyao_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Yaoyao",
+    altname: ["yaoyao", "yao yao"],
+    dbname: "Yaoyao"
+  },
+)
+
+CPool.push(
+  {
+    path: `/3star_black_tassel_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Black Tassel",
+    altname: ["black tassel"],
+    dbname: 'Black Tassel'
+  },
+  {
+    path: `/3star_bloodstained_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Bloodtainted Greatsword",
+    altname: ["bloodtainted greatsword", "bloodstained greatsword", "bloodtainted", "bloodstained"],
+    dbname: 'Bloodtainted Greatsword'
+  },
+  {
+    path: `/3star_cool_steel_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Cool Steel",
+    altname: ["cool steel"],
+    dbname: 'Cool Steel'
+  },
+  {
+    path: `/3star_debate_club_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Debate Club",
+    altname: ["debate club"],
+    dbname: 'Debate Club'
+  },
+  {
+    path: `/3star_emerald_orb_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Emerald Orb",
+    altname: ["emerald orb"],
+    dbname: 'Emerald Orb'
+  },
+  {
+    path: `/3star_ferrous_shadow_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Ferrous Shadow",
+    altname: ["ferrou shadow", "ferous shadow"],
+    dbname: 'Ferrous Shadow'
+  },
+  {
+    path: `/3star_hod_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Harbinger of Dawn",
+    altname: ["harbinger of dawn", "harbringer of dawn", "hod"],
+    dbname: 'Harbinger of Dawn'
+  },
+  {
+    path: `/3star_magic_guide_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Magic Guide",
+    altname: ["magic guide"],
+    dbname: 'Magic Guide'
+  },
+  {
+    path: `/3star_raven_bow_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Raven Bow",
+    altname: ["raven bow"],
+    dbname: 'Raven Bow'
+  },
+  {
+    path: `/3star_sharpshooter_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Sharpshooter's Oath",
+    altname: ["sharpshooter's oath", "sharpshooter oath"],
+    dbname: "Sharpshooter's Oath"
+  },
+  {
+    path: `/3star_skyrider_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Skyrider Sword",
+    altname: ["skyrider sword"],
+    dbname: 'Skyrider Sword'
+  },
+  {
+    path: `/3star_slingshot_temp_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Slingshot",
+    altname: ["slingshot"],
+    dbname: 'Slingshot'
+  },
+  {
+    path: `/3star_ttds_VP8.webm`,
+    value: three_star_prize,
+    name: "★★★ Thrilling Tales of Dragon Slayers",
+    altname: ["thrilling tales of dragon slayers", "ttds"],
+    dbname: 'Thrilling Tales of Dragon Slayers'
+  },
+)
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm8SiQi5dROrkw32MZnHwY68X1kEVo-H4",
@@ -116,517 +773,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// TBD: Automate retrieve file name/path/value (maybe..)
-SRPool.push(
-  {
-    path: `/5star_albedo_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Albedo",
-    dbname: 'Albedo'
-  },
-  {
-    path: `/5star_eula_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Eula",
-    dbname: 'Eula'
-  },
-  {
-    path: `/5star_keqing_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Keqing",
-    dbname: 'Keqing'
-  },
-  {
-    path: `/5star_kokomi_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Sangonomiya Kokomi",
-    dbname: 'Sangonomiya Kokomi'
-  },
-  {
-    path: `/5star_yae_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Yae Miko",
-    dbname: 'Yae Miko'
-  },
-  {
-    path: `/5star_ayato_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Kamisato Ayato",
-    dbname: 'Kamisato Ayato'
-  },
-  {
-    path: `/5star_ayaka_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Kamisato Ayaka",
-    dbname: 'Kamisato Ayaka'
-  },
-  {
-    path: `/5star_diluc_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Diluc",
-    dbname: 'Diluc'
-  },
-  {
-    path: `/5star_ganyu_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Ganyu",
-    dbname: 'Ganyu'
-  },
-  {
-    path: `/5star_hutao_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Hu Tao",
-    dbname: 'Hu Tao'
-  },
-  {
-    path: `/5star_itto_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Arataki Itto",
-    dbname: 'Arataki Itto'
-  },
-  {
-    path: `/5star_jade_cutter_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Primordial Jade Cutter",
-    dbname: 'Primordial Jade Cutter'
-  },
-  {
-    path: `/5star_jean_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Jean",
-    dbname: 'Jean'
-  },
-  {
-    path: `/5star_kazuha_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Kaedehara Kazuha",
-    dbname: 'Kaedehara Kazuha'
-  },
-  {
-    path: `/5star_klee_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Klee",
-    dbname: 'Klee'
-  },
-  {
-    path: `/5star_mona_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Mona",
-    dbname: 'Mona'
-  },
-  {
-    path: `/5star_qiqi_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Qiqi",
-    dbname: 'Qiqi'
-  },
-  {
-    path: `/5star_raiden_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Raiden Shogun",
-    dbname: 'Raiden Shogun'
-  },
-  {
-    path: `/5star_shenhe_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Shenhe",
-    dbname: 'Shenhe'
-  },
-  {
-    path: `/5star_skyward_pride_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Skyward Pride",
-    dbname: 'Skyward Pride'
-  },
-  {
-    path: `/5star_tartaglia_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Tartaglia",
-    dbname: 'Tartaglia'
-  },
-  {
-    path: `/5star_tighnari_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Tighnari",
-    dbname: 'Tighnari'
-  },
-  {
-    path: `/5star_venti_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Venti",
-    dbname: 'Venti'
-  },
-  {
-    path: `/5star_xiao_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Xiao",
-    dbname: 'Xiao'
-  },
-  {
-    path: `/5star_yelan_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Yelan",
-    dbname: 'Yelan'
-  },
-  {
-    path: `/5star_yoimiya_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Yoimiya",
-    dbname: 'Yoimiya'
-  },
-  {
-    path: `/5star_zhongli_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Zhongli",
-    dbname: 'Zhongli'
-  },
-  {
-    path: `/5star_cyno_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Cyno",
-    dbname: 'Cyno'
-  },
-  {
-    path: `/5star_kok_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Key of Khaj-Nisut",
-    dbname: 'Key of Khaj-Nisut'
-  },
-  {
-    path: `/5star_nilou_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Nilou",
-    dbname: 'Nilou'
-  },
-  {
-    path: `/5star_skyward_blade_VP8.webm`,
-    value: five_star_prize,
-    name: "★★★★★ Skyward Blade",
-    dbname: 'Skyward Blade'
-  },
-)
-
-RPool.push(
-  {
-    path: `/4star_bennett_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Bennett",
-    dbname: 'Bennett'
-  },
-  {
-    path: `/4star_dbane_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Dragon's Bane",
-    dbname: "Dragon's Bane"
-  },
-  {
-    path: `/4star_diona_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Diona",
-    dbname: 'Diona'
-  },
-  {
-    path: `/4star_fav_warbow_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Favonius Warbow",
-    dbname: 'Favonius Warbow'
-  },
-  {
-    path: `/4star_flute_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ The Flute",
-    dbname: 'The Flute'
-  },
-  {
-    path: `/4star_lions_roar_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Lion's Roar",
-    dbname: "Lion's Roar"
-  },
-  {
-    path: `/4star_ning_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Ningguang",
-    dbname: 'Ningguang'
-  },
-  {
-    path: `/4star_noelle_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Noelle",
-    dbname: 'Noelle'
-  },
-  {
-    path: `/4star_rainslasher_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Rainslasher",
-    dbname: 'Rainslasher'
-  },
-  {
-    path: `/4star_rosaria_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Rosaria",
-    dbname: 'Rosaria'
-  },
-  {
-    path: `/4star_yunjin_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Yun Jin",
-    dbname: 'Yun Jin'
-  },
-  {
-    path: `/4star_rust_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Rust",
-    dbname: 'Rust'
-  },
-  {
-    path: `/4star_sac_greatsword_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Sacrificial Greatsword",
-    dbname: 'Sacrificial Greatsword'
-  },
-  {
-    path: `/4star_sacrificial_sword_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Sacrificial Sword",
-    dbname: 'Sacrificial Sword'
-  },
-  {
-    path: `/4star_stringless_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ The Stringless",
-    dbname: 'The Stringless'
-  },
-  {
-    path: `/4star_the_bell_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ The Bell",
-    dbname: 'The Bell'
-  },
-  {
-    path: `/4star_thoma_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Thoma",
-    dbname: 'Thoma'
-  },
-  {
-    path: `/4star_xingqiu_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Xingqiu",
-    dbname: 'Xingqiu'
-  },
-  {
-    path: `/4star_xinyan_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Xinyan",
-    dbname: 'Xinyan'
-  },
-  {
-    path: `/4star_amber_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Amber",
-    dbname: 'Amber'
-  },
-  {
-    path: `/4star_barbara_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Barbara",
-    dbname: 'Barbara'
-  },
-  {
-    path: `/4star_beidou_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Beidou",
-    dbname: 'Beidou'
-  },
-  {
-    path: `/4star_chongyun_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Chongyun",
-    dbname: 'Chongyun'
-  },
-  {
-    path: `/4star_collei_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Collei",
-    dbname: 'Collei'
-  },
-  {
-    path: `/4star_dori_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Dori",
-    dbname: 'Dori'
-  },
-  {
-    path: `/4star_fischl_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Fischl",
-    dbname: 'Fischl'
-  },
-  {
-    path: `/4star_gorou_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Gorou",
-    dbname: 'Gorou'
-  },
-  {
-    path: `/4star_kaeya_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Kaeya",
-    dbname: 'Kaeya'
-  },
-  {
-    path: `/4star_kuki_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Kuki Shinobu",
-    dbname: 'Kuki Shinobu'
-  },
-  {
-    path: `/4star_yanfei_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Yanfei",
-    dbname: 'Yanfei'
-  },
-  {
-    path: `/4star_razor_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Razor",
-    dbname: 'Razor'
-  },
-  {
-    path: `/4star_sara_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Kujou Sara",
-    dbname: 'Kujou Sara'
-  },
-  {
-    path: `/4star_sayu_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Sayu",
-    dbname: 'Sayu'
-  },
-  {
-    path: `/4star_sucrose_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Sucrose",
-    dbname: 'Sucrose'
-  },
-  {
-    path: `/4star_xiangling_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Xiangling",
-    dbname: 'Xiangling'
-  },
-  {
-    path: `/4star_candace_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Candace",
-    dbname: 'Candace'
-  },
-  {
-    path: `/4star_eye_of_perception_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Eye of Perception",
-    dbname: 'Eye of Perception'
-  },
-  {
-    path: `/4star_wandering_evenstar_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Wandering Evenstar",
-    dbname: 'Wandering Evenstar'
-  },
-  {
-    path: `/4star_xiphos_VP8.webm`,
-    value: four_star_prize,
-    name: "★★★★ Xiphos' Moonlight",
-    dbname: "Xiphos' Moonlight"
-  },
-)
-
-CPool.push(
-  {
-    path: `/3star_black_tassel_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Black Tassel",
-    dbname: 'Black Tassel'
-  },
-  {
-    path: `/3star_bloodstained_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Bloodtainted Greatsword",
-    dbname: 'Bloodtainted Greatsword'
-  },
-  {
-    path: `/3star_cool_steel_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Cool Steel",
-    dbname: 'Cool Steel'
-  },
-  {
-    path: `/3star_debate_club_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Debate Club",
-    dbname: 'Debate Club'
-  },
-  {
-    path: `/3star_emerald_orb_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Emerald Orb",
-    dbname: 'Emerald Orb'
-  },
-  {
-    path: `/3star_ferrous_shadow_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Ferrous Shadow",
-    dbname: 'Ferrous Shadow'
-  },
-  {
-    path: `/3star_hod_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Harbinger of Dawn",
-    dbname: 'Harbinger of Dawn'
-  },
-  {
-    path: `/3star_magic_guide_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Magic Guide",
-    dbname: 'Magic Guide'
-  },
-  {
-    path: `/3star_raven_bow_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Raven Bow",
-    dbname: 'Raven Bow'
-  },
-  {
-    path: `/3star_sharpshooter_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Sharpshooter's Oath",
-    dbname: "Sharpshooter's Oath"
-  },
-  {
-    path: `/3star_skyrider_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Skyrider Sword",
-    dbname: 'Skyrider Sword'
-  },
-  {
-    path: `/3star_slingshot_temp_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Slingshot",
-    dbname: 'Slingshot'
-  },
-  {
-    path: `/3star_ttds_VP8.webm`,
-    value: three_star_prize,
-    name: "★★★ Thrilling Tales of Dragon Slayers",
-    dbname: 'Thrilling Tales of Dragon Slayers'
-  },
-)
-
 function getDb() {
   const reference = ref(getDatabase());
-  get(child(reference, __CHANNEL_NAME__ )).then((snapshot) => {
+  get(child(reference, __CHANNEL_UID__ )).then((snapshot) => {
     if (snapshot.exists()) {
       console.log(snapshot.val());
       dbRef = snapshot.val();
@@ -634,14 +783,16 @@ function getDb() {
       // If this is the first time the streamer uses the simulator
       console.log("No data available");
       const db = getDatabase();
-      set(ref(db, __CHANNEL_NAME__ + '/' + __CHANNEL_NAME__), {
-        pity: 0
+      set(ref(db, __CHANNEL_UID__ + '/' + __CHANNEL_NAME__), {
+        pity: 0,
+        primogems: 0
       });
-      get(child(reference, __CHANNEL_NAME__ )).then((snapshot) => {
+      get(child(reference, __CHANNEL_UID__ )).then((snapshot) => {
         dbRef = snapshot.val();
       });
     }
   }).catch((error) => {
+    errFlg = true;
     console.error(error);
   });
 }
@@ -654,46 +805,25 @@ function initializeVideoElement() {
     video.setAttribute("hidden", "hidden");
 
     if (randomVid.value != 0) {
-      addPoints(displayName, randomVid.value)
-      .then(response => response.json())
-      .then(_data => {
-          let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
-          if (multiSummary.length != 0) {
-            result += ` | ${multiSummary}`
-          }
-          console.log(result);
-          sendChatMessage(result);
-          wishcount = 0;
-          currentCount = 1;
-          multiPoints = 0;
-          wishPool = [];
-          multiSummary = [];
-          videoPath = '';
-          wishongoing = false;
-          startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-          multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-          multiVid10play = false;
-          allowed = true;
-      });
-    } else {
-      getUser(displayName)
-      .then(response => response.json())
-      .then(_data => {
-        console.log(`${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.points}) | pity: ${dbRef[displayName].pity}`);
-          sendChatMessage(`${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.points}) | pity: ${dbRef[displayName].pity}`);
-          wishcount = 0;
-          currentCount = 1;
-          multiPoints = 0;
-          wishPool = [];
-          multiSummary = [];
-          videoPath = '';
-          wishongoing = false;
-          startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-          multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-          multiVid10play = false;
-          allowed = true;
-      });
+      addPoints(randomVid.value);
     }
+    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
+    if (multiSummary.length != 0) {
+      result += ` | ${multiSummary}`
+    }
+    // console.log(result);
+    sendChatMessage(result);
+    wishcount = 0;
+    currentCount = 1;
+    multiPoints = 0;
+    wishPool = [];
+    multiSummary = [];
+    videoPath = '';
+    wishongoing = false;
+    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+    multiVid10play = false;
+    allowed = true;
   }
   video = document.getElementById("video");
 
@@ -1215,27 +1345,24 @@ function stopWish() {
 
   // execute only when a wish is ongoing
   if (!allowed) {
-    addPoints(displayName, multiPoints)
-    .then(response => response.json())
-    .then(_data => {
-      let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${_data.newAmount}) | pity: ${dbRef[displayName].pity}`
-      if (multiSummary.length != 0) {
-        result += ` | ${multiSummary}`
-      }
-      console.log(result)
-      sendChatMessage(result);
-      wishcount = 0;
-      currentCount = 1;
-      multiPoints = 0;
-      multiSummary = [];
-      wishPool = [];
-      videoPath = '';
-      allowed = true;
-      wishongoing = false;
-      startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-      multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-      multiVid10play = false;
-    });
+    addPoints(multiPoints);
+    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
+    if (multiSummary.length != 0) {
+      result += ` | ${multiSummary}`
+    }
+    console.log(result)
+    sendChatMessage(result);
+    wishcount = 0;
+    currentCount = 1;
+    multiPoints = 0;
+    multiSummary = [];
+    wishPool = [];
+    videoPath = '';
+    allowed = true;
+    wishongoing = false;
+    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+    multiVid10play = false;
   }
 
 }
@@ -1245,47 +1372,90 @@ function randomItemFromArray(arr) {
 }
 
 function sendChatMessage(msg) {
-  fetch(`https://api.streamelements.com/kappa/v2/bot/${__CHANNEL_ID__}/say`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Authorization': `Bearer ${__JWT_TOKEN__}`
-    },
-    body: JSON.stringify({message: msg})
-  });
+  ComfyJS.Say(msg);
 }
 
-function getUser(user) {
-  return fetch(`https://api.streamelements.com/kappa/v2/points/${__CHANNEL_ID__}/${user}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Authorization': `Bearer ${__JWT_TOKEN__}`
-    }
-  });
-}
-
-function addPoints(user, amount) {
-  return fetch(`https://api.streamelements.com/kappa/v2/points/${__CHANNEL_ID__}/${user}/${amount}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'Authorization': `Bearer ${__JWT_TOKEN__}`
-    }
-  });
+function addPoints(amount) {
+  dbRef[displayName].primogems += amount;
 }
 
 var intervalIdDb = setInterval(async function() {
-  // Saves current with info every 1 minute
+
+  if (errFlg) return;
+  // Saves current wish info every 1 minute
   const db = getDatabase();
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[__CHANNEL_NAME__] = dbRef;
+  updates[__CHANNEL_UID__] = dbRef;
 
+  console.log("Saving in database. . .");
   return update(ref(db), updates);
 
 }, 60000);
+
+var intervalIdDb = setInterval(async function() {
+  if (errFlg) return;
+  // Turns on drops primogems every 15 minutes
+  if (!drops) {
+    // Turn on drops feature
+    drops = true;
+    dropsOnTime = new Date().getTime() + 60000;
+    // dropsOffTime = dropsOnTime + 60000;
+    sendChatMessage(`HutaoVeryPogFast ${dropsRewards} ${points_name} drops is up! Type !wclaim to join HutaoVeryPogFast`);
+  }
+
+}, 300000);
+
+var intervalIdDb = setInterval(async function() {
+  if (errFlg) return;
+  // Duration of drops
+  if (drops) {
+
+    // Check the time difference between current time and when drops was set to ON
+    // let distance = dropsOnTime - (timeCheck - 60000);
+    // let seconds = Math.floor((distance % (1000 * 60)) / 1000).toString();
+    // dropsOffTime = Date.now() - 60000;
+    // sendChatMessage('HutaoPoke dropsOnTime ' + dropsOnTime + ' seconds left for drops! HutaoPoke');
+    // sendChatMessage('HutaoPoke TimeEnd ' + timeEnd + ' seconds left for drops! HutaoPoke');
+    // let seconds = Math.floor(((dropsOnTime - dropsOffTime) % (1000 * 60)) / 1000).toString();
+    // console.log("dropsOnTime: " + dropsOnTime);
+    // console.log("dropsOffTime: " + dropsOffTime);
+    // console.log("seconds: " + seconds);
+
+    let now = new Date().getTime();
+    let distance = dropsOnTime - now;
+    let seconds = Math.floor(distance / 1000);
+
+    console.log('dropsOnTime ' + dropsOnTime);
+    console.log('now ' + now);
+    console.log('distance ' + distance);
+    console.log('seconds ' + seconds);
+
+    // if (dropsOffTime > timeCheck) {
+    if (seconds > 0) {
+      if (seconds <= 40 && seconds > 0) {
+        sendChatMessage('HutaoPoke Remaining ' + seconds + ' seconds left for drops! HutaoPoke');
+      }
+    } else {
+      // Turn off drops feature
+      drops = false;
+      let output = [];
+      dropsQueue.forEach(user => { output.push(user); dbRef[user].primogems += dropsRewards });
+
+      if (output.length == 0) {
+        sendChatMessage(`No one claimed the primogem drops.. peepoRain`);
+      } else {
+        sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} HutaoPls`)
+      }
+      dropsQueue = [];
+    }
+
+  }
+
+}, 20000);
+
+
 
 function startMulti() {
   // Show the element
@@ -1295,6 +1465,7 @@ function startMulti() {
   console.log('All Videos are now playable!');
 }
 var intervalIdPlayAll = setInterval(async function() {
+  if (errFlg) return;
 
   if (!allowed && !wishongoing) {
     console.log('Waiting for all videos to be playable...' + wishcount);
@@ -1324,6 +1495,7 @@ var intervalIdPlayAll = setInterval(async function() {
 }, 1000);
 
 var intervalIdWish = setInterval(async function() {
+  if (errFlg) return;
 
   // Check if there is no ongoing video
   if (allowed) {
@@ -1339,18 +1511,26 @@ var intervalIdWish = setInterval(async function() {
 
     // If a name was retrieved, show gacha video
     if (displayName) {
+
+      // If user has no record in DB yet, create a new record
+      if (undefined === dbRef[displayName]) {
+        dbRef[displayName] = {
+          pity: 0,
+          primogems: 0
+        };
+      }
+      // If previous user has info in DB and no info on primogems yet
+      if (dbRef[displayName].primogems == undefined || isNaN(dbRef[displayName].primogems)) {
+        dbRef[displayName].primogems = 0;
+      }
+
       // Prevent any video from playing
       allowed = false;
       let wishcost = wishcount * cost;
 
-      // Get user info in StreamElements
-      await getUser(displayName)
-      .then(response => response.json())
-      .then(_data => { userInfo = _data; });
-
       // Check if user has enough points
-      if (userInfo.points < wishcost) {
-        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${userInfo.points} | Required: ${wishcost}`);
+      if (dbRef[displayName].primogems < wishcost) {
+        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${dbRef[displayName].primogems} | Required: ${wishcost}`);
         allowed = true;
         wishongoing = false;
         startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
@@ -1360,17 +1540,11 @@ var intervalIdWish = setInterval(async function() {
       }
 
       // Deduct the points
-      await addPoints(displayName, -wishcost);
+      addPoints(-wishcost);
 
-      console.log(`${displayName}'s ${wishcount}x wish is ongoing...`);
-      sendChatMessage(`${displayName}'s ${wishcount}x wish is ongoing...`);
+      console.log(`${displayName}'s ${wishcount}x genshinWish is DIANO...`);
+      sendChatMessage(`${displayName}'s ${wishcount}x genshinWish is DIANO`);
 
-      // If user has no record in DB yet, create a new record
-      if (undefined === dbRef[displayName]) {
-        dbRef[displayName] = {
-          pity: 0
-        };
-      }
 
       if (wishcount == 1) {
         videoPath = "./videos"
@@ -1474,9 +1648,30 @@ function checkQueryParameters() {
     get: (searchParams, prop) => searchParams.get(prop),
   });
 
-  __JWT_TOKEN__ = params.jwt;
-  __CHANNEL_ID__ = params.id;
-  __CHANNEL_NAME__ = params.channel;
+  // __CHANNEL_NAME__ = params.channel;
+  if (params.channel) {
+    console.log(params.channel);
+    __CHANNEL_NAME__ = params.channel;
+  } else {
+    errFlg = true;
+    return;
+  }
+
+  if (params.uid) {
+    console.log(params.uid);
+    __CHANNEL_UID__ = params.uid;
+  } else {
+    errFlg = true;
+    return;
+  }
+
+  if (params.oauth) {
+    console.log(params.oauth);
+    ComfyJS.Init( __CHANNEL_NAME__, "oauth:" + params.oauth );
+  } else {
+    errFlg = true;
+    return;
+  }
 
   getDb();
 
@@ -1574,6 +1769,17 @@ function checkQueryParameters() {
     points_name = params.points;
   }
 
+  // Set the drops reward amount used in the channel
+  if (params.drops) {
+    let drops = Number(params.drops);
+    if (isNaN(drops)){
+      console.log("value for params.drops is invalid");
+    } else {
+      // Replace the value in the current pool
+      dropsRewards = drops;
+    }
+  }
+
   // Check query inputs
   console.log(`Volume is set to ${volume}`);
   console.log(`5★ percentage is set to ${sr_percentage}`);
@@ -1584,11 +1790,6 @@ function checkQueryParameters() {
   console.log(`Command Cost is ${cost}`);
   console.log(`Points Name is ${points_name}`);
   console.log(`Pity is ${pity}`);
-
-  // Send a message in chat to verify the settings of the browser
-  if (params.check) {
-    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
-  }
 }
 
 function isCooldown() {
@@ -1616,37 +1817,42 @@ initializeMultiVideo8Element();
 initializeMultiVideo9Element();
 initializeMultiVideo10Element();
 
-// Receives text from !
+// Receives text from ! commands
 ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+
+  if (errFlg) {
+    return;
+  }
+  command = command.trim().toLowerCase();
+  message = message.trim().toLowerCase();
 
   // console.log(user);
   // console.log(command);
   // console.log(message);
   // console.log(flags);
   // console.log(extra);
-
-  if (command === 'wishqueue' && (flags.broadcaster || flags.mod)) {
+  if (command === 'wqueue' && (flags.broadcaster || flags.mod)) {
     let infoList = [];
     queue.forEach(info => {
       infoList.push(info.user+`(${info.wishcount})`)
     })
     // Checks the current queue for the wish command (available for streamer and mods only)
     sendChatMessage(`Current wish queue is: ${infoList}`);
-  } else if (command === 'wishinfo' && (flags.broadcaster || flags.mod)) {
-    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity})`)
-  } else if (command === 'wishlist' && (flags.broadcaster || flags.mod)) {
+  } else if ((command === 'wconfig') && (flags.broadcaster || flags.mod)) {
+    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity}) | Drops(${dropsRewards})`)
+  } else if (command === 'wlist' && (flags.broadcaster || flags.mod)) {
     if (message === '') {
-      sendChatMessage(`${user}, !wishlist [3/4/5] for list of characters/weapons available`);
+      sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
     } else {
       let output = [];
       switch (message) {
         case '3': CPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 3★: ${output}`); break;
         case '4': RPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 4★: ${output}`); break;
         case '5': SRPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 5★: ${output}`); break;
-        default: sendChatMessage(`${user}, !wishlist [3/4/5] for list of characters/weapons available`);
+        default: sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
       }
     }
-  } else if (command === 'wishreset' && (flags.broadcaster || flags.mod)) {
+  } else if (command === 'wreset' && (flags.broadcaster || flags.mod)) {
     sendChatMessage(`Wish Simulator is now resetting...`)
     if(!allowed) {allowed = true};
     wishcount = 0;
@@ -1659,10 +1865,55 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
     multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
     multiVid10play = false;
-  } else if (command === 'wishcheck') {
+  } else if (command === 'wadd' && (flags.broadcaster || flags.mod)) {
+    const msgSplit = message.split(" ", 2);
+    console.log(msgSplit);
+
+    // Check target user to add points
+    let target;
+    if (msgSplit[0].charAt(0) == '@') {
+      target = msgSplit[0].substr(1, msgSplit[0].length);
+    } else {
+      target = msgSplit[0];
+    }
+    console.log(target);
+
+    let verify = Number(msgSplit[1]) | 0;
+    if (isNaN(verify) || !Number.isInteger(verify) || verify == 0) {
+      sendChatMessage(`${user}, please input a valid number`);
+      return;
+    }
+    console.log(verify);
+
+    // If user has no record in DB yet, create a new record
+    if (undefined === dbRef[target]) {
+      dbRef[target] = {
+        pity: 0,
+        primogems: verify
+      };
+    } else {
+      dbRef[target].primogems += verify;
+    }
+    sendChatMessage(`Adding ${verify} ${points_name} to ${target}!`);
+  } else if (command === 'wclaim') {
+    if (drops) {
+      console.log(dropsQueue);
+      let obj = dropsQueue.find(o => o === user);
+      if (obj != undefined) {
+        sendChatMessage(`${user}, you are already in queue... peepoSlam`)
+        return;
+      } else {
+        dropsQueue.push(user);
+      }
+      console.log(dropsQueue);
+    } else {
+      sendChatMessage(`${user}, There is no running drops currently... DonkChat`)
+    }
+  } else if (command === 'wcheck') {
     if (isCooldown()) {return;}
+    lastCommand = Date.now();
     if (message === '') {
-      sendChatMessage(`${user}, !wishcheck [3/4/5/<char>/<weap>] for list of characters/weapons in your inventory`);
+      sendChatMessage(`${user}, !wcheck [3/4/5/<char>/<weap>] for list of characters/weapons in your inventory`);
     } else {
       let output = [];
       let userItems = dbRef[user];
@@ -1674,42 +1925,130 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
           case '4': RPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 4★: ${output.slice(0,-2)}`); break;
           case '5': SRPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 5★: ${output.slice(0,-2)}`); break;
           default:
-            if (undefined === dbRef[user][message]) {
-              sendChatMessage(`${user} does not have that character yet`);
+            let dbName = "";
+            SRPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+            RPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+            CPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+
+            let dbItem = dbRef[user][dbName];
+            if (undefined === dbItem) {
+              sendChatMessage(`${user} does not have that character/weapon yet`);
             } else {
-              sendChatMessage(`${user}'s ${message} constellation is ${dbRef[user][message].constellation}`);
+              sendChatMessage(`${user}'s ${dbName} constellation is ${dbItem.constellation}`);
             }
         }
       }
     }
-    lastCommand = Date.now();
-  } else if (command === 'wishpity') {
+  } else if (command === 'wsell') {
     if (isCooldown()) {return;}
-    sendChatMessage(`${user}'s current pity count is ${dbRef[user].pity}`);
     lastCommand = Date.now();
-  } else if (command === 'wishcommand') {
+
+    if (message === '') {
+      sendChatMessage(`${user}, !wsell "[<char>/<weap>]" [amount] | Values: 3★(10), 4★(160), 5★(480)`);
+    } else {
+
+      const inputCheckPattern = /^[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]+\s+[0-9]+$/;
+      const itemPattern = /[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]/;
+      const amountPattern = /\s+[0-9]+$/;
+
+      // console.log(message + " " + pattern.test(message));
+      // console.log(message + " " + pattern2.exec(message)[0].trim().replaceAll("\"", ""));
+      // console.log(message + " " + pattern3.exec(message)[0].trim());
+      // console.log(match + " " + message.match(inputCheck));
+      if (!inputCheckPattern.test(message)) {
+        sendChatMessage(`${user}, please check inputs.. !wsell "[<char>/<weap>]" [amount]`);
+        return;
+      }
+
+      let item = itemPattern.exec(message)[0].trim().replaceAll("\"", "");
+      let amount = amountPattern.exec(message)[0].trim();
+
+      console.log("valid input for !wsell");
+      console.log("item: " + item);
+      console.log("amount: " + amount);
+
+      if (amount == 0) {
+        sendChatMessage(`${user}, please input amount other than 0.. DonkChat`);
+        return;
+      }
+
+      // if (msgSplit[0] != undefined) target = msgSplit[0].trim();
+      // if (msgSplit[1] != undefined) amount = Number(msgSplit[1].trim()) | 0;
+      // if (target == undefined || amount == undefined) {
+      //   sendChatMessage(`${user}, please check inputs.. !wsell [<char>/<weap>] [amount]`);
+      //   return;
+      // }
+
+      let rarityValue = 0;
+      SRPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+      RPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+      CPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+
+      console.log("item: " + item);
+      console.log("rarityValue: " + rarityValue);
+      // console.log(dbName);
+      let dbItem = dbRef[user][item];
+      console.log("dbItem: " + dbItem);
+      if (dbItem == undefined || dbItem == isNaN()) {
+        sendChatMessage(`${user} does not have any [${item}] to sell.. DonkChat`);
+      } else if (dbItem.constellation < amount) {
+        sendChatMessage(`${user} does not have enough [${item}] to sell.. DonkChat`);
+      } else {
+        // Decrease the constellations based on the amount
+        if (dbItem.constellation == amount) {
+          dbRef[user][item] = undefined;
+        } else {
+          dbRef[user][item].constellation -= amount;
+        }
+
+        // Increase the primogems based on the amount
+        let totalAmount = 0;
+        switch(rarityValue) {
+          case five_star_prize: totalAmount += (amount * 480); break;
+          case four_star_prize: totalAmount += (amount * 160); break;
+          case three_star_prize: totalAmount += (amount * 10); break;
+        }
+        let beforeAmount = dbRef[user].primogems;
+        dbRef[user].primogems += totalAmount;
+        sendChatMessage(`${user} sold [${item}(${amount})] GroupNuma | [${beforeAmount}(+${totalAmount})] Primogems`);
+      }
+
+    }
+  } else if (command === 'wstats') {
     if (isCooldown()) {return;}
-    sendChatMessage(`List of commands are: [MODS] !wishqueue, !wishinfo, !wishreset, !wishlist <3/4/5>, || [ALL] !wishcheck <3/4/5/charname/weapname>, !wishpity, !wish <blank/1~10>`)
     lastCommand = Date.now();
+    if (dbRef[user].primogems == undefined || isNaN(dbRef[user].primogems)) {
+      dbRef[user].primogems = 0;
+    }
+    sendChatMessage(`${user}'s stats: Primogems(${dbRef[user].primogems}) | Pity(${dbRef[user].pity})`);
+  } else if (command === 'wcredits') {
+    if (isCooldown()) {return;}
+    lastCommand = Date.now();
+    sendChatMessage(`Wish Simulator v${version} is created by SpeedL twitch.tv/xivalex SpeedR `)
+  } else if (command === 'wcommands') {
+    if (isCooldown()) {return;}
+    lastCommand = Date.now();
+    sendChatMessage(`List of commands are: [MODS] !wqueue, !wconfig, !wlist <3/4/5>, !wreset, !wadd <user> <points> || [ALL] !wclaim, !wcheck <3/4/5/charname/weapname>, !wstats, !wcredits, !wish/!w <blank/1~10>`)
   } else {
     // Check if the command is !wish
-    if (command !== "wish") {return};
+    if (command !== "wish" && command !== "w") {return};
 
     // Check if user is already in the queue
     let obj = queue.find(o => o.user === user);
     if (obj != undefined) {
-      sendChatMessage(`${user}, you are already in queue...`)
+      sendChatMessage(`${user}, you are already in wish queue... peepoSlam`)
       return;
     }
 
-    if (message === '') {
+    const msgSplit = message.split(" ", 2);
+    if (msgSplit[0] === '') {
       queue.push({
         wishcount: '1',
         user: user
       })
     } else {
       // remove decimal value if any
-      let verify = Number(message) | 0;
+      let verify = Number(msgSplit[0].trim()) | 0;
       // Check if message is a number, within 1~10 range and it is an integer
       if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
         sendChatMessage(`${user}, please input blank(1 wish) or 1~10 only`);
@@ -1726,6 +2065,3 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
 }
 
 checkQueryParameters();
-
-// Connects the script to the channel name to track commands
-ComfyJS.Init( __CHANNEL_NAME__ );
