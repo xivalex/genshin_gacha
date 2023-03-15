@@ -1501,13 +1501,6 @@ var intervalIdWish = setInterval(async function() {
     // If a name was retrieved, show gacha video
     if (displayName) {
 
-      // If user has no record in DB yet, create a new record
-      if (undefined === dbRef[displayName]) {
-        dbRef[displayName] = {
-          pity: 0,
-          primogems: 0
-        };
-      }
       // If previous user has info in DB and no info on primogems yet
       if (dbRef[displayName].primogems == undefined || isNaN(dbRef[displayName].primogems)) {
         dbRef[displayName].primogems = 0;
@@ -2046,9 +2039,6 @@ function cmdWishSell(user, message) {
 // Functionality for !wstats
 // *************************
 function cmdWishStats(user) {
-  if (dbRef[user].primogems == undefined || isNaN(dbRef[user].primogems)) {
-    dbRef[user].primogems = 0;
-  }
   sendChatMessage(`${user}'s stats: Primogems(${dbRef[user].primogems}) | Pity(${dbRef[user].pity})`);
 }
 
@@ -2111,6 +2101,14 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   user = user.trim().toLowerCase();
   command = command.trim().toLowerCase();
   message = message.trim().toLowerCase();
+
+  // Add DB information if first-time user
+  if (undefined === dbRef[user]) {
+    dbRef[user] = {
+      pity: 0,
+      primogems: 0
+    };
+  }
 
   // console.log(user);
   // console.log(command);
