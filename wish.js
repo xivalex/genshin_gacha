@@ -38,16 +38,15 @@ let __CHANNEL_NAME__ = "";
 let __CHANNEL_UID__ = "";
 let errFlg = false;
 
-let volume = 100 // 0 ~ 100 value only
 let sr_percentage = 1 // % on winning a 5★
 let c_percentage = 90 // % on winning a 3★
-let points_name = "Primogems";
 let cost = 160
 let five_star_prize = 2000;
 let four_star_prize = 300;
 let three_star_prize = 0;
 let pity = 30;
 let dropsRewards = 1600;
+let dropsInterval = 900000; // 15 minutes
 
 // ********************
 // SINGLE-WISH ELEMENTS
@@ -90,10 +89,10 @@ let SRPool = [];  // 5★
 let RPool = [];   // 4★
 let CPool = [];   // 3★
 let allowed = true;
-let drops = false;
 let displayName;
 let randomVid = {};
 let queue = [];
+let drops = false;
 let dropsQueue = [];
 let dbRef = {};
 let wishcount = 0;
@@ -104,7 +103,13 @@ let delay = 5000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.2;
+let version = 1.0;
+
+// ************
+// INTERVAL IDS
+// ************
+let idDropsDuration;
+
 
 SRPool.push(
   {
@@ -804,10 +809,10 @@ function initializeVideoElement() {
   function nextVideo() {
     video.setAttribute("hidden", "hidden");
 
-    if (randomVid.value != 0) {
-      addPoints(randomVid.value);
-    }
-    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
+    // if (randomVid.value != 0) {
+    //   addPoints(randomVid.value);
+    // }
+    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} Primogems (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
     if (multiSummary.length != 0) {
       result += ` | ${multiSummary}`
     }
@@ -1345,8 +1350,8 @@ function stopWish() {
 
   // execute only when a wish is ongoing
   if (!allowed) {
-    addPoints(multiPoints);
-    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} ${points_name} (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
+    // addPoints(multiPoints);
+    let result = `${displayName} wish summary: ${wishcount}x | +${multiPoints} Primogems (${dbRef[displayName].primogems}) | pity: ${dbRef[displayName].pity}`
     if (multiSummary.length != 0) {
       result += ` | ${multiSummary}`
     }
@@ -1379,7 +1384,7 @@ function addPoints(amount) {
   dbRef[displayName].primogems += amount;
 }
 
-var intervalIdDb = setInterval(async function() {
+setInterval(async function() {
 
   if (errFlg) return;
   // Saves current wish info every 1 minute
@@ -1394,68 +1399,52 @@ var intervalIdDb = setInterval(async function() {
 
 }, 60000);
 
-var intervalIdDb = setInterval(async function() {
+async function dropsStart() {
   if (errFlg) return;
-  // Turns on drops primogems every 15 minutes
-  if (!drops) {
-    // Turn on drops feature
-    drops = true;
-    dropsOnTime = new Date().getTime() + 60000;
-    // dropsOffTime = dropsOnTime + 60000;
-    sendChatMessage(`HutaoVeryPogFast ${dropsRewards} ${points_name} drops is up! Type !wclaim to join HutaoVeryPogFast`);
-  }
+  console.log("Starting Primogem Drops. . .")
 
-}, 300000);
+  // Turns on primogems drops
+  drops = true;
+  dropsOnTime = new Date().getTime() + 60000;
+  sendChatMessage(`HutaoVeryPogFast ${dropsRewards} Primogems drops is up! Type !wclaim to join HutaoVeryPogFast`);
 
-var intervalIdDb = setInterval(async function() {
-  if (errFlg) return;
-  // Duration of drops
-  if (drops) {
+  // Start interval on drops duration
+  idDropsDuration = setInterval(dropsDuration, 20000);
+}
 
-    // Check the time difference between current time and when drops was set to ON
-    // let distance = dropsOnTime - (timeCheck - 60000);
-    // let seconds = Math.floor((distance % (1000 * 60)) / 1000).toString();
-    // dropsOffTime = Date.now() - 60000;
-    // sendChatMessage('HutaoPoke dropsOnTime ' + dropsOnTime + ' seconds left for drops! HutaoPoke');
-    // sendChatMessage('HutaoPoke TimeEnd ' + timeEnd + ' seconds left for drops! HutaoPoke');
-    // let seconds = Math.floor(((dropsOnTime - dropsOffTime) % (1000 * 60)) / 1000).toString();
-    // console.log("dropsOnTime: " + dropsOnTime);
-    // console.log("dropsOffTime: " + dropsOffTime);
-    // console.log("seconds: " + seconds);
+async function dropsDuration() {
+  let now = new Date().getTime();
+  let distance = dropsOnTime - now;
+  let seconds = Math.floor(distance / 1000);
 
-    let now = new Date().getTime();
-    let distance = dropsOnTime - now;
-    let seconds = Math.floor(distance / 1000);
+  console.log('[dropsDuration] dropsOnTime ' + dropsOnTime);
+  console.log('[dropsDuration] now ' + now);
+  console.log('[dropsDuration] distance in seconds ' + seconds);
 
-    console.log('dropsOnTime ' + dropsOnTime);
-    console.log('now ' + now);
-    console.log('distance ' + distance);
-    console.log('seconds ' + seconds);
-
-    // if (dropsOffTime > timeCheck) {
-    if (seconds > 0) {
-      if (seconds <= 40 && seconds > 0) {
-        sendChatMessage('HutaoPoke Remaining ' + seconds + ' seconds left for drops! HutaoPoke');
-      }
-    } else {
-      // Turn off drops feature
-      drops = false;
-      let output = [];
-      dropsQueue.forEach(user => { output.push(user); dbRef[user].primogems += dropsRewards });
-
-      if (output.length == 0) {
-        sendChatMessage(`No one claimed the primogem drops.. peepoRain`);
-      } else {
-        sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} HutaoPls`)
-      }
-      dropsQueue = [];
+  // if (dropsOffTime > timeCheck) {
+  if (seconds > 0) {
+    if (seconds <= 40 && seconds > 0) {
+      sendChatMessage('HutaoPoke Remaining ' + seconds + ' seconds left for drops! HutaoPoke');
     }
+  } else {
+    // Turn off drops feature
+    drops = false;
+    clearInterval(idDropsDuration);
 
+    let output = [];
+    dropsQueue.forEach(user => {
+      output.push(user);
+      dbRef[user].primogems += dropsRewards
+    });
+
+    if (output.length == 0) {
+      sendChatMessage(`No one claimed the primogem drops.. peepoRain`);
+    } else {
+      sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} HutaoPls`)
+    }
+    dropsQueue = [];
   }
-
-}, 20000);
-
-
+}
 
 function startMulti() {
   // Show the element
@@ -1530,7 +1519,7 @@ var intervalIdWish = setInterval(async function() {
 
       // Check if user has enough points
       if (dbRef[displayName].primogems < wishcost) {
-        sendChatMessage(`${displayName} do not have enough ${points_name} to wish | ${points_name}: ${dbRef[displayName].primogems} | Required: ${wishcost}`);
+        sendChatMessage(`${displayName} do not have enough Primogems to wish | Primogems: ${dbRef[displayName].primogems} | Required: ${wishcost}`);
         allowed = true;
         wishongoing = false;
         startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
@@ -1540,7 +1529,7 @@ var intervalIdWish = setInterval(async function() {
       }
 
       // Deduct the points
-      addPoints(-wishcost);
+      // addPoints(-wishcost);
 
       console.log(`${displayName}'s ${wishcount}x genshinWish is DIANO...`);
       sendChatMessage(`${displayName}'s ${wishcount}x genshinWish is DIANO`);
@@ -1551,14 +1540,14 @@ var intervalIdWish = setInterval(async function() {
       } else {
         videoPath = "./videos_multi"
       }
-      multiWish();
+      multiWish(wishcost);
     }
 
   }
 
 }, 3000);
 
-function multiWish() {
+function multiWish(wishcost) {
   let chosenPool;
 
   for (let i = 0; i < wishcount; i++) {
@@ -1567,9 +1556,20 @@ function multiWish() {
       chosenPool = SRPool;
       withSR = true;
     } else {
-      // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
-      chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
-                  ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+      if ((i == wishcount-1) && wishcount == 10) {
+        // If 10-pull, guaranteed a 4-star above if there is none
+        let hasRare = false;
+        wishPool.forEach(val => { if (val.value > 0) hasRare = true;})
+
+        if (!hasRare) {
+        // Randomize if SRPool/RPool and retrieve a video from the pool
+        chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool : RPool;
+        }
+      } else {
+        // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+        chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
+                    ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
+      }
     }
     // Retrieve a video from the video pool
     randomVid = randomItemFromArray(chosenPool);
@@ -1617,6 +1617,11 @@ function multiWish() {
     wishPool.push(randomVid);
   }
 
+  // Adjust the points accordingly
+  // Total Wished Amount - Total Wish Cost
+  addPoints(-wishcost);
+  addPoints(multiPoints);
+
   if (wishPool.length == 1) {
     // Show the element
     video.removeAttribute("hidden");
@@ -1624,7 +1629,7 @@ function multiWish() {
     // Set the video as the source of the element and play it
     video.setAttribute("src", `${videoPath}${wishPool[0].path}`);
     video.load();
-    video.volume = volume / 100;
+    video.volume = 1;
 
   } else {
 
@@ -1636,11 +1641,18 @@ function multiWish() {
     }
     withSR = false;
 
-    startVid.volume = volume / 100;
     startVid.load();
+    startVid.volume = 1;
   }
 }
 
+// **********************************************
+// Check the query parameters passed from the URL
+// Set [errFlg] to TRUE if:
+//    * no [channel] parameter
+//    * no [uid] parameter
+//    * no [oauth] parameter
+// **********************************************
 function checkQueryParameters() {
 
   // Retrieve the query parameters required for authentication
@@ -1648,9 +1660,7 @@ function checkQueryParameters() {
     get: (searchParams, prop) => searchParams.get(prop),
   });
 
-  // __CHANNEL_NAME__ = params.channel;
   if (params.channel) {
-    console.log(params.channel);
     __CHANNEL_NAME__ = params.channel;
   } else {
     errFlg = true;
@@ -1658,7 +1668,6 @@ function checkQueryParameters() {
   }
 
   if (params.uid) {
-    console.log(params.uid);
     __CHANNEL_UID__ = params.uid;
   } else {
     errFlg = true;
@@ -1666,7 +1675,6 @@ function checkQueryParameters() {
   }
 
   if (params.oauth) {
-    console.log(params.oauth);
     ComfyJS.Init( __CHANNEL_NAME__, "oauth:" + params.oauth );
   } else {
     errFlg = true;
@@ -1674,16 +1682,6 @@ function checkQueryParameters() {
   }
 
   getDb();
-
-  // Set the volume of the video
-  if (params.volume) {
-    let vol = Number(params.volume);
-    if (isNaN(vol) || !(vol >= 0 && vol <= 100)){
-      console.log("value for params.volume is invalid");
-    } else {
-      volume = vol;
-    }
-  }
 
   // Set the percentage of 5★ against 3★ and 4★
   if (params.sr) {
@@ -1764,39 +1762,326 @@ function checkQueryParameters() {
     }
   }
 
-  // Set the pointsname used in the channel
-  if (params.points) {
-    points_name = params.points;
-  }
-
   // Set the drops reward amount used in the channel
   if (params.drops) {
     let drops = Number(params.drops);
     if (isNaN(drops)){
       console.log("value for params.drops is invalid");
     } else {
-      // Replace the value in the current pool
+      // Update the amount of drops received
       dropsRewards = drops;
     }
   }
 
+  // Set the drops timer
+  if (params.dropstime) {
+    let time = Number(params.dropstime);
+    if (isNaN(time)){
+      console.log("value for params.dropstime is invalid");
+    } else {
+      // Replace the value in the current pool
+      if (time >= 120000) {
+        // Only allow intervals higher than 2 minutes
+        // Else, default to 15 minutes interval
+        dropsInterval = time;
+      }
+    }
+  }
+
+  // Start the drops timer
+  setInterval(dropsStart, dropsInterval);
+
   // Check query inputs
-  console.log(`Volume is set to ${volume}`);
+  console.log(`Channel is set to ${params.channel}`);
+  console.log(`UID is set to ${params.uid}`);
+  console.log(`OAuth is set to ${params.oauth}`);
   console.log(`5★ percentage is set to ${sr_percentage}`);
   console.log(`3★ percentage is set to ${c_percentage}`);
   console.log(`3★ prize is ${params.three}`);
   console.log(`4★ prize is ${params.four}`);
   console.log(`5★ prize is ${params.five}`);
   console.log(`Command Cost is ${cost}`);
-  console.log(`Points Name is ${points_name}`);
   console.log(`Pity is ${pity}`);
+  console.log(`Drops Amount is ${dropsRewards}`);
+  console.log(`Drops Interval is ${dropsInterval / 1000} seconds`);
 }
 
+// *************************
+// Set command delay (5 seconds)
+// *************************
 function isCooldown() {
   if (lastCommand >= (Date.now() - delay)) {
     return true;
   } else {
     return false;
+  }
+}
+
+// *************************
+// Functionality for !wqueue
+// *************************
+function cmdWishQueue() {
+  let infoList = [];
+  queue.forEach(info => {
+    // User1(10),User2(5),...,User10(1)
+    infoList.push(info.user+`(${info.wishcount})`)
+    console.log("[cmdWishQueue] infoList: " + infoList);
+  })
+  // Checks the current queue for the wish command (available for streamer and mods only)
+  sendChatMessage(`Current wish queue is: ${infoList}`);
+}
+
+// *************************
+// Functionality for !wconfig
+// *************************
+function cmdWishConfig() {
+  sendChatMessage(`5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Pity(${pity}) | Drops(${dropsRewards})`)
+}
+
+// *************************
+// Functionality for !wlist
+// *************************
+function cmdWishList(user, message) {
+  if (message === '') {
+    sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
+  } else {
+    let output = [];
+    switch (message) {
+      case '3': CPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 3★: ${output}`); break;
+      case '4': RPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 4★: ${output}`); break;
+      case '5': SRPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 5★: ${output}`); break;
+      default: sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
+    }
+  }
+}
+
+// *************************
+// Functionality for !wreset
+// *************************
+function cmdWishReset(user, message) {
+  // [TBD] Might now be needed anymore. Will remove if no instance is used for a long time...
+  sendChatMessage(`Wish Simulator is now resetting...`)
+  if(!allowed) {allowed = true};
+  wishcount = 0;
+  currentCount = 1;
+  multiPoints = 0;
+  multiSummary = [];
+  wishPool = [];
+  videoPath = '';
+  wishongoing = false;
+  startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
+  multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
+  multiVid10play = false;
+}
+
+// *************************
+// Functionality for !wadd
+// *************************
+function cmdWishAdd(user, message) {
+  if (message === '') {
+    // Outputs the how-to use of the command
+    sendChatMessage(`${user}, !wadd <username> <amount>`);
+  } else {
+    // Split the message twice, delimited by space
+    const msgSplit = message.split(" ", 2);
+    console.log("[cmdWishAdd] msgSplit: " + msgSplit);
+
+    // Check target user to add points
+    // Remove @ in user parameter if existing
+    let target;
+    if (msgSplit[0].charAt(0) == '@') {
+      target = msgSplit[0].substr(1, msgSplit[0].length);
+    } else {
+      target = msgSplit[0];
+    }
+    console.log("[cmdWishAdd] target: " + target);
+
+    // Check amount parameter
+    let checkedAmount = Number(msgSplit[1]) | 0;
+    if (isNaN(checkedAmount) || !Number.isInteger(checkedAmount) || checkedAmount == 0) {
+      sendChatMessage(`${user}, please input a valid number`);
+      return;
+    }
+    console.log("[cmdWishAdd] checkedAmount: " + checkedAmount);
+
+    // If user has no record in DB yet, create a new record
+    if (undefined === dbRef[target]) {
+      dbRef[target] = {
+        pity: 0,
+        primogems: checkedAmount
+      };
+    } else {
+      dbRef[target].primogems += checkedAmount;
+    }
+    sendChatMessage(`Adding ${checkedAmount} Primogems to ${target}!`);
+  }
+}
+
+// *************************
+// Functionality for !wclaim
+// *************************
+function cmdWishClaim(user) {
+  // Process only when drops is ongoing
+  if (drops) {
+    let obj = dropsQueue.find(o => o === user);
+    if (obj != undefined) {
+      sendChatMessage(`${user}, you are already in queue... peepoSlam`)
+      return;
+    } else {
+      dropsQueue.push(user);
+    }
+    console.log("[cmdWishClaim] dropsQueue: " + dropsQueue);
+  } else {
+    sendChatMessage(`${user}, There is no running drops currently... DonkChat`)
+  }
+}
+
+// *************************
+// Functionality for !wcheck
+// *************************
+function cmdWishCheck(user, message) {
+  if (message === '') {
+    // Outputs the how-to use of the command
+    sendChatMessage(`${user}, !wcheck [3/4/5/<char>/<weap>] for list of characters/weapons in your inventory`);
+  } else {
+    let output = [];
+    let userItems = dbRef[user];
+    if (undefined === userItems) {
+      sendChatMessage(`${user}, you have no characters/weapons yet...`);
+    } else {
+      switch (message) {
+        case '3': CPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 3★: ${output.slice(0,-2)}`); break;
+        case '4': RPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 4★: ${output.slice(0,-2)}`); break;
+        case '5': SRPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 5★: ${output.slice(0,-2)}`); break;
+        default:
+          let dbName = "";
+          // Maps the item with the known alternative names
+          SRPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+          RPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+          CPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
+          console.log("[cmdWishCheck] dbName: " + dbName);
+
+          let dbItem = dbRef[user][dbName];
+          if (undefined === dbItem) {
+            sendChatMessage(`${user} does not have that character/weapon yet`);
+          } else {
+            sendChatMessage(`${user}'s ${dbName} constellation is ${dbItem.constellation}`);
+          }
+      }
+    }
+  }
+}
+
+// *************************
+// Functionality for !wsell
+// *************************
+function cmdWishSell(user, message) {
+
+  if (message === '') {
+    // Outputs the how-to use of the command
+    sendChatMessage(`${user}, !wsell "[<char>/<weap>]" [amount] | Values: 3★(10), 4★(160), 5★(480)`);
+  } else {
+
+    const inputCheckPattern = /^[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]+\s+[0-9]+$/;
+    const itemPattern = /[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]/;
+    const amountPattern = /\s+[0-9]+$/;
+
+    // Test that the expected format of the command is followed
+    if (!inputCheckPattern.test(message)) {
+      sendChatMessage(`${user}, please check inputs.. !wsell "[<char>/<weap>]" [amount]`);
+      return;
+    }
+    console.log("[cmdWishSell] message: " + message);
+
+    // Get the item/amount input (e.g. !wsell "Sangonomiya kokomi" 6)
+    //    item = sangonomiya kokomi
+    //    amount = 6
+    let item = itemPattern.exec(message)[0].trim().replaceAll("\"", "");
+    let amount = amountPattern.exec(message)[0].trim();
+    console.log("[cmdWishSell] item: " + item);
+    console.log("[cmdWishSell] amount: " + amount);
+
+    if (amount == 0) {
+      sendChatMessage(`${user}, please input amount other than 0.. DonkChat`);
+      return;
+    }
+
+    let rarityValue = 0;
+    SRPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+    RPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+    CPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
+
+    console.log("[cmdWishSell] mapped item: " + item);
+    console.log("[cmdWishSell] rarityValue: " + rarityValue);
+
+    let dbItem = dbRef[user][item];
+    if (dbItem == undefined || dbItem == isNaN()) {
+      sendChatMessage(`${user} does not have any [${item}] to sell.. DonkChat`);
+    } else if (dbItem.constellation < amount) {
+      sendChatMessage(`${user} does not have enough [${item}] to sell.. DonkChat`);
+    } else {
+      if (dbItem.constellation == amount) {
+        // Delete the entry in DB if all items are sold
+        dbRef[user][item] = undefined;
+      } else {
+        // Decrease the constellations based on the amount
+        dbRef[user][item].constellation -= amount;
+      }
+
+      // Increase the primogems based on the amount
+      let calcAmount = 0;
+      switch(rarityValue) {
+        case five_star_prize: calcAmount += (amount * 480); break;
+        case four_star_prize: calcAmount += (amount * 160); break;
+        case three_star_prize: calcAmount += (amount * 10); break;
+      }
+      let beforeAmount = dbRef[user].primogems;
+      dbRef[user].primogems += calcAmount;
+      sendChatMessage(`${user} sold [${item}(${amount})] GroupNuma | [${beforeAmount}(+${calcAmount})] Primogems`);
+    }
+  }
+}
+
+// *************************
+// Functionality for !wstats
+// *************************
+function cmdWishStats(user) {
+  if (dbRef[user].primogems == undefined || isNaN(dbRef[user].primogems)) {
+    dbRef[user].primogems = 0;
+  }
+  sendChatMessage(`${user}'s stats: Primogems(${dbRef[user].primogems}) | Pity(${dbRef[user].pity})`);
+}
+
+// *************************
+// Functionality for !w / !wish
+// *************************
+function cmdWish(user, message) {
+
+  // Check if user is already in the queue
+  let obj = queue.find(o => o.user === user);
+  if (obj != undefined) {
+    sendChatMessage(`${user}, you are already in wish queue... peepoSlam`)
+    return;
+  }
+
+  const msgSplit = message.split(" ", 2);
+  if (msgSplit[0] === '') {
+    queue.push({
+      wishcount: '1',
+      user: user
+    })
+  } else {
+    // remove decimal value if any
+    let verify = Number(msgSplit[0].trim()) | 0;
+    // Check if message is a number, within 1~10 range and it is an integer
+    if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
+      sendChatMessage(`${user}, please input blank(1 wish) or 1~10 only`);
+    } else {
+      queue.push({
+        wishcount: verify.toString(),
+        user: user
+      })
+    }
   }
 }
 
@@ -1823,6 +2108,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   if (errFlg) {
     return;
   }
+  user = user.trim().toLowerCase();
   command = command.trim().toLowerCase();
   message = message.trim().toLowerCase();
 
@@ -1832,195 +2118,29 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   // console.log(flags);
   // console.log(extra);
   if (command === 'wqueue' && (flags.broadcaster || flags.mod)) {
-    let infoList = [];
-    queue.forEach(info => {
-      infoList.push(info.user+`(${info.wishcount})`)
-    })
-    // Checks the current queue for the wish command (available for streamer and mods only)
-    sendChatMessage(`Current wish queue is: ${infoList}`);
+    cmdWishQueue();
   } else if ((command === 'wconfig') && (flags.broadcaster || flags.mod)) {
-    sendChatMessage(`Volume(${volume}) | 5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Name(${points_name}) | Pity(${pity}) | Drops(${dropsRewards})`)
+    cmdWishConfig();
   } else if (command === 'wlist' && (flags.broadcaster || flags.mod)) {
-    if (message === '') {
-      sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
-    } else {
-      let output = [];
-      switch (message) {
-        case '3': CPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 3★: ${output}`); break;
-        case '4': RPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 4★: ${output}`); break;
-        case '5': SRPool.forEach(item => {output.push(item.dbname)}); sendChatMessage(`List of 5★: ${output}`); break;
-        default: sendChatMessage(`${user}, !wlist [3/4/5] for list of characters/weapons available`);
-      }
-    }
+    cmdWishList(user, message);
   } else if (command === 'wreset' && (flags.broadcaster || flags.mod)) {
-    sendChatMessage(`Wish Simulator is now resetting...`)
-    if(!allowed) {allowed = true};
-    wishcount = 0;
-    currentCount = 1;
-    multiPoints = 0;
-    multiSummary = [];
-    wishPool = [];
-    videoPath = '';
-    wishongoing = false;
-    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-    multiVid10play = false;
+    cmdWishReset();
   } else if (command === 'wadd' && (flags.broadcaster || flags.mod)) {
-    const msgSplit = message.split(" ", 2);
-    console.log(msgSplit);
-
-    // Check target user to add points
-    let target;
-    if (msgSplit[0].charAt(0) == '@') {
-      target = msgSplit[0].substr(1, msgSplit[0].length);
-    } else {
-      target = msgSplit[0];
-    }
-    console.log(target);
-
-    let verify = Number(msgSplit[1]) | 0;
-    if (isNaN(verify) || !Number.isInteger(verify) || verify == 0) {
-      sendChatMessage(`${user}, please input a valid number`);
-      return;
-    }
-    console.log(verify);
-
-    // If user has no record in DB yet, create a new record
-    if (undefined === dbRef[target]) {
-      dbRef[target] = {
-        pity: 0,
-        primogems: verify
-      };
-    } else {
-      dbRef[target].primogems += verify;
-    }
-    sendChatMessage(`Adding ${verify} ${points_name} to ${target}!`);
+    cmdWishAdd(user, message);
   } else if (command === 'wclaim') {
-    if (drops) {
-      console.log(dropsQueue);
-      let obj = dropsQueue.find(o => o === user);
-      if (obj != undefined) {
-        sendChatMessage(`${user}, you are already in queue... peepoSlam`)
-        return;
-      } else {
-        dropsQueue.push(user);
-      }
-      console.log(dropsQueue);
-    } else {
-      sendChatMessage(`${user}, There is no running drops currently... DonkChat`)
-    }
+    cmdWishClaim(user);
   } else if (command === 'wcheck') {
     if (isCooldown()) {return;}
     lastCommand = Date.now();
-    if (message === '') {
-      sendChatMessage(`${user}, !wcheck [3/4/5/<char>/<weap>] for list of characters/weapons in your inventory`);
-    } else {
-      let output = [];
-      let userItems = dbRef[user];
-      if (undefined === userItems) {
-        sendChatMessage(`${user}, you have no characters/weapons yet...`);
-      } else {
-        switch (message) {
-          case '3': CPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 3★: ${output.slice(0,-2)}`); break;
-          case '4': RPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 4★: ${output.slice(0,-2)}`); break;
-          case '5': SRPool.forEach(item => {userItems[item.dbname] !== undefined ? output += `${item.dbname}(${userItems[item.dbname].constellation}), ` : false}); sendChatMessage(`${user}'s list of 5★: ${output.slice(0,-2)}`); break;
-          default:
-            let dbName = "";
-            SRPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
-            RPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
-            CPool.forEach(item => { if (item.altname.includes(message)) dbName = item.dbname; });
-
-            let dbItem = dbRef[user][dbName];
-            if (undefined === dbItem) {
-              sendChatMessage(`${user} does not have that character/weapon yet`);
-            } else {
-              sendChatMessage(`${user}'s ${dbName} constellation is ${dbItem.constellation}`);
-            }
-        }
-      }
-    }
+    cmdWishCheck(user, message);
   } else if (command === 'wsell') {
     if (isCooldown()) {return;}
     lastCommand = Date.now();
-
-    if (message === '') {
-      sendChatMessage(`${user}, !wsell "[<char>/<weap>]" [amount] | Values: 3★(10), 4★(160), 5★(480)`);
-    } else {
-
-      const inputCheckPattern = /^[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]+\s+[0-9]+$/;
-      const itemPattern = /[\"][a-zA-Z]+\s*[a-zA-Z]*[\"]/;
-      const amountPattern = /\s+[0-9]+$/;
-
-      // console.log(message + " " + pattern.test(message));
-      // console.log(message + " " + pattern2.exec(message)[0].trim().replaceAll("\"", ""));
-      // console.log(message + " " + pattern3.exec(message)[0].trim());
-      // console.log(match + " " + message.match(inputCheck));
-      if (!inputCheckPattern.test(message)) {
-        sendChatMessage(`${user}, please check inputs.. !wsell "[<char>/<weap>]" [amount]`);
-        return;
-      }
-
-      let item = itemPattern.exec(message)[0].trim().replaceAll("\"", "");
-      let amount = amountPattern.exec(message)[0].trim();
-
-      console.log("valid input for !wsell");
-      console.log("item: " + item);
-      console.log("amount: " + amount);
-
-      if (amount == 0) {
-        sendChatMessage(`${user}, please input amount other than 0.. DonkChat`);
-        return;
-      }
-
-      // if (msgSplit[0] != undefined) target = msgSplit[0].trim();
-      // if (msgSplit[1] != undefined) amount = Number(msgSplit[1].trim()) | 0;
-      // if (target == undefined || amount == undefined) {
-      //   sendChatMessage(`${user}, please check inputs.. !wsell [<char>/<weap>] [amount]`);
-      //   return;
-      // }
-
-      let rarityValue = 0;
-      SRPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
-      RPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
-      CPool.forEach(val => { if (val.altname.includes(item)) { item = val.dbname; rarityValue = val.value }});
-
-      console.log("item: " + item);
-      console.log("rarityValue: " + rarityValue);
-      // console.log(dbName);
-      let dbItem = dbRef[user][item];
-      console.log("dbItem: " + dbItem);
-      if (dbItem == undefined || dbItem == isNaN()) {
-        sendChatMessage(`${user} does not have any [${item}] to sell.. DonkChat`);
-      } else if (dbItem.constellation < amount) {
-        sendChatMessage(`${user} does not have enough [${item}] to sell.. DonkChat`);
-      } else {
-        // Decrease the constellations based on the amount
-        if (dbItem.constellation == amount) {
-          dbRef[user][item] = undefined;
-        } else {
-          dbRef[user][item].constellation -= amount;
-        }
-
-        // Increase the primogems based on the amount
-        let totalAmount = 0;
-        switch(rarityValue) {
-          case five_star_prize: totalAmount += (amount * 480); break;
-          case four_star_prize: totalAmount += (amount * 160); break;
-          case three_star_prize: totalAmount += (amount * 10); break;
-        }
-        let beforeAmount = dbRef[user].primogems;
-        dbRef[user].primogems += totalAmount;
-        sendChatMessage(`${user} sold [${item}(${amount})] GroupNuma | [${beforeAmount}(+${totalAmount})] Primogems`);
-      }
-
-    }
+    cmdWishSell(user, message);
   } else if (command === 'wstats') {
     if (isCooldown()) {return;}
     lastCommand = Date.now();
-    if (dbRef[user].primogems == undefined || isNaN(dbRef[user].primogems)) {
-      dbRef[user].primogems = 0;
-    }
-    sendChatMessage(`${user}'s stats: Primogems(${dbRef[user].primogems}) | Pity(${dbRef[user].pity})`);
+    cmdWishStats(user);
   } else if (command === 'wcredits') {
     if (isCooldown()) {return;}
     lastCommand = Date.now();
@@ -2028,40 +2148,12 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
   } else if (command === 'wcommands') {
     if (isCooldown()) {return;}
     lastCommand = Date.now();
-    sendChatMessage(`List of commands are: [MODS] !wqueue, !wconfig, !wlist <3/4/5>, !wreset, !wadd <user> <points> || [ALL] !wclaim, !wcheck <3/4/5/charname/weapname>, !wstats, !wcredits, !wish/!w <blank/1~10>`)
+    sendChatMessage(`Available commands: [MODS] !wqueue, !wconfig, !wlist, !wreset, !wadd <user> <amount> || [ALL] !wclaim, !wcheck, !wsell, !wstats, !wcredits, !wish/!w <blank/1~10>`)
   } else {
     // Check if the command is !wish
     if (command !== "wish" && command !== "w") {return};
-
-    // Check if user is already in the queue
-    let obj = queue.find(o => o.user === user);
-    if (obj != undefined) {
-      sendChatMessage(`${user}, you are already in wish queue... peepoSlam`)
-      return;
-    }
-
-    const msgSplit = message.split(" ", 2);
-    if (msgSplit[0] === '') {
-      queue.push({
-        wishcount: '1',
-        user: user
-      })
-    } else {
-      // remove decimal value if any
-      let verify = Number(msgSplit[0].trim()) | 0;
-      // Check if message is a number, within 1~10 range and it is an integer
-      if (isNaN(verify) || !(verify >= 1 && verify <= 10) || !Number.isInteger(verify)){
-        sendChatMessage(`${user}, please input blank(1 wish) or 1~10 only`);
-      } else {
-        queue.push({
-          wishcount: verify.toString(),
-          user: user
-        })
-      }
-
-    }
+    cmdWish(user, message);
   }
-
 }
 
 checkQueryParameters();
