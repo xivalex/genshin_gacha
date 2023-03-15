@@ -1828,7 +1828,7 @@ function cmdWishQueue() {
 // Functionality for !wconfig
 // *************************
 function cmdWishConfig() {
-  sendChatMessage(`5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Pity(${pity}) | Drops(${dropsRewards})`)
+  sendChatMessage(`5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Pity(${pity}) | Drops(${dropsRewards}) | DropsInterval(${dropsInterval/1000} secs)`)
 }
 
 // *************************
