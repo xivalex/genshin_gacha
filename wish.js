@@ -650,9 +650,9 @@ RPool.push(
   {
     path: `/4star_heizou_VP8.webm`,
     value: four_star_prize,
-    name: "★★★★ Shikonoin Heizou",
-    altname: ["shikonoin heizou", "heizou"],
-    dbname: "Shikonoin Heizou"
+    name: "★★★★ Shikanoin Heizou",
+    altname: ["shikanoin heizou", "heizou"],
+    dbname: "Shikanoin Heizou"
   },
   {
     path: `/4star_layla_VP8.webm`,
@@ -2010,10 +2010,11 @@ function cmdWishSell(user, message) {
     let dbItem = dbRef[user][item];
     if (dbItem == undefined || dbItem == isNaN()) {
       sendChatMessage(`${user} does not have any [${item}] to sell.. DonkChat`);
-    } else if (dbItem.constellation < amount) {
+    } else if (dbItem.constellation + 1 < amount) {
+      // Constellation starts at 0
       sendChatMessage(`${user} does not have enough [${item}] to sell.. DonkChat`);
     } else {
-      if (dbItem.constellation == amount) {
+      if (dbItem.constellation + 1 == amount) {
         // Delete the entry in DB if all items are sold
         dbRef[user][item] = undefined;
       } else {
