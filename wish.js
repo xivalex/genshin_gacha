@@ -1555,8 +1555,12 @@ function multiWish(wishcost) {
         wishPool.forEach(val => { if (val.value > 0) hasRare = true;})
 
         if (!hasRare) {
-        // Randomize if SRPool/RPool and retrieve a video from the pool
-        chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool : RPool;
+          // Randomize if SRPool/RPool and retrieve a video from the pool
+          chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool : RPool;
+        } else {
+          // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
+          chosenPool = (Math.random() < ( sr_percentage / 100)) ? SRPool :
+          ((Math.random() < ( c_percentage / 100)) ? CPool : RPool);
         }
       } else {
         // Randomize if SRPool/RPool/CPool and retrieve a video from the pool
