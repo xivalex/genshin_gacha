@@ -364,6 +364,20 @@ SRPool.push(
     altname: ["tulaytullah's remembrance", "tulaytullah", "wanderer bell"],
     dbname: "Tulaytullah's Remembrance"
   },
+  {
+    path: `/5star_mistsplitter_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Mistsplitter Reforged",
+    altname: ["mistsplitter", "mist", "mist reforged", "mistsplitter reforged"],
+    dbname: "Mistsplitter Reforged"
+  },
+  {
+    path: `/5star_calamity_queller_VP8.webm`,
+    value: five_star_prize,
+    name: "★★★★★ Calamity Queller",
+    altname: ["calamity", "queller", "calamity queller"],
+    dbname: "Calamity Queller"
+  },
 )
 
 RPool.push(
@@ -667,6 +681,41 @@ RPool.push(
     name: "★★★★ Yaoyao",
     altname: ["yaoyao", "yao yao"],
     dbname: "Yaoyao"
+  },
+  {
+    path: `/4star_mika_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Mika",
+    altname: ["mika"],
+    dbname: "Mika"
+  },
+  {
+    path: `/4star_widsith_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Widsith",
+    altname: ["widsith"],
+    dbname: "Widsith"
+  },
+  {
+    path: `/4star_favgs_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Favonius Greatsword",
+    altname: ["favgs", "fav gs", "fav greatsword", "favonius greatsword"],
+    dbname: "Favonius Greatsword"
+  },
+  {
+    path: `/4star_wineandsong_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Wine and Song",
+    altname: ["wine and song", "wine", "was"],
+    dbname: "Wine and Song"
+  },
+  {
+    path: `/4star_favlance_VP8.webm`,
+    value: four_star_prize,
+    name: "★★★★ Favonius Lance",
+    altname: ["favonius lance", "favlance", "fav lance"],
+    dbname: "Favonius Lance"
   },
 )
 
