@@ -25,6 +25,7 @@
 // ********************************************************************************
 // Special Thanks to the following:
 //    - [instafluff] for providing the ComfyJS package
+//    - 7TV for the emotes (check README.md for the list of emotes used)
 // ********************************************************************************
 
 // Import the functions you need from the SDKs you need
@@ -99,11 +100,11 @@ let wishcount = 0;
 let wishPool = [];
 let withSR = false;
 let videoPath;
-let delay = 5000;
+let delay = 1000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.0;
+let version = 1.4;
 
 // ************
 // INTERVAL IDS
@@ -1487,9 +1488,9 @@ async function dropsDuration() {
     });
 
     if (output.length == 0) {
-      sendChatMessage(`No one claimed the primogem drops.. peepoRain`);
+      sendChatMessage(`No one claimed the primogem drops.. raidenCry`);
     } else {
-      sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} HutaoPls`)
+      sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} GroupNuma`)
     }
     dropsQueue = [];
   }
@@ -1971,14 +1972,14 @@ function cmdWishClaim(user) {
   if (drops) {
     let obj = dropsQueue.find(o => o === user);
     if (obj != undefined) {
-      sendChatMessage(`${user}, you are already in queue... peepoSlam`)
+      sendChatMessage(`${user}, you are already in queue... wideKokoAngry`)
       return;
     } else {
       dropsQueue.push(user);
     }
     console.log("[cmdWishClaim] dropsQueue: " + dropsQueue);
   } else {
-    sendChatMessage(`${user}, There is no running drops currently... DonkChat`)
+    sendChatMessage(`${user}, There is no running drops currently... wideKokoSigh`)
   }
 }
 
@@ -2048,7 +2049,7 @@ function cmdWishSell(user, message) {
     console.log("[cmdWishSell] amount: " + amount);
 
     if (amount == 0) {
-      sendChatMessage(`${user}, please input amount other than 0.. DonkChat`);
+      sendChatMessage(`${user}, please input amount other than 0.. wideKokoSigh`);
       return;
     }
 
@@ -2062,10 +2063,10 @@ function cmdWishSell(user, message) {
 
     let dbItem = dbRef[user][item];
     if (dbItem == undefined || dbItem == isNaN()) {
-      sendChatMessage(`${user} does not have any [${item}] to sell.. DonkChat`);
+      sendChatMessage(`${user} does not have any [${item}] to sell.. wideKokoSigh`);
     } else if (dbItem.constellation + 1 < amount) {
       // Constellation starts at 0
-      sendChatMessage(`${user} does not have enough [${item}] to sell.. DonkChat`);
+      sendChatMessage(`${user} does not have enough [${item}] to sell.. wideKokoSigh`);
     } else {
       if (dbItem.constellation + 1 == amount) {
         // Delete the entry in DB if all items are sold
@@ -2084,7 +2085,7 @@ function cmdWishSell(user, message) {
       }
       let beforeAmount = dbRef[user].primogems;
       dbRef[user].primogems += calcAmount;
-      sendChatMessage(`${user} sold [${item}(${amount})] GroupNuma | [${beforeAmount}(+${calcAmount})] Primogems`);
+      sendChatMessage(`${user} sold [${item}(${amount})] GanyuNom | [${beforeAmount}(+${calcAmount})] Primogems`);
     }
   }
 }
@@ -2104,7 +2105,7 @@ function cmdWish(user, message) {
   // Check if user is already in the queue
   let obj = queue.find(o => o.user === user);
   if (obj != undefined) {
-    sendChatMessage(`${user}, you are already in wish queue... peepoSlam`)
+    sendChatMessage(`${user}, you are already in wish queue... wideKokoAngry`)
     return;
   }
 
