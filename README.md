@@ -71,6 +71,10 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 > Changed emotes used for some responses \
 > Updated README.md
 
+### `v1.5` ###
+> Updated randomizer for gacha \
+> Added aliases
+
 
 ## PRE-REQUISITE ##
 

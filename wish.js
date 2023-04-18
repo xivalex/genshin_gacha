@@ -104,7 +104,7 @@ let delay = 1000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.4;
+let version = 1.5;
 
 // ************
 // INTERVAL IDS
@@ -194,7 +194,7 @@ SRPool.push(
     path: `/5star_jade_cutter_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Primordial Jade Cutter",
-    altname: ["primordial jade cutter", "jade cutter"],
+    altname: ["primordial jade cutter", "jade cutter", "pjc"],
     dbname: 'Primordial Jade Cutter'
   },
   {
@@ -236,7 +236,7 @@ SRPool.push(
     path: `/5star_raiden_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Raiden Shogun",
-    altname: ["raiden shogun", "raiden"],
+    altname: ["raiden shogun", "raiden", "ei"],
     dbname: 'Raiden Shogun'
   },
   {
@@ -313,7 +313,7 @@ SRPool.push(
     path: `/5star_kok_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Key of Khaj-Nisut",
-    altname: ["key of khaj-nisut", "key of khaj nisut", "kok"],
+    altname: ["key of khaj-nisut", "key of khaj nisut", "kok", "key"],
     dbname: 'Key of Khaj-Nisut'
   },
   {
@@ -1422,8 +1422,19 @@ function stopWish() {
 
 }
 
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+}
+
 function randomItemFromArray(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+  let shuffle = shuffleArray(arr);
+  return shuffle[Math.floor(Math.random() * arr.length)];
 }
 
 function sendChatMessage(msg) {
