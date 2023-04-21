@@ -925,6 +925,12 @@ function initializeMultiVideoStartElement() {
     multiVid1.play();
   }
 
+  function retryVideo() {
+    startVid.pause();
+    startVid.setAttribute("src", startVidTemp);
+    startVid.load();
+  }
+
   startVid = document.getElementById("startVid");
 
   startVid.onloadstart = function () {
@@ -942,14 +948,13 @@ function initializeMultiVideoStartElement() {
 
   startVid.onerror = function () {
     console.log("Start Video error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   startVid.onstalled = function () {
     console.log("Start Video stalled");
-    startVid.pause();
-    startVid.setAttribute("src", startVidTemp);
-    startVid.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -971,6 +976,13 @@ function initializeMultiVideo1Element() {
       stopWish();
     }
   }
+
+  function retryVideo() {
+    multiVid1.pause();
+    multiVid1.setAttribute("src", multiVid1Temp);
+    multiVid1.load();
+  }
+
   multiVid1 = document.getElementById("multiVid1");
 
   multiVid1.onloadstart = function () {
@@ -989,14 +1001,13 @@ function initializeMultiVideo1Element() {
 
   multiVid1.onerror = function () {
     console.log("Video 1 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid1.onstalled = function () {
     console.log("Video 1 stalled");
-    multiVid1.pause();
-    multiVid1.setAttribute("src", multiVid1Temp);
-    multiVid1.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1019,6 +1030,13 @@ function initializeMultiVideo2Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid2.pause();
+    multiVid2.setAttribute("src", multiVid2Temp);
+    multiVid2.load();
+  }
+
   multiVid2 = document.getElementById("multiVid2");
 
   multiVid2.onloadstart = function () {
@@ -1037,14 +1055,13 @@ function initializeMultiVideo2Element() {
 
   multiVid2.onerror = function () {
     console.log("Video 2 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid2.onstalled = function () {
     console.log("Video 2 stalled");
-    multiVid2.pause();
-    multiVid2.setAttribute("src", multiVid2Temp);
-    multiVid2.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1067,6 +1084,13 @@ function initializeMultiVideo3Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid3.pause();
+    multiVid3.setAttribute("src", multiVid3Temp);
+    multiVid3.load();
+  }
+
   multiVid3 = document.getElementById("multiVid3");
 
   multiVid3.onloadstart = function () {
@@ -1085,14 +1109,13 @@ function initializeMultiVideo3Element() {
 
   multiVid3.onerror = function () {
     console.log("Video 3 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid3.onstalled = function () {
     console.log("Video 3 stalled");
-    multiVid3.pause();
-    multiVid3.setAttribute("src", multiVid3Temp);
-    multiVid3.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1115,6 +1138,13 @@ function initializeMultiVideo4Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid4.pause();
+    multiVid4.setAttribute("src", multiVid4Temp);
+    multiVid4.load();
+  }
+
   multiVid4 = document.getElementById("multiVid4");
 
   multiVid4.onloadstart = function () {
@@ -1133,14 +1163,13 @@ function initializeMultiVideo4Element() {
 
   multiVid4.onerror = function () {
     console.log("Video 4 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid4.onstalled = function () {
     console.log("Video 4 stalled");
-    multiVid4.pause();
-    multiVid4.setAttribute("src", multiVid4Temp);
-    multiVid4.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1163,6 +1192,13 @@ function initializeMultiVideo5Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid5.pause();
+    multiVid5.setAttribute("src", multiVid5Temp);
+    multiVid5.load();
+  }
+
   multiVid5 = document.getElementById("multiVid5");
 
   multiVid5.onloadstart = function () {
@@ -1181,14 +1217,13 @@ function initializeMultiVideo5Element() {
 
   multiVid5.onerror = function () {
     console.log("Video 5 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid5.onstalled = function () {
     console.log("Video 5 stalled");
-    multiVid5.pause();
-    multiVid5.setAttribute("src", multiVid5Temp);
-    multiVid5.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1211,6 +1246,13 @@ function initializeMultiVideo6Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid6.pause();
+    multiVid6.setAttribute("src", multiVid6Temp);
+    multiVid6.load();
+  }
+
   multiVid6 = document.getElementById("multiVid6");
 
   multiVid6.onloadstart = function () {
@@ -1229,14 +1271,13 @@ function initializeMultiVideo6Element() {
 
   multiVid6.onerror = function () {
     console.log("Video 6 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid6.onstalled = function () {
     console.log("Video 6 stalled");
-    multiVid6.pause();
-    multiVid6.setAttribute("src", multiVid6Temp);
-    multiVid6.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1259,6 +1300,13 @@ function initializeMultiVideo7Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid7.pause();
+    multiVid7.setAttribute("src", multiVid7Temp);
+    multiVid7.load();
+  }
+
   multiVid7 = document.getElementById("multiVid7");
 
   multiVid7.onloadstart = function () {
@@ -1277,14 +1325,13 @@ function initializeMultiVideo7Element() {
 
   multiVid7.onerror = function () {
     console.log("Video 7 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid7.onstalled = function () {
     console.log("Video 7 stalled");
-    multiVid7.pause();
-    multiVid7.setAttribute("src", multiVid7Temp);
-    multiVid7.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1307,6 +1354,13 @@ function initializeMultiVideo8Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid8.pause();
+    multiVid8.setAttribute("src", multiVid8Temp);
+    multiVid8.load();
+  }
+
   multiVid8 = document.getElementById("multiVid8");
 
   multiVid8.onloadstart = function () {
@@ -1325,14 +1379,13 @@ function initializeMultiVideo8Element() {
 
   multiVid8.onerror = function () {
     console.log("Video 8 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid8.onstalled = function () {
     console.log("Video 8 stalled");
-    multiVid8.pause();
-    multiVid8.setAttribute("src", multiVid8Temp);
-    multiVid8.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1355,6 +1408,13 @@ function initializeMultiVideo9Element() {
     }
 
   }
+
+  function retryVideo() {
+    multiVid9.pause();
+    multiVid9.setAttribute("src", multiVid9Temp);
+    multiVid9.load();
+  }
+
   multiVid9 = document.getElementById("multiVid9");
 
   multiVid9.onloadstart = function () {
@@ -1373,14 +1433,13 @@ function initializeMultiVideo9Element() {
 
   multiVid9.onerror = function () {
     console.log("Video 9 error");
-    stopWish();
+    retryVideo();
+    // stopWish();
   }
 
   multiVid9.onstalled = function () {
     console.log("Video 9 stalled");
-    multiVid9.pause();
-    multiVid9.setAttribute("src", multiVid9Temp);
-    multiVid9.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1391,6 +1450,13 @@ function initializeMultiVideo9Element() {
 }
 
 function initializeMultiVideo10Element() {
+
+  function retryVideo() {
+    multiVid10.pause();
+    multiVid10.setAttribute("src", multiVid10Temp);
+    multiVid10.load();
+  }
+
   multiVid10 = document.getElementById("multiVid10");
 
   multiVid10.onloadstart = function () {
@@ -1409,15 +1475,14 @@ function initializeMultiVideo10Element() {
 
   multiVid10.onerror = function () {
     console.log("Video 10 error");
-    multiVid10.setAttribute("hidden", "hidden");
-    stopWish();
+    retryVideo();
+    // multiVid10.setAttribute("hidden", "hidden");
+    // stopWish();
   }
 
   multiVid10.onstalled = function () {
     console.log("Video 10 stalled");
-    multiVid10.pause();
-    multiVid10.setAttribute("src", multiVid10Temp);
-    multiVid10.load();
+    retryVideo();
     // stopWish();
   }
 
@@ -1623,7 +1688,7 @@ var intervalIdWish = setInterval(async function() {
         startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
         multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
         multiVid10play = false;
-        starVidTemp = multiVid1Temp = multiVid2Temp = multiVid3Temp = multiVid4Temp = multiVid5Temp =
+        startVidTemp = multiVid1Temp = multiVid2Temp = multiVid3Temp = multiVid4Temp = multiVid5Temp =
         multiVid6Temp = multiVid7Temp = multiVid8Temp = multiVid9Temp = multiVid10Temp = '';
         return;
       }
@@ -1705,6 +1770,7 @@ function multiWish(wishcost) {
     // Increment the total amount of points;
     multiPoints += randomVid.value;
     let video = `${videoPath}${randomVid.path}`;
+    console.log(video);
 
     switch(i) {
       case 0: multiVid1.setAttribute("src", video); multiVid1.load(); multiVid1Temp = video; break;
