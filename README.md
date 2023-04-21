@@ -75,6 +75,17 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 > Updated randomizer for gacha \
 > Added aliases
 
+### `v1.6` ###
+> Added characters and weapons to be obtained
+> Type | Rarity | Name | Remarks
+> :---: | :---: | --- | ---
+> Character | 4★ | Kirara |
+>
+> Added text color for drops to be more visible when it is ongoing \
+> Updated messages during drops \
+> Trimmed messages if its too long for 1 chat message \
+> Updated handling for stalled videos to retry loading the video until it does not stall
+
 
 ## PRE-REQUISITE ##
 
@@ -339,6 +350,7 @@ Name | Rarity/Availability | Contributor
  Yaoyao | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Mika | ![4★](https://img.shields.io/badge/4%E2%98%85-YES-violet) | [xivalex](https://www.twitch.tv/xivalex)
  Kaveh | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
+ Kirara | ![4★](https://img.shields.io/badge/4%E2%98%85-NO-red) |
  Aquila Favonia | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |
  Skyward Blade | ![5★](https://img.shields.io/badge/5%E2%98%85-YES-yellow) | [xivalex](https://www.twitch.tv/xivalex)
  Freedom-Sword | ![5★](https://img.shields.io/badge/5%E2%98%85-NO-red) |

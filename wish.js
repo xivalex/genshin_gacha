@@ -69,6 +69,17 @@ let multiVid7;
 let multiVid8;
 let multiVid9;
 let multiVid10;
+let startVidTemp;
+let multiVid1Temp;
+let multiVid2Temp;
+let multiVid3Temp;
+let multiVid4Temp;
+let multiVid5Temp;
+let multiVid6Temp;
+let multiVid7Temp;
+let multiVid8Temp;
+let multiVid9Temp;
+let multiVid10Temp;
 let startVidplay = false;
 let multiVid1play = false;
 let multiVid2play = false;
@@ -104,7 +115,7 @@ let delay = 1000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.5;
+let version = 1.6;
 
 // ************
 // INTERVAL IDS
@@ -868,17 +879,7 @@ function initializeVideoElement() {
     }
     // console.log(result);
     sendChatMessage(result);
-    wishcount = 0;
-    currentCount = 1;
-    multiPoints = 0;
-    wishPool = [];
-    multiSummary = [];
-    videoPath = '';
-    wishongoing = false;
-    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-    multiVid10play = false;
-    allowed = true;
+    vidReset();
   }
   video = document.getElementById("video");
 
@@ -946,7 +947,10 @@ function initializeMultiVideoStartElement() {
 
   startVid.onstalled = function () {
     console.log("Start Video stalled");
-    stopWish();
+    startVid.pause();
+    startVid.setAttribute("src", startVidTemp);
+    startVid.load();
+    // stopWish();
   }
 
   startVid.onended = function () {
@@ -990,7 +994,10 @@ function initializeMultiVideo1Element() {
 
   multiVid1.onstalled = function () {
     console.log("Video 1 stalled");
-    stopWish();
+    multiVid1.pause();
+    multiVid1.setAttribute("src", multiVid1Temp);
+    multiVid1.load();
+    // stopWish();
   }
 
   multiVid1.onended = function () {
@@ -1035,7 +1042,10 @@ function initializeMultiVideo2Element() {
 
   multiVid2.onstalled = function () {
     console.log("Video 2 stalled");
-    stopWish();
+    multiVid2.pause();
+    multiVid2.setAttribute("src", multiVid2Temp);
+    multiVid2.load();
+    // stopWish();
   }
 
   multiVid2.onended = function () {
@@ -1080,7 +1090,10 @@ function initializeMultiVideo3Element() {
 
   multiVid3.onstalled = function () {
     console.log("Video 3 stalled");
-    stopWish();
+    multiVid3.pause();
+    multiVid3.setAttribute("src", multiVid3Temp);
+    multiVid3.load();
+    // stopWish();
   }
 
   multiVid3.onended = function () {
@@ -1125,7 +1138,10 @@ function initializeMultiVideo4Element() {
 
   multiVid4.onstalled = function () {
     console.log("Video 4 stalled");
-    stopWish();
+    multiVid4.pause();
+    multiVid4.setAttribute("src", multiVid4Temp);
+    multiVid4.load();
+    // stopWish();
   }
 
   multiVid4.onended = function () {
@@ -1170,7 +1186,10 @@ function initializeMultiVideo5Element() {
 
   multiVid5.onstalled = function () {
     console.log("Video 5 stalled");
-    stopWish();
+    multiVid5.pause();
+    multiVid5.setAttribute("src", multiVid5Temp);
+    multiVid5.load();
+    // stopWish();
   }
 
   multiVid5.onended = function () {
@@ -1215,7 +1234,10 @@ function initializeMultiVideo6Element() {
 
   multiVid6.onstalled = function () {
     console.log("Video 6 stalled");
-    stopWish();
+    multiVid6.pause();
+    multiVid6.setAttribute("src", multiVid6Temp);
+    multiVid6.load();
+    // stopWish();
   }
 
   multiVid6.onended = function () {
@@ -1260,7 +1282,10 @@ function initializeMultiVideo7Element() {
 
   multiVid7.onstalled = function () {
     console.log("Video 7 stalled");
-    stopWish();
+    multiVid7.pause();
+    multiVid7.setAttribute("src", multiVid7Temp);
+    multiVid7.load();
+    // stopWish();
   }
 
   multiVid7.onended = function () {
@@ -1305,7 +1330,10 @@ function initializeMultiVideo8Element() {
 
   multiVid8.onstalled = function () {
     console.log("Video 8 stalled");
-    stopWish();
+    multiVid8.pause();
+    multiVid8.setAttribute("src", multiVid8Temp);
+    multiVid8.load();
+    // stopWish();
   }
 
   multiVid8.onended = function () {
@@ -1350,7 +1378,10 @@ function initializeMultiVideo9Element() {
 
   multiVid9.onstalled = function () {
     console.log("Video 9 stalled");
-    stopWish();
+    multiVid9.pause();
+    multiVid9.setAttribute("src", multiVid9Temp);
+    multiVid9.load();
+    // stopWish();
   }
 
   multiVid9.onended = function () {
@@ -1384,8 +1415,10 @@ function initializeMultiVideo10Element() {
 
   multiVid10.onstalled = function () {
     console.log("Video 10 stalled");
-    multiVid10.setAttribute("hidden", "hidden");
-    stopWish();
+    multiVid10.pause();
+    multiVid10.setAttribute("src", multiVid10Temp);
+    multiVid10.load();
+    // stopWish();
   }
 
   multiVid10.onended = function () {
@@ -1407,19 +1440,26 @@ function stopWish() {
     }
     console.log(result)
     sendChatMessage(result);
-    wishcount = 0;
-    currentCount = 1;
-    multiPoints = 0;
-    multiSummary = [];
-    wishPool = [];
-    videoPath = '';
-    allowed = true;
-    wishongoing = false;
-    startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-    multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-    multiVid10play = false;
+    vidReset();
   }
 
+}
+
+function vidReset() {
+  wishcount = 0;
+  currentCount = 1;
+  multiPoints = 0;
+  multiSummary = [];
+  wishPool = [];
+  videoPath = '';
+  allowed = true;
+  wishongoing = false;
+  startVidplay = false;
+  multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false; multiVid5play = false;
+  multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false; multiVid10play = false;
+  startVidTemp = '';
+  multiVid1Temp = ''; multiVid2Temp = ''; multiVid3Temp = ''; multiVid4Temp = ''; multiVid5Temp = '';
+  multiVid6Temp = ''; multiVid7Temp = ''; multiVid8Temp = ''; multiVid9Temp = ''; multiVid10Temp = '';
 }
 
 function shuffleArray(arr) {
@@ -1438,6 +1478,10 @@ function randomItemFromArray(arr) {
 }
 
 function sendChatMessage(msg) {
+  // Trim the message if its too long for twitch chat
+  if (msg.length > 450) {
+    msg = msg.substr(0, 450) + '...'
+  }
   ComfyJS.Say(msg);
 }
 
@@ -1467,7 +1511,7 @@ async function dropsStart() {
   // Turns on primogems drops
   drops = true;
   dropsOnTime = new Date().getTime() + 60000;
-  sendChatMessage(`HutaoVeryPogFast ${dropsRewards} Primogems drops is up! Type !wclaim to join HutaoVeryPogFast`);
+  sendChatMessage(`/me HutaoVeryPogFast ${dropsRewards} Primogems drop is up! Type !wclaim to join HutaoVeryPogFast`);
 
   // Start interval on drops duration
   idDropsDuration = setInterval(dropsDuration, 20000);
@@ -1485,7 +1529,7 @@ async function dropsDuration() {
   // if (dropsOffTime > timeCheck) {
   if (seconds > 0) {
     if (seconds <= 40 && seconds > 0) {
-      sendChatMessage('HutaoPoke Remaining ' + seconds + ' seconds left for drops! HutaoPoke');
+      sendChatMessage(`/me Drop for ${dropsRewards} Primogems will end in ${seconds} seconds! HutaoPoke`);
     }
   } else {
     // Turn off drops feature
@@ -1499,9 +1543,9 @@ async function dropsDuration() {
     });
 
     if (output.length == 0) {
-      sendChatMessage(`No one claimed the primogem drops.. raidenCry`);
+      sendChatMessage(`/me No one claimed the drop.. raidenCry`);
     } else {
-      sendChatMessage(`The following claimed the ${dropsRewards} primogem drop: ${output} GroupNuma`)
+      sendChatMessage(`/me The following claimed the ${dropsRewards} Primogems drop: ${output} GroupNuma`)
     }
     dropsQueue = [];
   }
@@ -1579,6 +1623,8 @@ var intervalIdWish = setInterval(async function() {
         startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
         multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
         multiVid10play = false;
+        starVidTemp = multiVid1Temp = multiVid2Temp = multiVid3Temp = multiVid4Temp = multiVid5Temp =
+        multiVid6Temp = multiVid7Temp = multiVid8Temp = multiVid9Temp = multiVid10Temp = '';
         return;
       }
 
@@ -1658,18 +1704,19 @@ function multiWish(wishcost) {
 
     // Increment the total amount of points;
     multiPoints += randomVid.value;
+    let video = `${videoPath}${randomVid.path}`;
 
     switch(i) {
-      case 0: multiVid1.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid1.load(); break;
-      case 1: multiVid2.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid2.load(); break;
-      case 2: multiVid3.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid3.load(); break;
-      case 3: multiVid4.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid4.load(); break;
-      case 4: multiVid5.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid5.load(); break;
-      case 5: multiVid6.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid6.load(); break;
-      case 6: multiVid7.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid7.load(); break;
-      case 7: multiVid8.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid8.load(); break;
-      case 8: multiVid9.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid9.load(); break;
-      case 9: multiVid10.setAttribute("src", `${videoPath}${randomVid.path}`); multiVid10.load(); break;
+      case 0: multiVid1.setAttribute("src", video); multiVid1.load(); multiVid1Temp = video; break;
+      case 1: multiVid2.setAttribute("src", video); multiVid2.load(); multiVid2Temp = video; break;
+      case 2: multiVid3.setAttribute("src", video); multiVid3.load(); multiVid3Temp = video; break;
+      case 3: multiVid4.setAttribute("src", video); multiVid4.load(); multiVid4Temp = video; break;
+      case 4: multiVid5.setAttribute("src", video); multiVid5.load(); multiVid5Temp = video; break;
+      case 5: multiVid6.setAttribute("src", video); multiVid6.load(); multiVid6Temp = video; break;
+      case 6: multiVid7.setAttribute("src", video); multiVid7.load(); multiVid7Temp = video; break;
+      case 7: multiVid8.setAttribute("src", video); multiVid8.load(); multiVid8Temp = video; break;
+      case 8: multiVid9.setAttribute("src", video); multiVid9.load(); multiVid9Temp = video; break;
+      case 9: multiVid10.setAttribute("src", video); multiVid10.load(); multiVid10Temp = video; break;
     }
     // Store the vid info
     wishPool.push(randomVid);
@@ -1693,10 +1740,11 @@ function multiWish(wishcost) {
 
     // Set the start of the video
     if (withSR) {
-      startVid.setAttribute("src", `${videoPath}/5star_template_VP8.webm`);
+      startVidTemp = `${videoPath}/5star_template_VP8.webm`;
     } else {
-      startVid.setAttribute("src", `${videoPath}/4star_template_VP8.webm`);
+      startVidTemp = `${videoPath}/4star_template_VP8.webm`;
     }
+    startVid.setAttribute("src", startVidTemp);
     withSR = false;
 
     startVid.load();
@@ -1919,17 +1967,7 @@ function cmdWishList(user, message) {
 function cmdWishReset(user, message) {
   // [TBD] Might now be needed anymore. Will remove if no instance is used for a long time...
   sendChatMessage(`Wish Simulator is now resetting...`)
-  if(!allowed) {allowed = true};
-  wishcount = 0;
-  currentCount = 1;
-  multiPoints = 0;
-  multiSummary = [];
-  wishPool = [];
-  videoPath = '';
-  wishongoing = false;
-  startVidplay = false; multiVid1play = false; multiVid2play = false; multiVid3play = false; multiVid4play = false;
-  multiVid5play = false; multiVid6play = false; multiVid7play = false; multiVid8play = false; multiVid9play = false;
-  multiVid10play = false;
+  vidReset();
 }
 
 // *************************
