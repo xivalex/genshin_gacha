@@ -48,6 +48,7 @@ let three_star_prize = 0;
 let pity = 30;
 let dropsRewards = 1600;
 let dropsInterval = 900000; // 15 minutes
+let playbackSpeed = 1.0;
 
 // ********************
 // SINGLE-WISH ELEMENTS
@@ -115,7 +116,7 @@ let delay = 1000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.6;
+let version = 1.61;
 
 // ************
 // INTERVAL IDS
@@ -1619,6 +1620,7 @@ async function dropsDuration() {
 function startMulti() {
   // Show the element
   startVid.removeAttribute("hidden");
+  sendChatMessage(`${displayName}'s ${wishcount}x genshinWish is DIANO`);
   startVid.play();
   wishongoing = true;
   console.log('All Videos are now playable!');
@@ -1697,7 +1699,7 @@ var intervalIdWish = setInterval(async function() {
       // addPoints(-wishcost);
 
       console.log(`${displayName}'s ${wishcount}x genshinWish is DIANO...`);
-      sendChatMessage(`${displayName}'s ${wishcount}x genshinWish is DIANO`);
+      // sendChatMessage(`${displayName}'s ${wishcount}x genshinWish is DIANO`);
 
 
       if (wishcount == 1) {
@@ -1960,6 +1962,26 @@ function checkQueryParameters() {
     }
   }
 
+  if (params.speed) {
+    playbackSpeed = Number(params.speed);
+    if (isNaN(playbackSpeed)){
+      console.log("value for params.speed is invalid");
+    } else {
+      video.defaultPlaybackRate = playbackSpeed;
+      startVid.defaultPlaybackRate = playbackSpeed;
+      multiVid1.defaultPlaybackRate = playbackSpeed;
+      multiVid2.defaultPlaybackRate = playbackSpeed;
+      multiVid3.defaultPlaybackRate = playbackSpeed;
+      multiVid4.defaultPlaybackRate = playbackSpeed;
+      multiVid5.defaultPlaybackRate = playbackSpeed;
+      multiVid6.defaultPlaybackRate = playbackSpeed;
+      multiVid7.defaultPlaybackRate = playbackSpeed;
+      multiVid8.defaultPlaybackRate = playbackSpeed;
+      multiVid9.defaultPlaybackRate = playbackSpeed;
+      multiVid10.defaultPlaybackRate = playbackSpeed;
+    }
+  }
+
   // Start the drops timer
   setInterval(dropsStart, dropsInterval);
 
@@ -1976,6 +1998,7 @@ function checkQueryParameters() {
   console.log(`Pity is ${pity}`);
   console.log(`Drops Amount is ${dropsRewards}`);
   console.log(`Drops Interval is ${dropsInterval / 1000} seconds`);
+  console.log(`Playback Speed is ${params.speed}`);
 }
 
 // *************************
@@ -2007,7 +2030,7 @@ function cmdWishQueue() {
 // Functionality for !wconfig
 // *************************
 function cmdWishConfig() {
-  sendChatMessage(`5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Pity(${pity}) | Drops(${dropsRewards}) | DropsInterval(${dropsInterval/1000} secs)`)
+  sendChatMessage(`5★(${sr_percentage}) | 3★(${c_percentage}) | 5p★(${SRPool[0].value}) | 4p★(${RPool[0].value}) | 3p★(${CPool[0].value}) | Cost(${cost}) | Pity(${pity}) | Speed(${playbackSpeed}) | Drops(${dropsRewards}) | DropsInterval(${dropsInterval/1000} secs)`)
 }
 
 // *************************

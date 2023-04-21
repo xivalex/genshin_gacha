@@ -86,6 +86,9 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 > Trimmed messages if its too long for 1 chat message \
 > Updated handling for stalled videos to retry loading the video until it does not stall
 
+### `v1.61` ###
+> Added `Speed` parameter to adjust the playback speed of the videos \
+> Changed timing of `Genshin Wish Ongoing` message
 
 ## PRE-REQUISITE ##
 
