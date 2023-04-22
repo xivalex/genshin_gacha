@@ -54,6 +54,7 @@ let playbackSpeed = 1.0;
 // SINGLE-WISH ELEMENTS
 // ********************
 let video;
+let videoTemp;
 
 // ********************
 // MULTI-WISH ELEMENTS
@@ -116,7 +117,8 @@ let delay = 1000;
 let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
-let version = 1.61;
+let maxRetryCount = 3;
+let version = 1.62;
 
 // ************
 // INTERVAL IDS
@@ -864,6 +866,12 @@ function getDb() {
   });
 }
 
+function retryVideo(vidRef, vidPath) {
+  vidRef.pause();
+  vidRef.setAttribute("src", vidPath);
+  vidRef.load();
+}
+
 // ********************
 // SINGLE-WISH EVENT LISTENER
 // ********************
@@ -882,6 +890,7 @@ function initializeVideoElement() {
     sendChatMessage(result);
     vidReset();
   }
+  let retryCount = 0;
   video = document.getElementById("video");
 
   video.onloadstart = function () {
@@ -890,6 +899,7 @@ function initializeVideoElement() {
 
   video.oncanplaythrough = function () {
     console.log("Single Video can now play");
+    retryCount = 0;
     video.play();
   }
 
@@ -898,13 +908,15 @@ function initializeVideoElement() {
   }
 
   video.onerror = function () {
-    console.log("Single Video error");
-    nextVideo();
+    console.log("Single Video error"); console.log("video retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; video.pause(); nextVideo(); }
+    else { retryVideo(video, videoTemp); retryCount++ }
   }
 
   video.onstalled = function () {
     console.log("Single Video stalled");
-    nextVideo();
+    if (retryCount > maxRetryCount) { retryCount = 0; video.pause(); nextVideo(); }
+    else { retryVideo(video, videoTemp); retryCount++ }
   }
 
   video.onended = function () {
@@ -925,13 +937,7 @@ function initializeMultiVideoStartElement() {
     // currentCount += 1;
     multiVid1.play();
   }
-
-  function retryVideo() {
-    startVid.pause();
-    startVid.setAttribute("src", startVidTemp);
-    startVid.load();
-  }
-
+  let retryCount = 0;
   startVid = document.getElementById("startVid");
 
   startVid.onloadstart = function () {
@@ -940,6 +946,7 @@ function initializeMultiVideoStartElement() {
 
   startVid.oncanplaythrough = function () {
     console.log("Start Video can now play");
+    retryCount = 0;
     startVidplay = true;
   }
 
@@ -948,15 +955,16 @@ function initializeMultiVideoStartElement() {
   }
 
   startVid.onerror = function () {
-    console.log("Start Video error");
-    retryVideo();
-    // stopWish();
+    console.log("Start Video error"); console.log("startVid retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; startVid.pause(); stopWish(); }
+    else { retryVideo(startVid, startVidTemp); retryCount++ }
   }
 
   startVid.onstalled = function () {
-    console.log("Start Video stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Start Video stalled"); console.log("startVid retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; startVid.pause(); stopWish(); }
+    else { retryVideo(startVid, startVidTemp); retryCount++ }
+    retryCount++;
   }
 
   startVid.onended = function () {
@@ -977,13 +985,7 @@ function initializeMultiVideo1Element() {
       stopWish();
     }
   }
-
-  function retryVideo() {
-    multiVid1.pause();
-    multiVid1.setAttribute("src", multiVid1Temp);
-    multiVid1.load();
-  }
-
+  let retryCount = 0;
   multiVid1 = document.getElementById("multiVid1");
 
   multiVid1.onloadstart = function () {
@@ -992,6 +994,7 @@ function initializeMultiVideo1Element() {
 
   multiVid1.oncanplaythrough = function () {
     console.log("Video 1 can now play");
+    retryCount = 0;
     multiVid1play = true;
   }
 
@@ -1001,15 +1004,15 @@ function initializeMultiVideo1Element() {
   }
 
   multiVid1.onerror = function () {
-    console.log("Video 1 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 1 error"); console.log("multiVid1 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid1.pause(); stopWish(); }
+    else { retryVideo(multiVid1, multiVid1Temp); retryCount++ }
   }
 
   multiVid1.onstalled = function () {
-    console.log("Video 1 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 1 stalled"); console.log("multiVid1 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid1.pause(); stopWish(); }
+    else { retryVideo(multiVid1, multiVid1Temp); retryCount++ }
   }
 
   multiVid1.onended = function () {
@@ -1031,13 +1034,7 @@ function initializeMultiVideo2Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid2.pause();
-    multiVid2.setAttribute("src", multiVid2Temp);
-    multiVid2.load();
-  }
-
+  let retryCount = 0;
   multiVid2 = document.getElementById("multiVid2");
 
   multiVid2.onloadstart = function () {
@@ -1046,6 +1043,7 @@ function initializeMultiVideo2Element() {
 
   multiVid2.oncanplaythrough = function () {
     console.log("Video 2 can now play");
+    retryCount = 0;
     multiVid2play = true;
   }
 
@@ -1055,15 +1053,15 @@ function initializeMultiVideo2Element() {
   }
 
   multiVid2.onerror = function () {
-    console.log("Video 2 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 2 error"); console.log("multiVid2 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid2.pause(); stopWish(); }
+    else { retryVideo(multiVid2, multiVid2Temp); retryCount++ }
   }
 
   multiVid2.onstalled = function () {
-    console.log("Video 2 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 2 stalled"); console.log("multiVid2 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid2.pause(); stopWish(); }
+    else { retryVideo(multiVid2, multiVid2Temp); retryCount++ }
   }
 
   multiVid2.onended = function () {
@@ -1085,13 +1083,7 @@ function initializeMultiVideo3Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid3.pause();
-    multiVid3.setAttribute("src", multiVid3Temp);
-    multiVid3.load();
-  }
-
+  let retryCount = 0;
   multiVid3 = document.getElementById("multiVid3");
 
   multiVid3.onloadstart = function () {
@@ -1100,6 +1092,7 @@ function initializeMultiVideo3Element() {
 
   multiVid3.oncanplaythrough = function () {
     console.log("Video 3 can now play");
+    retryCount = 0;
     multiVid3play = true;
   }
 
@@ -1109,15 +1102,15 @@ function initializeMultiVideo3Element() {
   }
 
   multiVid3.onerror = function () {
-    console.log("Video 3 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 3 error"); console.log("multiVid3 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid3.pause(); stopWish(); }
+    else { retryVideo(multiVid3, multiVid3Temp); retryCount++ }
   }
 
   multiVid3.onstalled = function () {
-    console.log("Video 3 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 3 stalled"); console.log("multiVid3 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid3.pause(); stopWish(); }
+    else { retryVideo(multiVid3, multiVid3Temp); retryCount++ }
   }
 
   multiVid3.onended = function () {
@@ -1139,13 +1132,7 @@ function initializeMultiVideo4Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid4.pause();
-    multiVid4.setAttribute("src", multiVid4Temp);
-    multiVid4.load();
-  }
-
+  let retryCount = 0;
   multiVid4 = document.getElementById("multiVid4");
 
   multiVid4.onloadstart = function () {
@@ -1154,6 +1141,7 @@ function initializeMultiVideo4Element() {
 
   multiVid4.oncanplaythrough = function () {
     console.log("Video 4 can now play");
+    retryCount = 0;
     multiVid4play = true;
   }
 
@@ -1163,15 +1151,15 @@ function initializeMultiVideo4Element() {
   }
 
   multiVid4.onerror = function () {
-    console.log("Video 4 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 4 error"); console.log("multiVid4 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid4.pause(); stopWish(); }
+    else { retryVideo(multiVid4, multiVid4Temp); retryCount++ }
   }
 
   multiVid4.onstalled = function () {
-    console.log("Video 4 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 4 stalled"); console.log("multiVid4 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid4.pause(); stopWish(); }
+    else { retryVideo(multiVid4, multiVid4Temp); retryCount++ }
   }
 
   multiVid4.onended = function () {
@@ -1193,13 +1181,7 @@ function initializeMultiVideo5Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid5.pause();
-    multiVid5.setAttribute("src", multiVid5Temp);
-    multiVid5.load();
-  }
-
+  let retryCount = 0;
   multiVid5 = document.getElementById("multiVid5");
 
   multiVid5.onloadstart = function () {
@@ -1208,6 +1190,7 @@ function initializeMultiVideo5Element() {
 
   multiVid5.oncanplaythrough = function () {
     console.log("Video 5 can now play");
+    retryCount = 0;
     multiVid5play = true;
   }
 
@@ -1217,15 +1200,15 @@ function initializeMultiVideo5Element() {
   }
 
   multiVid5.onerror = function () {
-    console.log("Video 5 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 5 error"); console.log("multiVid5 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid5.pause(); stopWish(); }
+    else { retryVideo(multiVid5, multiVid5Temp); retryCount++ }
   }
 
   multiVid5.onstalled = function () {
-    console.log("Video 5 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 5 stalled"); console.log("multiVid5 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid5.pause(); stopWish(); }
+    else { retryVideo(multiVid5, multiVid5Temp); retryCount++ }
   }
 
   multiVid5.onended = function () {
@@ -1247,13 +1230,7 @@ function initializeMultiVideo6Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid6.pause();
-    multiVid6.setAttribute("src", multiVid6Temp);
-    multiVid6.load();
-  }
-
+  let retryCount = 0;
   multiVid6 = document.getElementById("multiVid6");
 
   multiVid6.onloadstart = function () {
@@ -1262,6 +1239,7 @@ function initializeMultiVideo6Element() {
 
   multiVid6.oncanplaythrough = function () {
     console.log("Video 6 can now play");
+    retryCount = 0;
     multiVid6play = true;
   }
 
@@ -1271,15 +1249,15 @@ function initializeMultiVideo6Element() {
   }
 
   multiVid6.onerror = function () {
-    console.log("Video 6 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 6 error"); console.log("multiVid6 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid6.pause(); stopWish(); }
+    else { retryVideo(multiVid6, multiVid6Temp); retryCount++ }
   }
 
   multiVid6.onstalled = function () {
-    console.log("Video 6 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 6 stalled"); console.log("multiVid6 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid6.pause(); stopWish(); }
+    else { retryVideo(multiVid6, multiVid6Temp); retryCount++ }
   }
 
   multiVid6.onended = function () {
@@ -1301,13 +1279,7 @@ function initializeMultiVideo7Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid7.pause();
-    multiVid7.setAttribute("src", multiVid7Temp);
-    multiVid7.load();
-  }
-
+  let retryCount = 0;
   multiVid7 = document.getElementById("multiVid7");
 
   multiVid7.onloadstart = function () {
@@ -1316,6 +1288,7 @@ function initializeMultiVideo7Element() {
 
   multiVid7.oncanplaythrough = function () {
     console.log("Video 7 can now play");
+    retryCount = 0;
     multiVid7play = true;
   }
 
@@ -1325,15 +1298,15 @@ function initializeMultiVideo7Element() {
   }
 
   multiVid7.onerror = function () {
-    console.log("Video 7 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 7 error"); console.log("multiVid7 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid7.pause(); stopWish(); }
+    else { retryVideo(multiVid7, multiVid7Temp); retryCount++ }
   }
 
   multiVid7.onstalled = function () {
-    console.log("Video 7 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 7 stalled"); console.log("multiVid7 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid7.pause(); stopWish(); }
+    else { retryVideo(multiVid7, multiVid7Temp); retryCount++ }
   }
 
   multiVid7.onended = function () {
@@ -1355,13 +1328,7 @@ function initializeMultiVideo8Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid8.pause();
-    multiVid8.setAttribute("src", multiVid8Temp);
-    multiVid8.load();
-  }
-
+  let retryCount = 0;
   multiVid8 = document.getElementById("multiVid8");
 
   multiVid8.onloadstart = function () {
@@ -1370,6 +1337,7 @@ function initializeMultiVideo8Element() {
 
   multiVid8.oncanplaythrough = function () {
     console.log("Video 8 can now play");
+    retryCount = 0;
     multiVid8play = true;
   }
 
@@ -1379,15 +1347,15 @@ function initializeMultiVideo8Element() {
   }
 
   multiVid8.onerror = function () {
-    console.log("Video 8 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 8 error"); console.log("multiVid8 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid8.pause(); stopWish(); }
+    else { retryVideo(multiVid8, multiVid8Temp); retryCount++ }
   }
 
   multiVid8.onstalled = function () {
-    console.log("Video 8 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 8 stalled"); console.log("multiVid8 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid8.pause(); stopWish(); }
+    else { retryVideo(multiVid8, multiVid8Temp); retryCount++ }
   }
 
   multiVid8.onended = function () {
@@ -1409,13 +1377,7 @@ function initializeMultiVideo9Element() {
     }
 
   }
-
-  function retryVideo() {
-    multiVid9.pause();
-    multiVid9.setAttribute("src", multiVid9Temp);
-    multiVid9.load();
-  }
-
+  let retryCount = 0;
   multiVid9 = document.getElementById("multiVid9");
 
   multiVid9.onloadstart = function () {
@@ -1424,6 +1386,7 @@ function initializeMultiVideo9Element() {
 
   multiVid9.oncanplaythrough = function () {
     console.log("Video 9 can now play");
+    retryCount = 0;
     multiVid9play = true;
   }
 
@@ -1433,15 +1396,15 @@ function initializeMultiVideo9Element() {
   }
 
   multiVid9.onerror = function () {
-    console.log("Video 9 error");
-    retryVideo();
-    // stopWish();
+    console.log("Video 9 error"); console.log("multiVid9 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid9.pause(); stopWish(); }
+    else { retryVideo(multiVid9, multiVid9Temp); retryCount++ }
   }
 
   multiVid9.onstalled = function () {
-    console.log("Video 9 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 9 stalled"); console.log("multiVid9 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid9.pause(); stopWish(); }
+    else { retryVideo(multiVid9, multiVid9Temp); retryCount++ }
   }
 
   multiVid9.onended = function () {
@@ -1457,7 +1420,7 @@ function initializeMultiVideo10Element() {
     multiVid10.setAttribute("src", multiVid10Temp);
     multiVid10.load();
   }
-
+  let retryCount = 0;
   multiVid10 = document.getElementById("multiVid10");
 
   multiVid10.onloadstart = function () {
@@ -1466,6 +1429,7 @@ function initializeMultiVideo10Element() {
 
   multiVid10.oncanplaythrough = function () {
     console.log("Video 10 can now play");
+    retryCount = 0;
     multiVid10play = true;
   }
 
@@ -1475,16 +1439,15 @@ function initializeMultiVideo10Element() {
   }
 
   multiVid10.onerror = function () {
-    console.log("Video 10 error");
-    retryVideo();
-    // multiVid10.setAttribute("hidden", "hidden");
-    // stopWish();
+    console.log("Video 10 error"); console.log("multiVid10 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid10.pause(); stopWish(); }
+    else { retryVideo(multiVid10, multiVid10Temp); retryCount++ }
   }
 
   multiVid10.onstalled = function () {
-    console.log("Video 10 stalled");
-    retryVideo();
-    // stopWish();
+    console.log("Video 10 stalled"); console.log("multiVid10 retryCount: " + retryCount);
+    if (retryCount > maxRetryCount) { retryCount = 0; multiVid10.pause(); stopWish(); }
+    else { retryVideo(multiVid10, multiVid10Temp); retryCount++ }
   }
 
   multiVid10.onended = function () {
@@ -1629,7 +1592,7 @@ var intervalIdPlayAll = setInterval(async function() {
   if (errFlg) return;
 
   if (!allowed && !wishongoing) {
-    console.log('Waiting for all videos to be playable...' + wishcount);
+    console.log('Waiting for all videos to be playable...');
     switch (wishcount) {
       case '1': wishongoing = true; break;
       case '2':
@@ -1800,7 +1763,8 @@ function multiWish(wishcost) {
     video.removeAttribute("hidden");
 
     // Set the video as the source of the element and play it
-    video.setAttribute("src", `${videoPath}${wishPool[0].path}`);
+    videoTemp = `${videoPath}${wishPool[0].path}`
+    video.setAttribute("src", videoTemp);
     video.load();
     video.volume = 1;
 

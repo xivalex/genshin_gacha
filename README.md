@@ -90,6 +90,9 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 > Added `Speed` parameter to adjust the playback speed of the videos \
 > Changed timing of `Genshin Wish Ongoing` message
 
+### `v1.62` ###
+> Updated error handling for videos
+
 ## PRE-REQUISITE ##
 
 1. Emotes used are 7TV-enabled. To ensure that emotes are displayed in the browser or chat, add the following emotes
@@ -127,6 +130,7 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 > NO | pity | Adjust the pity before a guaranteed 5★ (*Default: 30 pity to get a guaranteed 5★*)
 > NO | drops | Adjust the amount of primogems drops (*Default: 1600 primogems*)
 > NO | dropstime | Adjust the time interval of drops (*Default: 15 minutes*) <span style="color:red">**(●3)**</span>
+> NO | speed | Adjust the playback speed of the videos (*Default: 1x speed*)
 
 ### `NOTES` ###
 
@@ -147,7 +151,7 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 Sample Browser Source URL
 
 *********************************************************************
-http://xivalex.github.io/genshin_gacha?&channel=<channel_name>&uid=<UID>&oauth=<OAuth>&sr=50&c=90&three=100&four=200&five=300&cost=10&pity=50&drops=500&dropstime=120000
+http://xivalex.github.io/genshin_gacha?&channel=<channel_name>&uid=<UID>&oauth=<OAuth>&sr=50&c=90&three=100&four=200&five=300&cost=10&pity=50&drops=500&dropstime=120000&speed=3
 *********************************************************************
 
 By using the sample URL, it sets the program to have:
@@ -160,6 +164,7 @@ By using the sample URL, it sets the program to have:
   - The Pity for a guaranteed 5★ is 50
   - The Drops Amount is 500 Primogems
   - The Drops Interval is 120 Seconds
+  - The Playback speed of the videos are changed to 3x speed
 ```
 
 3. Test the program by typing `!wstats` in your chat. It should initially display as 0 value for both **Primogems** and **Pity**. If command did not respond, check the following possible causes:
