@@ -118,7 +118,7 @@ let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
 let maxRetryCount = 3;
-let version = 1.62;
+let version = 1.63;
 
 // ************
 // INTERVAL IDS
