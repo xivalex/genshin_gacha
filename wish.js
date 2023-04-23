@@ -118,7 +118,7 @@ let lastCommand = 0;
 let dropsOnTime = 0;
 let currentCount = 1;
 let maxRetryCount = 3;
-let version = 1.63;
+let version = 1.64;
 
 // ************
 // INTERVAL IDS
@@ -152,7 +152,7 @@ SRPool.push(
     path: `/5star_kokomi_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Sangonomiya Kokomi",
-    altname: ["sangonomiya kokomi", "kokomi"],
+    altname: ["sangonomiya kokomi", "kokomi", "tilapia", "salmon", "fish"],
     dbname: 'Sangonomiya Kokomi'
   },
   {
@@ -187,7 +187,7 @@ SRPool.push(
     path: `/5star_ganyu_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Ganyu",
-    altname: ["ganyu"],
+    altname: ["ganyu", "waifu ni marvs"],
     dbname: 'Ganyu'
   },
   {
