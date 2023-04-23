@@ -180,7 +180,7 @@ SRPool.push(
     path: `/5star_diluc_VP8.webm`,
     value: five_star_prize,
     name: "★★★★★ Diluc",
-    altname: ["diluc"],
+    altname: ["diluc", "bwiset"],
     dbname: 'Diluc'
   },
   {
@@ -673,7 +673,7 @@ RPool.push(
     path: `/4star_faruzan_VP8.webm`,
     value: four_star_prize,
     name: "★★★★ Faruzan",
-    altname: ["faruzan"],
+    altname: ["faruzan", "miku", "hatsune miku", "hatsune"],
     dbname: "Faruzan"
   },
   {
