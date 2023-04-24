@@ -93,6 +93,16 @@ The **[Genshin Wish Simulator]** lets the viewers simulate a genshin wish by typ
 ### `v1.62` ###
 > Updated error handling for videos
 
+### `v1.63` ###
+> Added aliases
+
+### `v1.64` ###
+> Added aliases
+
+### `v1.65` ###
+> Fixed issues in error handling for videos \
+> Updated Regex for item pattern in wsell command
+
 ## PRE-REQUISITE ##
 
 1. Emotes used are 7TV-enabled. To ensure that emotes are displayed in the browser or chat, add the following emotes
